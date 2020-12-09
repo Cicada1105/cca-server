@@ -1,0 +1,24 @@
+{
+  "name": "ccaserver",
+  "version": "1.0.0",
+  "description": "Server handling for carl-colvin-arts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-server": "npm run-script compile-server; npm run-script bundle-server",
+    "compile-server": "babel ./admin/html/scripts/src --out-dir ./admin/html/scripts/lib --compact true --no-comments",
+    "bundle-server": "browserify ./admin/html/scripts/lib/ --outfile ./admin/html/scripts/index.js --standalone begin"
+  },
+  "author": "Josh Colvin",
+  "license": "ISC",
+  "dependencies": {
+    "nodemailer": "^6.4.11",
+    "pug": "^3.0.0",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7"
+  }
+}

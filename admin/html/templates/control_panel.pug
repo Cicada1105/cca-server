@@ -1,0 +1,64 @@
+doctype html
+html(lang="en")
+	head
+		title Admin Control Panel
+		link(rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato")
+		link(rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Libre Baskerville")
+		link(rel='stylesheet' type="text/css" href='https://fonts.googleapis.com/css?family=Raleway Dots')
+		script(src="https://kit.fontawesome.com/296e9763f7.js")
+
+		script
+			include ../scripts/index.js
+		style
+			include ../styling/control_panel.css
+	body(onload="begin.initListeners()")
+		//- Pug comment that won't be outputted as html comment
+		h1.controlPanelHeader Admin Control Panel
+		div.headerCont
+			h2.header Past Performances
+		//- Loop through data passed to pug template
+		each performance in past
+			section.card.pastCard
+				img(src=`${performance.img.src}`,alt=`${performance.img.alt}`)
+				h2 #{performance.name}
+				p #{performance.description}
+				div.controlsCont
+					span.msg
+					i(class="far fa-edit ctrlBtnEdit" data-id=`${performance.id}`)
+					i(class="far fa-times-circle ctrlBtnDelete" data-id=`${performance.id}`)
+		div.headerCont
+			h2.header Current Music (My Music Stand)
+		each song in present
+			section.card.presentCard
+				h2 #{song.name}
+				h4 By: #{song.by}
+				p #{song.description}
+				div.controlsCont
+					span.msg
+					i(class="far fa-edit ctrlBtnEdit" data-id=`${song.id}`)
+					i(class="far fa-times-circle ctrlBtnDelete" data-id=`${song.id}`)
+		div.headerCont
+			h2.header Future Performances
+		each performance in future
+			section.card.futureCard
+				h2 #{performance.name}
+				article.subHeaderCont
+					h4 #{performance.location}
+					div.instrumentsCont
+						- for (let i = 0; i < performance.instruments.length; i++)
+							if i===0
+								h4 #{performance.instruments[i]}
+							else
+								h4!= `,&nbsp;&nbsp;&nbsp;${performance.instruments[i]}`
+				p.date #{performance.date}
+				-
+					let startTime = performance.time.start > 12 ? performance.time.start-12 : performance.time.start;
+					let startTimePeriod = performance.time.start < 12 ? "AM" : "PM";
+					let endTime = performance.time.end > 12 ? performance.time.end - 12 : performance.time.end;
+					let enndTimePeriod = performance.time.end < 12 ? "AM" : "PM";
+				p.time #{startTime}#{startTimePeriod} - #{endTime}#{enndTimePeriod}
+				p #{performance.description}
+				div.controlsCont
+					span.msg
+					i(class="far fa-edit ctrlBtnEdit" data-id=`${performance.id}`)
+					i(class="far fa-times-circle ctrlBtnDelete" data-id=`${performance.id}`)

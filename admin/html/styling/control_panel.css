@@ -1,0 +1,121 @@
+body {
+	background-color:#efefef;
+}
+/*	PAGE HEADER	 */
+h1.controlPanelHeader {
+	font-family:"Lato", sans-serif;
+	margin:auto;
+	width:fit-content;
+}
+/*	SECTION HEADERS	 */
+div.headerCont {
+	margin:auto;
+	margin-bottom:1rem;
+	width:70vw;
+}
+h2.header {
+	font-family:"Libre Baskerville", serif;
+	font-size:1.25rem;
+	font-weight: 100;
+}
+/* Cause "(My Music Stand)" to move to second line */
+div.headerCont:nth-of-type(2) > h2 {
+	width:18%;
+}
+/**************************/
+/*	  INDIVIDUAL CARDS    */
+/**************************/
+section.card {
+	background-color:white;
+	box-shadow:5px 5px 10px 0px #00000047;
+	font-family: "Lato", sans-serif;
+	position: relative;
+	padding:10px 15px;
+	margin:auto;
+	margin-bottom:2rem;
+	width:700px;
+}
+/*	CARD TITLE	*/
+section.card > h2 {
+	margin-top:0.5rem;
+	margin-bottom:0;
+}
+/*	CARD SUBHEADERS	*/
+/*	COMPOOSER, LOCATIONS, INSTRUMENTS	*/
+section.card  h4 {
+	font-size:0.9rem;
+	font-style:italic;
+}
+/*  CARD DESCRIPTIONS  */
+section.card p:last-of-type {
+	display:inline-block;
+	font-size:0.8rem;
+	width:75%;
+}
+/*	CONTROLS  */
+section.card > div.controlsCont {
+	position: absolute;
+	text-align: center;
+	right:0;
+	top:0;
+	width:25%;
+	height:100%;
+}
+div.controlsCont > i {
+	position: absolute;
+	transform: translateY(-50%);
+	font-size:1.6rem;
+}
+div.controlsCont > i:hover {
+	cursor:pointer;
+}
+div.controlsCont > i.ctrlBtnEdit {
+	top:50%;
+	left:25%;
+}
+div.controlsCont > i.ctrlBtnDelete {
+	top:50%;
+	right:25%;
+}
+div.controlsCont > i.editBtnConfirm {
+	left:50%;
+	top:30%;
+}
+div.controlsCont > i.editBtnDecline {
+	left:50%;
+	top:70%;
+}
+div.controlsCont > i.deleteBtnConfirm {
+	top:60%;
+	left:25%;
+}
+div.controlsCont > i.deleteBtnDecline {
+	top:60%;
+	right:25%;
+}
+/*	FUTURE PERFORMANCE SPECIFIC	 */
+article.subHeaderCont {
+	display:flex;
+	flex-direction:row;
+	flex-wrap:wrap;
+	justify-content: space-between;
+	width:55%;
+}
+div.instrumentsCont > h4 {
+	display:inline-block;
+}
+p.date, p.time {
+	font-style:italic;
+	font-family:"Raleway Dots", "Lato", sans-serif;
+	font-weight: bolder;
+	text-align: center;
+	font-size:0.9rem;
+	width:55%;
+	margin:0;
+}
+p.date {
+	margin-bottom:5px;
+}
+p.time {
+	margin-bottom:1.5rem;
+}

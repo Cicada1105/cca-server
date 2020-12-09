@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.add=add;exports.edit=edit;exports.remove=remove;function add(newSong){console.log("Adding ".concat(newSong));}function edit(currentSong){console.log("Updating current music: ".concat(currentSong));}function remove(songID){console.log("Deleting music with ".concat(songID," ID"));}
