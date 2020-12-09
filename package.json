@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.j.s",
     "build-server": "npm run-script compile-server; npm run-script bundle-server",
     "compile-server": "babel ./admin/html/scripts/src --out-dir ./admin/html/scripts/lib --compact true --no-comments",
     "bundle-server": "browserify ./admin/html/scripts/lib/ --outfile ./admin/html/scripts/index.js --standalone begin"
