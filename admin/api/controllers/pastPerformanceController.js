@@ -8,9 +8,40 @@ const PastPerformancesModel = require("../models/pastPerformancesModel.js");
 // Import utility function for handling the retrieval of body data
 const { getBodyData } = require("../utils.js");
 
-function addPerformance(req, res) {
-	PastPerformancesModel.add("NEW PAST PERFORMANCE");
-	res.end("Added new past performance");
+async function addPerformance(req, res) {
+	res.setHeader("Content-Type","application/json");
+	// Get song data from body
+	await getBodyData(req).then(async (body) => {
+		// Pull out only necessary info for adding 
+		let { name, description, img: { src, alt } } = body;
+
+		// Add new song
+		await PastPerformancesModel.add({
+			name,
+			description,
+			img: {
+				src, 
+				alt
+			}
+		}).then((msg) => {
+			res.status = 201;	
+			res.end(JSON.stringify({ msg }))
+		}).catch((err) => {
+			res.status = 500;
+			res.end(JSON.stringify({
+				msg: err
+			}));
+		})
+	}).catch((err) => {
+		console.log("Error:")
+		console.log(err.message);
+		console.log(err.stack);
+
+		res.status = 500;
+		res.end(JSON.stringify({
+			msg: "Problem getting body data"
+		}));
+	})
 }
 function updatePerformance(req, res) {
 	PastPerformancesModel.update("UPDATED PAST PERFORMANCE");

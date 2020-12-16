@@ -7,8 +7,20 @@ import * as CurrentMusic from "../models/currentMusicModel.js";
 	Future addSong documentation
 */
 function addSong(event) {
-	let newSong = "NNEW SONG";
-	CurrentMusic.add(newSong);
+	let testSong = {
+		name: "Performance D",
+		by: "Composer D",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id erat vel nisl tincidunt interdum. Nam mattis luctus neque. Vivamus at nibh libero. Phasellus maximus dictum posuere."
+	}
+
+	CurrentMusic.add(testSong).then((result) => {
+		let { msg, status } = result;
+		alert(`${status}: ${msg}`);
+		document.location.reload();
+	}).catch((error) => {
+		console.log("Error:");
+		console.log(error);
+	});
 }
 /*
 	Future updateSong documentation

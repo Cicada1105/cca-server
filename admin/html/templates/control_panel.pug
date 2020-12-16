@@ -16,6 +16,7 @@ html(lang="en")
 		h1.controlPanelHeader Admin Control Panel
 		div.headerCont
 			h2.header Past Performances
+			input(type="button", value="Add")
 		//- Loop through data passed to pug template
 		each performance in past
 			section.card.pastCard
@@ -30,6 +31,7 @@ html(lang="en")
 						i(class="far fa-times-circle" data-id=`${performance.id}`)
 		div.headerCont
 			h2.header Current Music (My Music Stand)
+			input(type="button", value="Add")
 		each song in present
 			section.card.presentCard
 				h2 #{song.name}
@@ -43,6 +45,7 @@ html(lang="en")
 						i(class="far fa-times-circle" data-id=`${song.id}`)
 		div.headerCont
 			h2.header Future Performances
+			input(type="button", value="Add")
 		each performance in future
 			section.card.futureCard
 				h2 #{performance.name}

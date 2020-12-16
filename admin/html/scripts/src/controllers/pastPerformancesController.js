@@ -2,14 +2,27 @@
 
 // Require past performance model
 import * as PastPerformances from "../models/pastPerformancesModel.js";
-// Import button utils
-import { setControlBtns, revertControlBtns } from "../utils.js";
 /*
 	Future addPastPerformance documentation
 */
 function addPastPerformance(event) {
-	let newPerformance = "NEW PAST PERFORMANCE";
-	PastPerformances.add(newPerformance);
+	let testData = {
+		name: "Performance D",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id erat vel nisl tincidunt interdum. Nam mattis luctus neque. Vivamus at nibh libero. Phasellus maximus dictum posuere.",
+		img: {
+			src: "",
+			alt: "PerformanceD"
+		}
+	}
+
+	PastPerformances.add(testData).then((result) => {
+		let { msg, status } = result;
+		alert(`${status}: ${msg}`);
+		document.location.reload();
+	}).catch((error) => {
+		console.log("Error:");
+		console.log(error);
+	});
 }
 /*
 	Future updatePastPerformance documentation

@@ -25,9 +25,37 @@ const MusicModel = require("../models/currentMusicModel.js");
 // Import utility function for handling the retrieval of body data
 const { getBodyData } = require("../utils.js");
 
-function addSong(req, res) {
-	MusicModel.add("NEW SONG");
-	res.end("Added new song");
+async function addSong(req, res) {
+	res.setHeader("Content-Type","application/json");
+	// Get song data from body
+	await getBodyData(req).then(async (body) => {
+		// Pull out only necessary info for adding 
+		let { name, by, description } = body;
+
+		// Add new song
+		await MusicModel.add({
+			name,
+			by,
+			description
+		}).then((msg) => {
+			res.status = 201;	
+			res.end(JSON.stringify({ msg }))
+		}).catch((err) => {
+			res.status = 500;
+			res.end(JSON.stringify({
+				msg: err
+			}));
+		})
+	}).catch((err) => {
+		console.log("Error:")
+		console.log(err.message);
+		console.log(err.stack);
+
+		res.status = 500;
+		res.end(JSON.stringify({
+			msg: "Problem getting body data"
+		}));
+	})
 }
 function updateSong(req, res) {
 	MusicModel.update("UPDATED SONG");

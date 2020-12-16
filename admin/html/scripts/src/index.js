@@ -7,10 +7,13 @@ import { addReedmakingPricing, updateReedmakingPricing, removeReedmakingPricing 
 import { handleEditDeleteClick } from "./utils.js";
 
 const initListeners = () => {
+	let headers = document.getElementsByClassName("headerCont");
 	let pastCards = document.getElementsByClassName("pastCard");
 	let presentCards = document.getElementsByClassName("presentCard");
 	let futureCards = document.getElementsByClassName("futureCard");
 
+	// Set click event listener for Add button of Past Performances
+	headers[0].lastElementChild.addEventListener("click",addPastPerformance);
 	// Loop throuh past cards, adding event listeners to edit and delete buttons
 	for (let card of pastCards) {
 		// Get controls container 
@@ -25,6 +28,8 @@ const initListeners = () => {
 		editBtnCont.addEventListener("click", handleEditDeleteClick.bind(updatePastPerformance));
 		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(removePastPerformance));
 	}
+	// Set click event listener for Add button of Current Music
+	headers[1].lastElementChild.addEventListener("click",addSong);
 	// Loop through present cards, adding event listeners to edit and delete buttons
 	for (let card of presentCards) {
 		// Get controls conntainer
@@ -39,6 +44,8 @@ const initListeners = () => {
 		editBtnCont.addEventListener("click",handleEditDeleteClick.bind(updateSong));
 		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(removeSong));
 	}
+	// Set click event listener for Add button of Future Performances
+	headers[2].lastElementChild.addEventListener("click",addFuturePerformance);
 	// Loop through future cards, adding event listeners to edit and delete buttons
 	for (let card of futureCards) {
 		// Get controls conntainer

@@ -6,12 +6,41 @@
 const performancesPath = "./site_data/performance.json";
 // Import fs to handle file calls
 const fs = require("fs");
+// Import uuid for adding new resource
+const { v4: uuidv4 } = require("uuid");
 
 /*
 	Future add documentation
 */
 function add(newPerformance) {
-	console.log(`Adding new past performance: ${newPerformance}`)
+	return new Promise((resolve,reject) => {
+		// Get performances from file
+		let performancesBuffer = fs.readFileSync(performancesPath);
+		let performancesJSON = performancesBuffer.toString();
+		let parsedPerformances = JSON.parse(performancesJSON);
+		// Pull out past music
+		let pastPerformances = parsedPerformances["past"];
+		// Add unique id to new past performance
+		let newPerformanceWithID = { 
+			id:uuidv4(),
+			...newPerformance
+		}
+
+		// Push new song into past performances array
+		pastPerformances.push(newPerformanceWithID);
+		// Update performances data to reflect resent past performances change
+		parsedPerformances["past"] = pastPerformances;
+
+		// Write newly updated music to file writeFileSync
+		fs.writeFile(performancesPath,JSON.stringify(parsedPerformances),"utf8",(err) => {
+			if (err) {
+				console.log(err);
+				reject("Internal Server Error. Try again later");
+			}
+			else 
+				resolve("Successfully added new past performance");
+		})
+	})
 }
 /*
 	Future update documentation

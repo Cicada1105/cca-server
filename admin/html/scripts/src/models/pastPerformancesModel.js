@@ -9,14 +9,43 @@
 				the data as parameters to be rendered to the screen
 */
 // Development server
-//const server = "http://localhost:8080/cca-admin-api/performance/past";
+const server = "http://localhost:8080/cca-admin-api/performance/past";
 // Production server
-const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/past"
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/past"
 /*
 	Future add documentation
 */
 function add(newPerformance) {
-	console.log(`Adding ${newPerformance}`);
+	let { name, description, img:{ src, alt }} = newPerformance
+	return new Promise((resolve, reject) => {
+		// Make request to server, passig in proper method, headers and body data
+		fetch(server, {
+			method: "POST",
+			headers: {
+				"Content-Type":"application/json"
+			},
+			body: JSON.stringify({ 
+				name,
+				description,
+				img: {
+					src,
+					alt
+				}
+			})
+		}).then((response) => {
+			response.json().then(data => {
+				resolve({
+					msg: data.msg,
+					status: response.status
+				});
+			});
+		}).catch(err => {
+			reject({
+				msg: err,
+				status: err.status
+			});
+		});	
+	})
 }
 /*
 	Future edit documentation

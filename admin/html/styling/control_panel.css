@@ -17,6 +17,10 @@ h2.header {
 	font-family:"Libre Baskerville", serif;
 	font-size:1.25rem;
 	font-weight: 100;
+	display:inline-block;
+}
+div.headerCont > input {
+	margin-left:10px;
 }
 /* Cause "(My Music Stand)" to move to second line */
 div.headerCont:nth-of-type(2) > h2 {

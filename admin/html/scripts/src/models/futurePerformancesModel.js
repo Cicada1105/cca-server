@@ -10,15 +10,47 @@
 */
 
 // Development server
-//const server = "http://localhost:8080/cca-admin-api/performance/future";
+const server = "http://localhost:8080/cca-admin-api/performance/future";
 // Production server
-const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/future"
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/future"
 
 /*
 	Future add documentation
 */
 function add(newPerformance) {
-	console.log(`Adding ${newPerformance}`);
+	let { name, location, instruments, date, time: { start, end }, description } = newPerformance;
+	return new Promise((resolve, reject) => {
+		// Make request to server, passig in proper method, headers and body data
+		fetch(server, {
+			method: "POST",
+			headers: {
+				"Content-Type":"application/json"
+			},
+			body: JSON.stringify({
+				name,
+				location,
+				instruments,
+				date,
+				time: {
+					start,
+					end
+				},
+				description
+			})
+		}).then((response) => {
+			response.json().then(data => {
+				resolve({
+					msg: data.msg,
+					status: response.status
+				});
+			});
+		}).catch(err => {
+			reject({
+				msg: err,
+				status: err.status
+			});
+		});	
+	})
 }
 /*
 	Future edit documentation
