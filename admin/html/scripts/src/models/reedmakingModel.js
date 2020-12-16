@@ -8,8 +8,10 @@
 		Note: 	GET is "handled" by compiling the PUG templates and passing in
 				the data as parameters to be rendered to the screen
 */
-
-const server = "http://localhost:8080/cca-admin-api/reedmaking";
+// Development server
+//const server = "http://localhost:8080/cca-admin-api/reedmaking";
+// Production server
+const server = "https://cca-server.herokuapp.com/cca-admin-api/reedmaking"
 /*
 	Future Add documentation
 */

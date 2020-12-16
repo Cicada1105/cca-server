@@ -9,7 +9,11 @@
 				the data as parameters to be rendered to the screen
 */
 
-const server = "http://localhost:8080/cca-admin-api/performance/future";
+// Development server
+//const server = "http://localhost:8080/cca-admin-api/performance/future";
+// Production server
+const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/future"
+
 /*
 	Future add documentation
 */
