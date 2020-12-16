@@ -1,24 +1,119 @@
-function setControlBtns(event) {
-	let ctrlsCont = event.path[1];
-	let icons = ctrlsCont.getElementsByTagName("i");
-	let icon1 = icons[0];	// Edit icon
-	let icon2 = icons[1];	// Delete icon
+var confirmListenerRef;
+function handleEditDeleteClick(event) {
+	/* 
+		Event pathing:
+		path[0] === icon#; path[1] === icon#Cont; path[2] === divcontrolsCont
+	*/
+	// Get container of icon that was selected
+	let selectedIconCont = event.path[1];
+	// Store parent container of individual icon containers
+	let ctrlsCont = event.path[2];
+	// Store reference to message container for deleting confirmation
+	let msgCont = ctrlsCont.firstElementChild;
+	let iconConts = ctrlsCont.querySelectorAll("[class *= ctrlBtn]");
+	// Store reference to container holding the icons
+	let icon1Cont = iconConts[0];	// Edit icon containter
+	let icon2Cont = iconConts[1];	// Delete icon containter
+	// Store individual icons
+	let icon1 = icon1Cont.firstElementChild;	// Edit icon
+	let icon2 = icon2Cont.firstElementChild;	// Delete icon
+
 	// Change edit icon to check for "confirm" 
 	icon1.classList.replace("far","fas");
 	icon1.classList.replace("fa-edit","fa-check-circle");
 	// Change delete icon to X for "decline"
 	icon2.classList.replace("far","fas");
+	// Add respective listeners to confirming or declining user action of editing or deleting
+	confirmListenerRef = confirmListener.bind(this);
+	icon1.addEventListener("click", confirmListenerRef, { capture: false, once: true });
+	icon2.addEventListener("click", declineListener, { capture: false, once: true });
+
+	// Determ which button was selected
+	let isEditBtn = selectedIconCont.className.includes("Edit");
+	if (isEditBtn) {
+		// Replace icon containers' class to match that of user selected option
+		icon1Cont.classList.replace("ctrlBtnEdit","editBtnConfirm");
+		icon2Cont.classList.replace("ctrlBtnDelete","editBtnDecline");
+		// Display Confirm and Discard text before respective icons
+		//   Create style rule for editConfirmBtn and editDeclineBtn
+		let editConfirmRule = ".editBtnConfirm::before {position:absolute;content:'Save';font-size:1.1rem;top:5%;right:110%;}";
+		let editDeclineRule = ".editBtnDecline::before {position:absolute;content:'Cancel';top:13%;right:110%}";
+		document.styleSheets[6].insertRule(editConfirmRule);
+		document.styleSheets[6].insertRule(editDeclineRule);
+	}
+	else {
+		// Replace icon containers' class to match that of user selected option
+		icon1Cont.classList.replace("ctrlBtnEdit","deleteBtnConfirm");
+		icon2Cont.classList.replace("ctrlBtnDelete","deleteBtnDecline");
+		// Set msg text to get confirmation from user
+		msgCont.innerHTML = "Are you sure you want to delete?";
+	}
+}
+function confirmListener(event) {
+	// Prevent handleEditDeleteClick from being called when updated visual button is clicked again
+	event.stopPropagation();
+
+	// Store function, bounded by value of this, to be called when user confirms
+	let fn = this;
+	// path[0] === icon#; path[1] === icon#Cont; path[2] === divcontrolsCont
+	let elCont = event.path[1];
+	let ctrlsCont = event.path[2];
+	let icons = ctrlsCont.getElementsByTagName("i");
+	let icon2 = icons[1];	// Decline icon
+	// Remove event listener of other button that didn't get pressed
+	icon2.removeEventListener("click",declineListener, { capture: false });
+
+	let wasEditBtn = elCont.className.includes("edit");
+	if (wasEditBtn) {
+		// Remove cssRule displayed for the edit confirmation buttons
+		document.styleSheets[6].deleteRule(0);	// Remove editConfirmRule
+		document.styleSheets[6].deleteRule(0);	// Remove editDeclineRul
+	}
+	else
+		ctrlsCont.firstElementChild.innerHTML = "";	// Set delete message to empty
+	
+	fn(event);
+	// Revert controls back to original state
+	revertControlBtns(event);
+}
+function declineListener(event) {
+	// Prevent handleEditDeleteClick from being called when updated visual button is clicked again
+	event.stopPropagation();
+
+	let ctrlsCont = event.path[2];	// path[0] === icon#; path[1] === icon#Cont; path[2] === divcontrolsCont
+	let icons = ctrlsCont.getElementsByTagName("i");
+	let icon1 = icons[0];	// Confirm icon
+	// Remove event listener of other button that didn't get pressed
+	icon1.removeEventListener("click",confirmListenerRef, { capture: false });
+	// Remove text from message container
+	let msgCont = ctrlsCont.firstElementChild;
+	msgCont.innerHTML = "";
+	// Revert controls back to original state
+	revertControlBtns(event);
 }
 function revertControlBtns(event) {
-	let ctrlsCont = event.path[1];
-	let icons = ctrlsCont.getElementsByTagName("i");
-	let icon1 = icons[0];	// Edit confirm
-	let icon2 = icons[1];	// Edit decline
+	let ctrlsCont = event.path[2];	// path[0] === icon#; path[1]  === icon#Cont; path[2] === div.controlsCont
+	// Retrieve containers holding icons
+	let iconConts = ctrlsCont.querySelectorAll("[class *= Btn]");
+	// Store individual icon containers
+	let icon1Cont = iconConts[0];	// Edit confirm container
+	let icon2Cont = iconConts[1];	// Edit decline container
+	// Store individual icons
+	let icon1 = icon1Cont.firstElementChild;
+	let icon2 = icon2Cont.firstElementChild;
+
+	// Check if icons were used for confirming or declining editting changes
+	let wasEditBtn = icon1Cont.className.includes("edit");
+	let oldConfirmClass = (wasEditBtn ? "editBtnConfirm" : "deleteBtnConfirm");
+	let oldDeclineClass = (wasEditBtn ? "editBtnDecline" : "deleteBtnDecline");
+	icon1Cont.classList.replace(oldConfirmClass,"ctrlBtnEdit");
+	icon2Cont.classList.replace(oldDeclineClass,"ctrlBtnDelete");
+
 	// Revert "confirm" icon back to original state
 	icon1.classList.replace("fas","far");
 	icon1.classList.replace("fa-check-circle","fa-edit");
 	// Revert X "decline" icon to original state
-	icon2.classList.replace("fas","far");	
+	icon2.classList.replace("fas","far");
 }
 
-export { setControlBtns, revertControlBtns }
+export { handleEditDeleteClick, revertControlBtns }

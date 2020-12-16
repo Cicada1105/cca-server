@@ -6,7 +6,6 @@ import * as FuturePerformances from "../models/futurePerformancesModel.js";
 	Future addFuturePerformance documentation
 */
 function addFuturePerformance(event) {
-	console.log(event);
 	let newPerformance = "ADDING NEW PERFORMANCE";
 	FuturePerformances.add(newPerformance);
 }
@@ -14,7 +13,6 @@ function addFuturePerformance(event) {
 	Future updateFuturePerformance documentation
 */
 function updateFuturePerformance(event) {
-	console.log(event);
 	let updatedPerformance = "UPDATED FUTURE PERFORMANCE";
 	FuturePerformances.edit(updatedPerformance);
 }
@@ -22,8 +20,17 @@ function updateFuturePerformance(event) {
 	Future removeFuturePerformance documentation
 */
 function removeFuturePerformance(event) {
+	// Get and store id of current past performance
 	let performanceID = event.target.dataset.id;
-	FuturePerformances.remove(performanceID);
+
+	FuturePerformances.remove(performanceID).then((result) => {
+		let { msg, status } = result;
+		alert(`${status}: ${msg}`);
+		document.location.reload();
+	}).catch((error) => {
+		console.log("Error:");
+		console.log(error);
+	});
 }
 
 export { addFuturePerformance, updateFuturePerformance, removeFuturePerformance }

@@ -7,7 +7,6 @@ import * as CurrentMusic from "../models/currentMusicModel.js";
 	Future addSong documentation
 */
 function addSong(event) {
-	console.log(event);
 	let newSong = "NNEW SONG";
 	CurrentMusic.add(newSong);
 }
@@ -15,7 +14,6 @@ function addSong(event) {
 	Future updateSong documentation
 */
 function updateSong(event) {
-	console.log(event);
 	let currentSong = "CURRENT SONG";
 	CurrentMusic.edit(currentSong);
 }
@@ -23,8 +21,17 @@ function updateSong(event) {
 	Future removeSong documentation
 */
 function removeSong(event) {
+	// Get and store id of current past performance
 	let songID = event.target.dataset.id;
-	CurrentMusic.remove(songID);
+
+	CurrentMusic.remove(songID).then((result) => {
+		let { msg, status } = result;
+		alert(`${status}: ${msg}`);
+		document.location.reload();
+	}).catch((error) => {
+		console.log("Error:");
+		console.log(error);
+	});
 }
 
 export { addSong, updateSong, removeSong }

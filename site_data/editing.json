@@ -32,18 +32,21 @@
 					"child": {
 						"rates": [
 							{
+								"id":"011f798c-0fd9-4a3f-a0b0-23c0724f02e1",
 								"min": 0,
 								"max": 500,
 								"perHour": 10,
 								"perWord": 0.00
 							},
 							{
+								"id":"f15cc0a1-9bc4-4bee-bc07-1b509d01684a",
 								"min": 501,
 								"max": 1000,
 								"perHour": 10,
 								"perWord": 0.01
 							},
 							{
+								"id":"3c9d06bd-5010-4b21-8414-1ecf53de9bcc",
 								"min": 1001,
 								"max": "Infinity",
 								"perHour": 12,
@@ -60,18 +63,21 @@
 					"child": {
 						"rates": [
 							{
+								"id":"6d33d3c1-f696-4b06-a340-799de7c4e186",
 								"min": 0,
 								"max": 500,
 								"perHour": 20,
 								"perWord": 0.00
 							},
 							{
+								"id":"c89053c9-be59-42f9-8a5d-86d30b866c30",
 								"min": 501,
 								"max": 1000,
 								"perHour": 20,
 								"perWord": 0.05
 							},
 							{
+								"id":"b6e8effd-9ad4-4e67-a031-0b0c7f26d91c",
 								"min": 1001,
 								"max": "Infinity",
 								"perHour": 20,
@@ -88,18 +94,21 @@
 					"child": {
 						"rates": [
 							{
+								"id":"100da753-4680-4005-b04a-7dd1f20ad0e9",
 								"min": 0,
 								"max": 500,
 								"perHour": 25,
 								"perWord": 0.00
 							},
 							{
+								"id":"1055420a-c2fa-42ff-8c69-7ded7d95c1f7",
 								"min": 501,
 								"max": 1000,
 								"perHour": 25,
 								"perWord": 0.06
 							},
 							{
+								"id":"1d314700-809a-425d-b2ae-fbae90514518",
 								"min": 1001,
 								"max": "Infinity",
 								"perHour": 25,
@@ -144,6 +153,7 @@
 					"child": {
 						"rates": [
 							{
+								"id":"4191215d-a150-4911-b68d-4db71a8a2ad5",
 								"min": 0,
 								"max": 1999,
 								"flatRate": 100,
@@ -151,6 +161,7 @@
 								"perWord": 0.00
 							},
 							{
+								"id":"0eedfa0d-8639-4d91-9550-50005d586fdc",
 								"min": 2000,
 								"max": 3999,
 								"flatRate": 125,
@@ -158,6 +169,7 @@
 								"perWord": 0.00
 							},
 							{
+								"id":"2ea0deb6-d43a-4ef6-8e3d-595d84f91748",
 								"min": 4000,
 								"max": 5999,
 								"flatRate": 150,
@@ -165,30 +177,35 @@
 								"perWord": 0.00
 							},
 							{
+								"id":"48bafcef-584c-45ae-8608-ab19137f5bb4",
 								"min": 6000,
 								"max": 39999,
 								"perHour": 15,
 								"perWord": 0.01
 							},
 							{
+								"id":"8918af4f-7cff-4dbe-9ebf-d047060dbda4",
 								"min": 40000,
 								"max": 59999,
 								"perHour": 16,
 								"perWord": 0.01
 							},
 							{
+								"id":"13d66871-96d3-411d-95e3-db4dae90e6d2",
 								"min": 60000,
 								"max": 79999,
 								"perHour": 16.25,
 								"perWord": 0.01
 							},
 							{
+								"id":"43d5adc3-16c7-486f-8866-3915b8010b91",
 								"min": 80000,
 								"max": 149999,
 								"perHour": 16.30,
 								"perWord": 0.01
 							},
 							{
+								"id":"1399c43b-60df-4107-97f2-1084c5f45eca",
 								"min": 150000,
 								"max": "Infinity",
 								"perHour": 16.35,
@@ -205,6 +222,7 @@
 					"child": {
 						"rates": [
 							{
+								"id":"9d9bc43f-9db6-4c33-b92a-7ecc2c349891",
 								"min": 0,
 								"max": 1999,
 								"flatRate": 100,
@@ -212,6 +230,7 @@
 								"perWord": 0.00
 							},
 							{
+								"id":"da247b2e-72b5-4fb7-bdf5-09f216053238",
 								"min": 2000,
 								"max": 3999,
 								"flatRate": 170,
@@ -219,6 +238,7 @@
 								"perWord": 0.00
 							},
 							{
+								"id":"4a412932-12e2-4565-aac9-38a689104b17",
 								"min": 4000,
 								"max": 5999,
 								"flatRate": 280,
@@ -226,24 +246,28 @@
 								"perWord": 0.00
 							},
 							{
+								"id":"0e92a530-674e-4856-88cd-d00bebbf9c61",
 								"min": 6000,
 								"max": 39999,
 								"perHour": 20,
 								"perWord": 0.03
 							},
 							{
+								"id":"0d7c8acf-09d8-46ed-842d-cb5d75494301",
 								"min": 40000,
 								"max": 59999,
 								"perHour": 23,
 								"perWord": 0.03
 							},
 							{
+								"id":"30c3d4b7-c95f-4f36-9f8b-25b960e73ece",
 								"min": 60000,
 								"max": 79999,
 								"perHour": 23.5,
 								"perWord": 0.03
 							},
 							{
+								"id":"8d278d1a-1784-44e7-9621-91cd27e57024",
 								"min": 80000,
 								"max": "Infinity",
 								"perHour": 23.75,
@@ -260,6 +284,7 @@
 					"child": {
 						"rates": [
 							{
+								"id":"1815420f-03a1-430f-9c5c-0c746e141ef0",
 								"min": 0,
 								"max": 1999,
 								"flatRate": 79,
@@ -267,6 +292,7 @@
 								"perWord": 0.00
 							},
 							{
+								"id":"e674b00b-a39c-4966-9429-a1e3e3ce95f3",
 								"min": 2000,
 								"max": 3999,
 								"flatRate": 149,
@@ -274,6 +300,7 @@
 								"perWord": 0.00
 							},
 							{
+								"id":"e1134b10-c3e7-4443-a123-e0e2fdec4fe4",
 								"min": 4000,
 								"max": 5999,
 								"flatRate": 218,
@@ -281,6 +308,7 @@
 								"perWord": 0.00
 							},
 							{
+								"id":"697a990b-e2b9-4c2b-b56c-c8efb2edd6f5",
 								"min": 6000,
 								"max": "Infinity",
 								"perHour": 34,

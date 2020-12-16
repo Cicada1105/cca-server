@@ -4,12 +4,15 @@
 
 // Import pug 
 const pug = require('pug');
-// Import data to be sent to control panel template to be updated
-const EDITING = require('../site_data/editing.json');
-const PERFORMANCE = require('../site_data/performance.json');
-const REEDMAKING = require('../site_data/reedmaking.json');
 // Import cca-admin-api router to handle differing protected requests
 const ADMIN_API = require("./api/");
+// Import fs to handle file calls
+const fs = require("fs");
+
+// Data file paths to be read sent to control panel template to be updated
+const editingPath = './site_data/editing.json';
+const performancesPath = './site_data/performance.json';
+const reedmakingPath = './site_data/reedmaking.json';
 
 function Router(req,res) {
 	const loggedIn = true;
@@ -33,7 +36,11 @@ function Router(req,res) {
 			"Content-Type":"text/html"
 		});
 
-		res.end(fn(PERFORMANCE));
+		let performancesBuffer = fs.readFileSync(performancesPath);
+		let performancesJSON = performancesBuffer.toString();
+		let performances = JSON.parse(performancesJSON);
+
+		res.end(fn(performances));
 	}
 	// Handle if trying to access cca-admin-api w/out logging in
 	else if ((req.url.startsWith("/cca-admin-api")) && (loggedIn)) {

@@ -9,6 +9,7 @@
 				the data as parameters to be rendered to the screen
 */
 
+const server = "http://localhost:8080/cca-admin-api/reedmaking";
 /*
 	Future Add documentation
 */
@@ -24,8 +25,24 @@ function edit(pricing) {
 /*
 	Future Remove documentation
 */
-function remove(pricing) {
-	console.log(`Removing the following pricing: ${pricing}`);
+function remove(pricingID) {
+	console.log(`Removing the following pricingID: ${pricingID}`);
+	// Make request to server, passig in proper method, headers and body data
+	fetch(server, {
+		method: "DELETE",
+		headers: {
+			"Content-Type":"application/json"
+		},
+		body: JSON.stringify({ id: pricingID })
+	}).then(response => {
+		let dataJSON = response.json();
+		let data = JSON.parse(dataJSON);
+		let status = response.status;
+		console.log(status);
+		console.log(data.msg);
+	}).catch(err => {
+		console.log(err);
+	});
 }
 
 export { add, edit, remove }

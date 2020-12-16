@@ -6,7 +6,6 @@ import * as Editing from "../models/editingModel.js";
 	Future addEditingPricing documentation
 */
 function addEditingPricing(event) {
-	console.log(event);
 	let pricing = "ADDING EDITING PRICING";
 	Editing.add(pricing);
 }
@@ -14,7 +13,6 @@ function addEditingPricing(event) {
 	Future updateEditingPricing documentation
 */
 function updateEditingPricing(event) {
-	console.log(event);
 	let pricing = "UPDATING PRICING";
 	Editing.edit(pricing);
 }
@@ -22,7 +20,6 @@ function updateEditingPricing(event) {
 	Future removeEditingPricing documentation
 */
 function removeEditingPricing(event) {
-	console.log(event);
 	let pricing = "REMOVING PRICING";
 	Editing.remove(pricing);
 }

@@ -1,16 +1,17 @@
 [
 	{
+		"id":"a2404111-4fa4-4396-ba34-4f97dbf79334",
 		"name":"Reed 1",
-		"description": "Has very good cane. Da best",
-		"pricing": [
+		"description":"Has very good cane. Da best",
+		"pricing":[
 			{
 				"quantity":5,
 				"cost":50
-			}, 
+			},
 			{
 				"quantity":10,
 				"cost":90
-			}, 
+			},
 			{
 				"quantity":20,
 				"cost":160
@@ -18,35 +19,37 @@
 		]
 	},
 	{
-		"name":"Reed 2",
-		"description": "Has really good cane. Better dan da best",
-		"pricing": [
+		"id":"78946215-7a6b-4cca-8470-9bfbd6e41656",
+		"name":"Reed 3",
+		"description":"Has amazing cane. Top of da line",
+		"pricing":[
 			{
 				"quantity":5,
-				"cost":60
-			}, 
+				"cost":75
+			},
 			{
 				"quantity":10,
-				"cost":110
-			}, 
+				"cost":140
+			},
 			{
 				"quantity":20,
-				"cost":180
+				"cost":240
 			}
 		]
 	},
 	{
+		"id":"53534721-9816-4478-84f8-44d76d14e7f4",
 		"name":"Reed 3",
-		"description": "Has amazing cane. Top of da line",
-		"pricing": [
+		"description":"Has amazing cane. Top of da line",
+		"pricing":[
 			{
 				"quantity":5,
 				"cost":75
-			}, 
+			},
 			{
 				"quantity":10,
 				"cost":140
-			}, 
+			},
 			{
 				"quantity":20,
 				"cost":240

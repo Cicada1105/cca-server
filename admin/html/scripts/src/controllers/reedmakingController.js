@@ -6,7 +6,6 @@ import * as Reedmaking from "../models/reedmakingModel.js";
 	Future addReedmakingPricing documentation
 */
 function addReedmakingPricing(event) {
-	console.log(event);
 	let pricing = "NEW REEDMAKING PRICING";
 	Reedmaking.add(pricing);
 }
@@ -14,7 +13,6 @@ function addReedmakingPricing(event) {
 	Future updateReedmakingPricing documentation
 */
 function updateReedmakingPricing(event) {
-	console.log(event);
 	let pricing = "UPDATING REEDMAKING PRICING";
 	Reedmaking.edit(pricing);
 }
@@ -22,9 +20,17 @@ function updateReedmakingPricing(event) {
 	Future removeReedmakingPricing documentation
 */
 function removeReedmakingPricing(event) {
-	console.log(event);
-	let pricing = "REMOVING REEDMAKING PRICING";
-	Reedmaking.remove(pricing);
+	// Get and store pricing ID of current reed
+	let pricingID = event.target.dataset.id;
+
+	Reedmaking.remove(pricingID).then((result) => {
+		let { msg, status } = result;
+		alert(`${status}: ${msg}`);
+		document.location.reload();
+	}).catch((error) => {
+		console.log("Error:");
+		console.log(error);
+	});
 }
 
 export { addReedmakingPricing, updateReedmakingPricing, removeReedmakingPricing }

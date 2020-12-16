@@ -61,35 +61,59 @@ section.card > div.controlsCont {
 	width:25%;
 	height:100%;
 }
-div.controlsCont > i {
+span.msg {
+	position: absolute;
+	transform:translateX(-50%);
+	font-weight:bold;
+	color:#f50c0c;
+	left:50%;
+	top:10%;
+	width:65%;
+}
+div[class *= "Btn"] {
 	position: absolute;
 	transform: translateY(-50%);
+}
+div[class *= "Btn"]:first-of-type {
+	/*Sizings of edit icon*/
+	width:28.81px;
+	height:25px;
+}
+div[class *= "Btn"]:last-of-type {
+	/*Sizings of delete icon*/
+	width:25.61px;
+	height:25px;
+}
+div.controlsCont i {
 	font-size:1.6rem;
 }
-div.controlsCont > i:hover {
+div.controlsCont i:hover {
 	cursor:pointer;
 }
-div.controlsCont > i.ctrlBtnEdit {
+div.ctrlBtnEdit {
 	top:50%;
 	left:25%;
 }
-div.controlsCont > i.ctrlBtnDelete {
+div.ctrlBtnDelete {
 	top:50%;
 	right:25%;
 }
-div.controlsCont > i.editBtnConfirm {
+div.editBtnConfirm {
 	left:50%;
 	top:30%;
 }
-div.controlsCont > i.editBtnDecline {
+div.editBtnDecline {
 	left:50%;
 	top:70%;
 }
-div.controlsCont > i.deleteBtnConfirm {
+div[class ^= "delete"] {
+	transform: translateY(0%);
+}
+div.deleteBtnConfirm {
 	top:60%;
 	left:25%;
 }
-div.controlsCont > i.deleteBtnDecline {
+div.deleteBtnDecline {
 	top:60%;
 	right:25%;
 }

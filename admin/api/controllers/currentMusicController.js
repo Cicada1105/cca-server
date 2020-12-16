@@ -22,6 +22,9 @@
 // Import model to handle actual data
 const MusicModel = require("../models/currentMusicModel.js");
 
+// Import utility function for handling the retrieval of body data
+const { getBodyData } = require("../utils.js");
+
 function addSong(req, res) {
 	MusicModel.add("NEW SONG");
 	res.end("Added new song");
@@ -30,9 +33,32 @@ function updateSong(req, res) {
 	MusicModel.update("UPDATED SONG");
 	res.end("Updated Song");
 }
-function removeSong(req, res) {
-	MusicModel.remove("REMOVED SONG");
-	res.end("Removed song");
+async function removeSong(req, res) {
+	res.setHeader("Content-Type","application/json");
+	await getBodyData(req).then(async (body) => {
+		// Pull out only necessary attributes from body to remove present performance
+		let { id } = body;
+
+		await MusicModel.remove(id).then((msg) => {
+			res.status = 200;
+			res.end(JSON.stringify({ msg }));			
+		}).catch((err) => {
+			res.status = 500;
+			res.end(JSON.stringify({ 
+				msg: err 
+			}));
+		})
+
+	}).catch((err) => {
+		console.log("ERROR:");
+		console.log(err.message);
+		console.log(err.stack);
+
+		res.status = 500;
+		res.end(JSON.stringify({
+			msg: "Unable to process the request at this time"
+		}));
+	})
 }
 
 module.exports = {

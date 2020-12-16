@@ -9,6 +9,7 @@
 				the data as parameters to be rendered to the screen
 */
 
+const server = "http://localhost:8080/cca-admin-api/performance/future";
 /*
 	Future add documentation
 */
@@ -25,7 +26,28 @@ function edit(updatedPerformance) {
 	Future remove documentation
 */
 function remove(performanceID) {
-	console.log(`Deleting future performance with ${performanceID} ID`);
+	return new Promise((resolve, reject) => {
+		// Make request to server, passig in proper method, headers and body data
+		fetch(server, {
+			method: "DELETE",
+			headers: {
+				"Content-Type":"application/json"
+			},
+			body: JSON.stringify({ id: performanceID })
+		}).then((response) => {
+			response.json().then(data => {
+				resolve({
+					msg: data.msg,
+					status: response.status
+				});
+			});
+		}).catch(err => {
+			reject({
+				msg: err,
+				status: err.status
+			});
+		});	
+	})
 }
 
 export { add, edit, remove }

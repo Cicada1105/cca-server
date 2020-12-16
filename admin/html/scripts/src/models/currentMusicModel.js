@@ -9,6 +9,7 @@
 				the data as parameters to be rendered to the screen
 */
 
+const server = "http://localhost:8080/cca-admin-api/performance/present";
 /*
 	Future add documentation
 */
@@ -25,7 +26,28 @@ function edit(currentSong) {
 	Future remove documentation
 */
 function remove(songID) {
-	console.log(`Deleting music with ${songID} ID`);
+	return new Promise((resolve, reject) => {
+		// Make request to server, passig in proper method, headers and body data
+		fetch(server, {
+			method: "DELETE",
+			headers: {
+				"Content-Type":"application/json"
+			},
+			body: JSON.stringify({ id: songID })
+		}).then((response) => {
+			response.json().then(data => {
+				resolve({
+					msg: data.msg,
+					status: response.status
+				});
+			});
+		}).catch(err => {
+			reject({
+				msg: err,
+				status: err.status
+			});
+		});	
+	})
 }
 
 export { add, edit, remove }

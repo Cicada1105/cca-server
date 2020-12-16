@@ -2,11 +2,12 @@
 
 // Require past performance model
 import * as PastPerformances from "../models/pastPerformancesModel.js";
+// Import button utils
+import { setControlBtns, revertControlBtns } from "../utils.js";
 /*
 	Future addPastPerformance documentation
 */
 function addPastPerformance(event) {
-	console.log(event);
 	let newPerformance = "NEW PAST PERFORMANCE";
 	PastPerformances.add(newPerformance);
 }
@@ -14,7 +15,6 @@ function addPastPerformance(event) {
 	Future updatePastPerformance documentation
 */
 function updatePastPerformance(event) {
-	console.log(event);
 	let updatedPerformance = "UPDATED PAST PERFORMANCE";
 	PastPerformances.edit(updatedPerformance);
 }
@@ -22,18 +22,17 @@ function updatePastPerformance(event) {
 	Future removePastPerformance documentation
 */
 function removePastPerformance(event) {
-	console.log(event);
-	console.log("REMOVING PAST PERFORMANCE");
 	// Get and store id of current past performance
 	let performanceID = event.target.dataset.id;
-	// Get icons by first getting parent container
-	//let cont = event.
 
-	// Update controls
-	//setControlBtns(event);
-
-
-	PastPerformances.remove(performanceID);
+	PastPerformances.remove(performanceID).then((result) => {
+		let { msg, status } = result;
+		alert(`${status}: ${msg}`);
+		document.location.reload();
+	}).catch((error) => {
+		console.log("Error:");
+		console.log(error);
+	});
 }
 
 export { addPastPerformance, updatePastPerformance, removePastPerformance }

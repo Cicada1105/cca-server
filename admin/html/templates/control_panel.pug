@@ -24,8 +24,10 @@ html(lang="en")
 				p #{performance.description}
 				div.controlsCont
 					span.msg
-					i(class="far fa-edit ctrlBtnEdit" data-id=`${performance.id}`)
-					i(class="far fa-times-circle ctrlBtnDelete" data-id=`${performance.id}`)
+					div.ctrlBtnEdit
+						i(class="far fa-edit" data-id=`${performance.id}`)
+					div.ctrlBtnDelete
+						i(class="far fa-times-circle" data-id=`${performance.id}`)
 		div.headerCont
 			h2.header Current Music (My Music Stand)
 		each song in present
@@ -35,8 +37,10 @@ html(lang="en")
 				p #{song.description}
 				div.controlsCont
 					span.msg
-					i(class="far fa-edit ctrlBtnEdit" data-id=`${song.id}`)
-					i(class="far fa-times-circle ctrlBtnDelete" data-id=`${song.id}`)
+					div.ctrlBtnEdit 
+						i(class="far fa-edit" data-id=`${song.id}`)
+					div.ctrlBtnDelete
+						i(class="far fa-times-circle" data-id=`${song.id}`)
 		div.headerCont
 			h2.header Future Performances
 		each performance in future
@@ -60,5 +64,7 @@ html(lang="en")
 				p #{performance.description}
 				div.controlsCont
 					span.msg
-					i(class="far fa-edit ctrlBtnEdit" data-id=`${performance.id}`)
-					i(class="far fa-times-circle ctrlBtnDelete" data-id=`${performance.id}`)
+					div.ctrlBtnEdit
+						i(class="far fa-edit" data-id=`${performance.id}`)
+					div.ctrlBtnDelete
+						i(class="far fa-times-circle" data-id=`${performance.id}`)
