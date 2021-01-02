@@ -40,7 +40,11 @@ function Router(req,res) {
 		let performancesJSON = performancesBuffer.toString();
 		let performances = JSON.parse(performancesJSON);
 
-		res.end(fn(performances));
+		res.end(
+			fn({
+				...performances
+			})
+		);
 	}
 	// Handle if trying to access cca-admin-api w/out logging in
 	else if ((req.url.startsWith("/cca-admin-api")) && (loggedIn)) {

@@ -1,0 +1,18 @@
+//- This file holds the pug mixin for the add card when user clicks on add button for respective sections
+mixin pastAddCard
+	section.card.addCard
+		form#addForm
+			h2 Add:
+			div#imgCont
+				i.far.fa-images
+				img(src="" alt="" width="150px")
+			div.fileCont
+				input(type="file" id="" name="imgFile")
+			input(type="text" name="title" spellcheck="true" placeholder="Enter Name...")
+			textarea(name="description" rows="4" cols="55" spellchheck="true" wrap="soft" placeholder="Enter Description...")
+		div.controlsCont
+			span.msg
+			div.ctrlBtnEdit
+				i(class="fas fa-check-circle editBtnConfirm")
+			div.ctrlBtnDelete
+				i(class="fas fa-times-circle editBtnDecline")

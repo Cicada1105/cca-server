@@ -12,62 +12,36 @@ html(lang="en")
 		style
 			include ../styling/control_panel.css
 	body(onload="begin.initListeners()")
+		//- Include card mixins 
+		include ./mixins/pastPerformanceCard.pug
+		include ./mixins/currentMusicCard.pug
+		include ./mixins/futurePerformanceCard.pug
+		//- Include add card mixins
+		include ./mixins/add_cards/past.pug
+		include ./mixins/add_cards/present.pug
+		include ./mixins/add_cards/future.pug
+
 		//- Pug comment that won't be outputted as html comment
 		h1.controlPanelHeader Admin Control Panel
+
 		div.headerCont
 			h2.header Past Performances
-			input(type="button", value="Add")
+			input(type="button" value="Add")
+		+pastAddCard
 		//- Loop through data passed to pug template
 		each performance in past
-			section.card.pastCard
-				img(src=`${performance.img.src}`,alt=`${performance.img.alt}`)
-				h2 #{performance.name}
-				p #{performance.description}
-				div.controlsCont
-					span.msg
-					div.ctrlBtnEdit
-						i(class="far fa-edit" data-id=`${performance.id}`)
-					div.ctrlBtnDelete
-						i(class="far fa-times-circle" data-id=`${performance.id}`)
+			+pastPerformanceCard(performance)
+
 		div.headerCont
 			h2.header Current Music (My Music Stand)
 			input(type="button", value="Add")
+		+presentAddCard
 		each song in present
-			section.card.presentCard
-				h2 #{song.name}
-				h4 By: #{song.by}
-				p #{song.description}
-				div.controlsCont
-					span.msg
-					div.ctrlBtnEdit 
-						i(class="far fa-edit" data-id=`${song.id}`)
-					div.ctrlBtnDelete
-						i(class="far fa-times-circle" data-id=`${song.id}`)
+			+currentMusicCard(song)
+
 		div.headerCont
 			h2.header Future Performances
 			input(type="button", value="Add")
+		+futureAddCard
 		each performance in future
-			section.card.futureCard
-				h2 #{performance.name}
-				article.subHeaderCont
-					h4 #{performance.location}
-					div.instrumentsCont
-						- for (let i = 0; i < performance.instruments.length; i++)
-							if i===0
-								h4 #{performance.instruments[i]}
-							else
-								h4!= `,&nbsp;&nbsp;&nbsp;${performance.instruments[i]}`
-				p.date #{performance.date}
-				-
-					let startTime = performance.time.start > 12 ? performance.time.start-12 : performance.time.start;
-					let startTimePeriod = performance.time.start < 12 ? "AM" : "PM";
-					let endTime = performance.time.end > 12 ? performance.time.end - 12 : performance.time.end;
-					let enndTimePeriod = performance.time.end < 12 ? "AM" : "PM";
-				p.time #{startTime}#{startTimePeriod} - #{endTime}#{enndTimePeriod}
-				p #{performance.description}
-				div.controlsCont
-					span.msg
-					div.ctrlBtnEdit
-						i(class="far fa-edit" data-id=`${performance.id}`)
-					div.ctrlBtnDelete
-						i(class="far fa-times-circle" data-id=`${performance.id}`)
+			+futurePerformanceCard(performance)

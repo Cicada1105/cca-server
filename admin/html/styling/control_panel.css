@@ -29,6 +29,7 @@ div.headerCont:nth-of-type(2) > h2 {
 /**************************/
 /*	  INDIVIDUAL CARDS    */
 /**************************/
+/*   DISPLAY CARDS   */
 section.card {
 	background-color:white;
 	box-shadow:5px 5px 10px 0px #00000047;
@@ -39,24 +40,24 @@ section.card {
 	margin-bottom:2rem;
 	width:700px;
 }
-/*	CARD TITLE	*/
+/*   Card Title   */
 section.card > h2 {
 	margin-top:0.5rem;
 	margin-bottom:0;
 }
-/*	CARD SUBHEADERS	*/
-/*	COMPOOSER, LOCATIONS, INSTRUMENTS	*/
+/*   Card Subheaders   */
+/*Composer, Locations, Instruments*/
 section.card  h4 {
 	font-size:0.9rem;
 	font-style:italic;
 }
-/*  CARD DESCRIPTIONS  */
+/*  Card Descriptions  */
 section.card p:last-of-type {
 	display:inline-block;
 	font-size:0.8rem;
 	width:75%;
 }
-/*	CONTROLS  */
+/*   Controls   */
 section.card > div.controlsCont {
 	position: absolute;
 	text-align: center;
@@ -121,7 +122,118 @@ div.deleteBtnDecline {
 	top:60%;
 	right:25%;
 }
-/*	FUTURE PERFORMANCE SPECIFIC	 */
+/*   ADD CARDS   */
+section.addCard {
+	padding:20px 15px;
+	display:none;
+}
+section.addCard h2 {
+	position: absolute;
+	top:1rem;
+	left:50%;
+	transform:translateX(-50%);
+	margin:auto;
+}
+form#addForm > input:nth-child(2) {
+	margin-top:1rem;
+}
+div.fileCont > input {
+	position: absolute;
+}
+section.addCard input[type="text"] {
+	display:block;
+	margin-bottom: 10px;
+}
+form#addForm > input[type='text']:nth-of-type(1) {
+	font-size: 1rem;
+}
+section.addCard textarea {
+	min-width:50%;
+	min-height:3.76rem;
+	max-width:75%;
+	max-height:10rem;
+}
+/************************/
+/*   Past Performance   */
+/************************/
+/*   DISPLAY CARDS   */
+section.pastCard > img {
+	width: 150px;
+}
+/*   ADD CARDS   */
+section.addCard div#imgCont {
+	position: relative;
+	display: inline-block;
+	border: 2px dashed black;
+	margin-bottom:15px;
+	width:150px;
+	height:110px;
+}
+div#imgCont > i {
+	position: absolute;
+	display:block;
+	font-size: 2rem;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+}
+section.addCard div.fileCont {
+	position: relative;
+	display:inline;
+	margin-left:10px;
+	top:70px;
+}
+/*********************/
+/*   Current Music   */
+/*********************/
+
+/**************************/
+/*   Future Performance   */
+/**************************/
+/*   Add Card   */
+input#location {
+	display: inline-block;
+}
+div#instrumentsCont {
+	display: inline;
+	margin-left:7.25rem;
+}
+div#instrumentsCont > input#add_instrument {
+	margin-left:1rem;
+}
+div#instrumentsCont > input[type = "text"] {
+	display: inline-block
+}
+ul#instruments {
+	margin:auto;
+	float:right;
+	height:75px;
+	width:12rem;
+	overflow-y:auto;
+	margin-right:13rem;
+}
+ul#instruments > li {
+	padding-bottom:5px;
+}
+ul#instruments i {
+	float:right;
+}
+ul#instruments i:hover {
+	cursor: pointer;
+}
+section.addCard input[type = "date"] {
+	display:block;
+	margin:2rem 0rem 1.25rem 0rem;
+}
+section.addCard input[type="time"] {
+	margin-right:5rem;
+	margin-bottom:1.25rem;
+}
+label {
+	font-size:0.95rem;
+	margin-right:10px;
+}
+/*	  Display Cards   */
 article.subHeaderCont {
 	display:flex;
 	flex-direction:row;

@@ -7,13 +7,17 @@ import * as CurrentMusic from "../models/currentMusicModel.js";
 	Future addSong documentation
 */
 function addSong(event) {
-	let testSong = {
-		name: "Performance D",
-		by: "Composer D",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id erat vel nisl tincidunt interdum. Nam mattis luctus neque. Vivamus at nibh libero. Phasellus maximus dictum posuere."
-	}
+	let addCard = event.path[3];
+	let form = addCard.firstElementChild;
+	let formEls = form.elements;
 
-	CurrentMusic.add(testSong).then((result) => {
+	let userSong = {
+		name: formEls["name"].value,
+		by: formEls["composer"].value,
+		description: formEls["description"].value
+	}
+	
+	CurrentMusic.add(userSong).then((result) => {
 		let { msg, status } = result;
 		alert(`${status}: ${msg}`);
 		document.location.reload();

@@ -10,15 +10,14 @@
 */
 
 // Development server
-//const server = "http://localhost:8080/cca-admin-api/performance/present";
+const server = "http://localhost:8080/cca-admin-api/performance/present";
 // Production server
-const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/present"
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/present"
 
 /*
 	Future add documentation
 */
-function add(newSong) {
-	let { name, by, description } = newSong
+function add({ name, by, description }) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
 		fetch(server, {

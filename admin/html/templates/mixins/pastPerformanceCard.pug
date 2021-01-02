@@ -1,0 +1,12 @@
+//- This file is a template for the past performance info
+mixin pastPerformanceCard(performance)
+	section.card.pastCard
+		img(src=`${performance.img.src}`,alt=`${performance.img.alt}`)
+		h2 #{performance.name}
+		p #{performance.description}
+		div.controlsCont
+			span.msg
+			div.ctrlBtnEdit
+				i(class="far fa-edit" data-id=`${performance.id}`)
+			div.ctrlBtnDelete
+				i(class="far fa-times-circle" data-id=`${performance.id}`)

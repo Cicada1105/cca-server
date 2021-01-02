@@ -6,23 +6,40 @@ import * as PastPerformances from "../models/pastPerformancesModel.js";
 	Future addPastPerformance documentation
 */
 function addPastPerformance(event) {
-	let testData = {
-		name: "Performance D",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id erat vel nisl tincidunt interdum. Nam mattis luctus neque. Vivamus at nibh libero. Phasellus maximus dictum posuere.",
-		img: {
-			src: "",
-			alt: "PerformanceD"
-		}
-	}
+	let addCard = event.path[3];
+	let form = addCard.firstElementChild;
+	let formEls = form.elements;
 
-	PastPerformances.add(testData).then((result) => {
-		let { msg, status } = result;
-		alert(`${status}: ${msg}`);
-		document.location.reload();
-	}).catch((error) => {
-		console.log("Error:");
-		console.log(error);
+	let file = formEls["imgFile"].files[0];
+	let imgAlt = file.name;
+	// Convert file to array buffer to be sennt and stored in request
+	let myReader = new FileReader();
+	myReader.readAsDataURL(file);
+	myReader.onloadend = function() {
+		let testData = {
+			name: formEls["title"].value,
+			description: formEls['description'].value,
+			img: {
+				src: myReader.result,
+				alt: imgAlt
+			}
+		}
+
+		PastPerformances.add(testData).then((result) => {
+			let { msg, status } = result;
+			alert(`${status}: ${msg}`);
+			document.location.reload();
+		}).catch((error) => {
+			console.log("Error:");
+			console.log(error);
+		});
+	}
+/*
+	file.arrayBuffer().then(arrayBuffer => {
+		let buffer = Buffer.from(arrayBuffer);
+
 	});
+*/
 }
 /*
 	Future updatePastPerformance documentation

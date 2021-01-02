@@ -55,9 +55,10 @@ function confirmListener(event) {
 
 	// Store function, bounded by value of this, to be called when user confirms
 	let fn = this;
-	// path[0] === icon#; path[1] === icon#Cont; path[2] === divcontrolsCont
+	// path[0] === icon#; path[1] === icon#Cont; path[2] === div.controlsCont; path[3] === div.card
 	let elCont = event.path[1];
 	let ctrlsCont = event.path[2];
+	let sectionCard = event.path[3];
 	let icons = ctrlsCont.getElementsByTagName("i");
 	let icon2 = icons[1];	// Decline icon
 	// Remove event listener of other button that didn't get pressed
@@ -80,10 +81,12 @@ function declineListener(event) {
 	// Prevent handleEditDeleteClick from being called when updated visual button is clicked again
 	event.stopPropagation();
 
-	let ctrlsCont = event.path[2];	// path[0] === icon#; path[1] === icon#Cont; path[2] === divcontrolsCont
+	// path[0] === icon#; path[1] === icon#Cont; path[2] === div.controlsCont; path[3] === div.card
+	let ctrlsCont = event.path[2];
+	let sectionCard = event.path[3];
 	let icons = ctrlsCont.getElementsByTagName("i");
 	let icon1 = icons[0];	// Confirm icon
-	// Remove event listener of other button that didn't get pressed
+	// Remove event listeners of other button that didn't get pressed
 	icon1.removeEventListener("click",confirmListenerRef, { capture: false });
 	// Remove text from message container
 	let msgCont = ctrlsCont.firstElementChild;
@@ -91,29 +94,5 @@ function declineListener(event) {
 	// Revert controls back to original state
 	revertControlBtns(event);
 }
-function revertControlBtns(event) {
-	let ctrlsCont = event.path[2];	// path[0] === icon#; path[1]  === icon#Cont; path[2] === div.controlsCont
-	// Retrieve containers holding icons
-	let iconConts = ctrlsCont.querySelectorAll("[class *= Btn]");
-	// Store individual icon containers
-	let icon1Cont = iconConts[0];	// Edit confirm container
-	let icon2Cont = iconConts[1];	// Edit decline container
-	// Store individual icons
-	let icon1 = icon1Cont.firstElementChild;
-	let icon2 = icon2Cont.firstElementChild;
 
-	// Check if icons were used for confirming or declining editting changes
-	let wasEditBtn = icon1Cont.className.includes("edit");
-	let oldConfirmClass = (wasEditBtn ? "editBtnConfirm" : "deleteBtnConfirm");
-	let oldDeclineClass = (wasEditBtn ? "editBtnDecline" : "deleteBtnDecline");
-	icon1Cont.classList.replace(oldConfirmClass,"ctrlBtnEdit");
-	icon2Cont.classList.replace(oldDeclineClass,"ctrlBtnDelete");
-
-	// Revert "confirm" icon back to original state
-	icon1.classList.replace("fas","far");
-	icon1.classList.replace("fa-check-circle","fa-edit");
-	// Revert X "decline" icon to original state
-	icon2.classList.replace("fas","far");
-}
-
-export { handleEditDeleteClick, revertControlBtns }
+export { handleEditDeleteClick, confirmListenerRef, declineListener }

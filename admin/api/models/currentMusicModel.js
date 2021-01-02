@@ -76,7 +76,6 @@ function remove(songID) {
 				}
 				else {
 					console.log("Updated present performances");
-					console.log(updatedPerformances);
 					resolve("Successfully removed present performance!");
 				}
 			});

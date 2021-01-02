@@ -6,21 +6,31 @@ import * as FuturePerformances from "../models/futurePerformancesModel.js";
 	Future addFuturePerformance documentation
 */
 function addFuturePerformance(event) {
-	let testData = {
-		name: "Performance D",
-		location: "Location D",
-		instruments: [
-			"Instrument D"
-		],
-		date: "2021-03-07",
+	let addCard = event.path[3];
+	let form = addCard.firstElementChild;
+
+	// Convert start and end times to proper format
+	const CONVERSION_TO_HOURS = 60 * 60 * 1000; // 60min in hour, 60 sec in min, 1000 ms in s
+	let startTime = form.elements["start_time"].valueAsNumber / CONVERSION_TO_HOURS;
+	let endTime = form.elements["end_time"].valueAsNumber / CONVERSION_TO_HOURS;
+	// Store instruments in array
+	let instrumentsArray = []
+	let instrumentsUL = form.querySelector("#instruments");
+	instrumentsUL.childNodes.forEach(instrumentLI => instrumentsArray.push(instrumentLI.innerText));
+
+	let futurePerformanceData = {
+		name: form.elements["name"].value,
+		location: form.elements["location"].value,
+		instruments: instrumentsArray,
+		date: form.elements["date"].value,
 		time: {
-			start: "1",
-			end: "3"
+			start: startTime.toString(),
+			end: endTime.toString()
 		},
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id erat vel nisl tincidunt interdum. Nam mattis luctus neque. Vivamus at nibh libero. Phasellus maximus dictum posuere."
+		description: form.elements["description"].value
 	}
 
-	FuturePerformances.add(testData).then((result) => {
+	FuturePerformances.add(futurePerformanceData).then((result) => {
 		let { msg, status } = result;
 		alert(`${status}: ${msg}`);
 		document.location.reload();

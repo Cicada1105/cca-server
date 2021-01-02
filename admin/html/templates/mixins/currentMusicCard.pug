@@ -1,0 +1,12 @@
+//- This file is a template for the current music info
+mixin currentMusicCard(song)
+	section.card.presentCard
+		h2 #{song.name}
+		h4 By: #{song.by}
+		p #{song.description}
+		div.controlsCont
+			span.msg
+			div.ctrlBtnEdit 
+				i(class="far fa-edit" data-id=`${song.id}`)
+			div.ctrlBtnDelete
+				i(class="far fa-times-circle" data-id=`${song.id}`)
