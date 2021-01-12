@@ -92,6 +92,16 @@ function clearPastForm() {
 	imgCont.style.border = "2px dotted black";
 	icon.style.display = "block";
 
+	// Clear items in instrument list
+	let instrumentsCont = form.querySelector("#instrumentsCont");
+	let instrumentsUL = instrumentsCont.lastElementChild;
+	let instruments = instrumentsUL.childNodes;
+	let numInstruments = instrumentsUL.childElementCount;
+
+	for (let i = 0; i < numInstruments; i++) {
+		console.log(instruments[0]);
+		instruments[0].remove();
+	}
 	// Clear form
 	form.reset();
 }
@@ -105,7 +115,7 @@ function clearFutureForm() {
 	const form = this;
 
 	// Clear items in instrument list
-	let instrumentsCont = document.getElementById("instrumentsCont");
+	let instrumentsCont = form.querySelector("#instrumentsCont");
 	let instrumentsUL = instrumentsCont.lastElementChild;
 	let instruments = instrumentsUL.childNodes;
 	let numInstruments = instrumentsUL.childElementCount;

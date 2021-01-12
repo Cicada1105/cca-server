@@ -17,13 +17,20 @@ function addPastCardListener(event) {
 	// Get access to file input button
 	let fileInputBtn = form.getElementsByClassName("fileCont")[0].firstElementChild;
 
+	let instrumentsCont = form.querySelector("#instrumentsCont");
+	let addInstrumentBtn = instrumentsCont.querySelector("input[type='button']");
+	
 	if (getComputedStyle(addCard).display === "none") {
 		// Add event listener to file input
 		fileInputBtn.addEventListener("change",fileSelect, { capture: false });
+		// Add event listener to button
+		addInstrumentBtn.addEventListener("click",addToList,{ capture: false })
 	}
 	else {
 		// Remove event listener for file input
 		fileInputBtn.removeEventListener("change",fileSelect, { capture: false });
+		// Remove event listener from button
+		addInstrumentBtn.removeEventListener("click",addToList,{ capture: false })
 	}
 
 	// Call generic listener, binding and passing proper arguments
@@ -67,7 +74,7 @@ function addFutureCardListener(event) {
 	// Access form of addCard
 	let form = addCard.firstElementChild;
 
-	let instrumentsCont = document.getElementById("instrumentsCont");
+	let instrumentsCont = form.querySelector("#instrumentsCont");
 	let addInstrumentBtn = instrumentsCont.querySelector("input[type='button']");
 
 	if (getComputedStyle(addCard).display === "none") 

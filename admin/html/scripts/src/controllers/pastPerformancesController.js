@@ -12,6 +12,10 @@ function addPastPerformance(event) {
 
 	let file = formEls["imgFile"].files[0];
 	let imgAlt = file.name;
+	// Store values of instruments in array
+	let instrumentsArray = [];
+	let instrumentsUL = form.querySelector("#instruments");
+	instrumentsUL.childNodes.forEach(instrument => instrumentsArray.push(instrument.innerText));
 	// Convert file to array buffer to be sennt and stored in request
 	let myReader = new FileReader();
 	myReader.readAsDataURL(file);
@@ -19,6 +23,9 @@ function addPastPerformance(event) {
 		let testData = {
 			name: formEls["title"].value,
 			description: formEls['description'].value,
+			location:formEls['location'].value,
+			instruments:instrumentsArray,
+			date:form.elements["date"].value,
 			img: {
 				src: myReader.result,
 				alt: imgAlt

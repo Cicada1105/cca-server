@@ -9,13 +9,13 @@
 				the data as parameters to be rendered to the screen
 */
 // Development server
-//const server = "http://localhost:8080/cca-admin-api/performance/past";
+const server = "http://localhost:8080/cca-admin-api/performance/past";
 // Production server
-const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/past"
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/past"
 /*
 	Future add documentation
 */
-function add({ name, description, img:{ src, alt }}) {
+function add({ name, description, location, instruments, date, img:{ src, alt }}) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
 		fetch(server, {
@@ -26,6 +26,9 @@ function add({ name, description, img:{ src, alt }}) {
 			body: JSON.stringify({ 
 				name,
 				description,
+				location,
+				instruments,
+				date,
 				img: {
 					src,
 					alt

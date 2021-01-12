@@ -3,6 +3,15 @@ mixin pastPerformanceCard(performance)
 	section.card.pastCard
 		img(src=`${performance.img.src}`,alt=`${performance.img.alt}`)
 		h2 #{performance.name}
+		article.subHeaderCont
+			h4 #{performance.location}
+			div.instrumentsCont
+				- for (let i = 0; i < performance.instruments.length; i++)
+					if i===0
+						h4 #{performance.instruments[i]}
+					else
+						h4!= `,&nbsp;&nbsp;&nbsp;${performance.instruments[i]}`
+		p.date #{performance.date}
 		p #{performance.description}
 		div.controlsCont
 			span.msg

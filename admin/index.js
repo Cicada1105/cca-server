@@ -14,11 +14,13 @@ const editingPath = './site_data/editing.json';
 const performancesPath = './site_data/performance.json';
 const reedmakingPath = './site_data/reedmaking.json';
 
+const SERVER_URL = "http://localhost:8080";
+
 function Router(req,res) {
 	const loggedIn = true;
 	let fn;
 	if (req.url === "/cca-admin-login") {
-		fn = pug.compileFile(`${__dirname}/templates/login.pug`);
+		fn = pug.compileFile(`${__dirname}/html/templates/login.pug`);
 
 		res.writeHead(200, {
 			"Content-Type":"text/html"
@@ -29,22 +31,30 @@ function Router(req,res) {
 		}));
 	}
 	// Handle if trying to get to panel w/out logging in
-	else if ((req.url === "/cca-admin-control-panel") && (loggedIn)) {
-		fn = pug.compileFile(`${__dirname}/html/templates/control_panel.pug`);
+	else if (req.url === "/cca-admin-control-panel") {
+		if (loggedIn) {
+			fn = pug.compileFile(`${__dirname}/html/templates/control_panel.pug`);
 
-		res.writeHead(200, {
-			"Content-Type":"text/html"
-		});
+			res.writeHead(200, {
+				"Content-Type":"text/html"
+			});
 
-		let performancesBuffer = fs.readFileSync(performancesPath);
-		let performancesJSON = performancesBuffer.toString();
-		let performances = JSON.parse(performancesJSON);
+			let performancesBuffer = fs.readFileSync(performancesPath);
+			let performancesJSON = performancesBuffer.toString();
+			let performances = JSON.parse(performancesJSON);
 
-		res.end(
-			fn({
-				...performances
-			})
-		);
+			res.end(
+				fn({
+					...performances
+				})
+			);
+		}
+		else {
+			fn = pug.compileFile(`${__dirname}/html/templates/login.pug`);
+			// If user is not logged, redirect to login screen
+			res.writeHead(301, {"Location":`${SERVER_URL}/cca-admin-login`});
+			res.end();
+		}
 	}
 	// Handle if trying to access cca-admin-api w/out logging in
 	else if ((req.url.startsWith("/cca-admin-api")) && (loggedIn)) {

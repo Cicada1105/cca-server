@@ -160,6 +160,9 @@ section.addCard textarea {
 section.pastCard > img {
 	width: 150px;
 }
+section.pastCard > p.date {
+	width:51%;
+}
 /*   ADD CARDS   */
 section.addCard div#imgCont {
 	position: relative;
@@ -244,13 +247,15 @@ article.subHeaderCont {
 div.instrumentsCont > h4 {
 	display:inline-block;
 }
+section.futureCard > p.date, p.time {
+	width:55%;
+}
 p.date, p.time {
 	font-style:italic;
 	font-family:"Raleway Dots", "Lato", sans-serif;
 	font-weight: bolder;
 	text-align: center;
 	font-size:0.9rem;
-	width:55%;
 	margin:0;
 }
 p.date {

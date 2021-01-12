@@ -13,12 +13,15 @@ async function addPerformance(req, res) {
 	// Get song data from body
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary info for adding 
-		let { name, description, img: { src, alt } } = body;
+		let { name, description, location, instruments, date, img: { src, alt } } = body;
 
 		// Add new song
 		await PastPerformancesModel.add({
 			name,
 			description,
+			location,
+			instruments,
+			date,
 			img: {
 				src, 
 				alt

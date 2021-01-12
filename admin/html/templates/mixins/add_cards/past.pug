@@ -9,6 +9,12 @@ mixin pastAddCard
 			div.fileCont
 				input(type="file" id="" name="imgFile")
 			input(type="text" name="title" spellcheck="true" placeholder="Enter Name...")
+			input(type="text" name="location" id="location" placeholder="Location...")
+			div#instrumentsCont
+				input(type="text" maxlength="18" placeholder="Instrument...")
+				input(type="button" id="add_instrument" value="Add")
+				ul#instruments
+			input(type="date" name="date")
 			textarea(name="description" rows="4" cols="55" spellchheck="true" wrap="soft" placeholder="Enter Description...")
 		div.controlsCont
 			span.msg
