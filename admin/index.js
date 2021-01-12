@@ -14,7 +14,10 @@ const editingPath = './site_data/editing.json';
 const performancesPath = './site_data/performance.json';
 const reedmakingPath = './site_data/reedmaking.json';
 
-const SERVER_URL = "http://localhost:8080";
+// Development
+//const SERVER_URL = "http://localhost:8080";
+// Production
+const SERVER_URL = "https://cca-server.herokuapp.com";
 
 function Router(req,res) {
 	const loggedIn = true;
