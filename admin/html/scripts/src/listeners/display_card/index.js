@@ -1,3 +1,5 @@
+import { revertControlBtns } from './utils.js';
+
 var confirmListenerRef;
 function handleEditDeleteClick(event) {
 	/* 
@@ -55,10 +57,9 @@ function confirmListener(event) {
 
 	// Store function, bounded by value of this, to be called when user confirms
 	let fn = this;
-	// path[0] === icon#; path[1] === icon#Cont; path[2] === div.controlsCont; path[3] === div.card
+	// path[0] === icon#; path[1] === icon#Cont; path[2] === div.controlsCont;
 	let elCont = event.path[1];
 	let ctrlsCont = event.path[2];
-	let sectionCard = event.path[3];
 	let icons = ctrlsCont.getElementsByTagName("i");
 	let icon2 = icons[1];	// Decline icon
 	// Remove event listener of other button that didn't get pressed
@@ -81,9 +82,8 @@ function declineListener(event) {
 	// Prevent handleEditDeleteClick from being called when updated visual button is clicked again
 	event.stopPropagation();
 
-	// path[0] === icon#; path[1] === icon#Cont; path[2] === div.controlsCont; path[3] === div.card
+	// path[0] === icon#; path[1] === icon#Cont; path[2] === div.controlsCont;
 	let ctrlsCont = event.path[2];
-	let sectionCard = event.path[3];
 	let icons = ctrlsCont.getElementsByTagName("i");
 	let icon1 = icons[0];	// Confirm icon
 	// Remove event listeners of other button that didn't get pressed

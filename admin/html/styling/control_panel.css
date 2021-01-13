@@ -84,15 +84,22 @@ div[class *= "Btn"]:first-of-type {
 	width:28.81px;
 	height:25px;
 }
+div[class *= "Btn"]:first-of-type > i:hover {
+	color:green;
+}
 div[class *= "Btn"]:last-of-type {
 	/*Sizings of delete icon*/
 	width:25.61px;
 	height:25px;
 }
+div[class *= "Btn"]:last-of-type > i:hover {
+	color:red;
+}
 div.controlsCont i {
 	font-size:1.6rem;
 }
 div.controlsCont i:hover {
+	color:gray;
 	cursor:pointer;
 }
 div.ctrlBtnEdit {
@@ -152,6 +159,14 @@ section.addCard textarea {
 	min-height:3.76rem;
 	max-width:75%;
 	max-height:10rem;
+}
+div.ctrlBtnAdd {
+	top:50%;
+	left:25%;
+}
+div.ctrlBtnClear {
+	top:50%;
+	right:25%;
 }
 /************************/
 /*   Past Performance   */

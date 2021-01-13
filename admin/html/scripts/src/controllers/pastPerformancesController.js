@@ -41,12 +41,6 @@ function addPastPerformance(event) {
 			console.log(error);
 		});
 	}
-/*
-	file.arrayBuffer().then(arrayBuffer => {
-		let buffer = Buffer.from(arrayBuffer);
-
-	});
-*/
 }
 /*
 	Future updatePastPerformance documentation
