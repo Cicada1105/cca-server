@@ -6,9 +6,10 @@
 //     Controllers
 const CONTROLLERS_PATH = "./controllers";
 // Import controllers
-const PerformancesController = require(`${CONTROLLERS_PATH}/performancesController.js`);
 const EditingController = require(`${CONTROLLERS_PATH}/editingController.js`);
 const ReedmakingController = require(`${CONTROLLERS_PATH}/reedmakingController.js`);
+// Import performances router
+const PERFORMANCES = require("./performances/");
 
 function Router(req,res) {
 	if (req.method === "GET") {
@@ -16,26 +17,14 @@ function Router(req,res) {
 		const subPaths = paths.slice(2); // returns ["rest","of","path"]
 		const subURL = subPaths.join("/"); // returns "rest/of/path"
 
-		switch(subURL) {
-			case "performance/past":
-				PerformancesController.getPastPerformances(req,res);
-			break;
-			case "performance/present":
-				PerformancesController.getPresentPerformances(req,res);
-			break;
-			case "performance/future":
-				PerformancesController.getFuturePerformances(req,res);
-			break;
-			case "editing":
-				EditingController.getEditingPricings(req,res);
-			break;
-			case "reedmaking":
-				ReedmakingController.getReedmakingPricings(req,res);
-			break;
-			default:
-				res.end("Unable to find path");
-			break;
-		}
+		if (subURL === "editing")
+			EditingController.getEditingPricings(req,res);
+		else if (subURL === "reedmaking")
+			ReedmakingController.getReedmakingPricings(req,res);
+		else if (subURL.startsWith("performance"))
+			PERFORMANCES.Router(req,res);
+		else
+			res.end("Unable to find path");
 	}
 	else {
 		res.end("Invalid method");

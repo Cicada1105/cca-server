@@ -1,0 +1,34 @@
+[
+	{
+		"img":{
+			"src":"https://randomuser.me/api/portraits/thumb/men/70.jpg",
+			"alt":"Jerome Steeves"
+		},
+		"name":"Jerome Steeves",
+		"title":"Writer"
+	},
+	{
+		"img":{
+			"src":"https://randomuser.me/api/portraits/thumb/men/29.jpg",
+			"alt":"Norman Patterson"
+		},
+		"name":"Norman Patterson",
+		"title":"Publishing Company"
+	},
+	{
+		"img":{
+			"src":"https://randomuser.me/api/portraits/thumb/men/99.jpg",
+			"alt":"Jeffrey Cooper"
+		},
+		"name":"Jeffrey Cooper",
+		"title":"Oboist"
+	},
+	{
+		"img":{
+			"src":"https://randomuser.me/api/portraits/thumb/women/2.jpg",
+			"alt":"Sophia Sanchez"
+		},
+		"name":"Sophia Sanchez",
+		"title":"Orchestra"
+	}
+]

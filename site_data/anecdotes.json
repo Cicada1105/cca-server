@@ -1,0 +1,20 @@
+[
+	{
+		"img":{
+			"src":"https://randomuser.me/api/portraits/thumb/men/70.jpg",
+			"alt":"Jerome Steeves"
+		},
+		"name":"Jerome Steeves",
+		"title":"Writer",
+		"anecdote":"The best editor i have worked with. Hard working and task oriented. Returned work in a timely manner"
+	},
+	{
+		"img":{
+			"src":"https://randomuser.me/api/portraits/thumb/men/29.jpg",
+			"alt":"Norman Patterson"
+		},
+		"name":"Norman Patterson",
+		"title":"Publishing Company",
+		"anecdote":"An amazing writer that has proven to reflect our compaany's goals and mission. Was a pleasure to work with"
+	}
+]
