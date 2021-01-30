@@ -1,0 +1,29 @@
+//-
+	This file inherits from the base template
+extends ../../../page_template.pug
+
+//- Call init function for current music, appending to included script
+//-block append scripts
+	script
+		- begin.initMusicStandListeners();
+
+//- Define styles to include, appending to included global style
+block append styles
+	style
+		include ../../../../../styling/music_stand.css
+
+//- Define mixins needed for music_stand
+block mixins
+	include ./mixins/add_card.pug
+	include ./mixins/music_card.pug
+
+//- Define location
+block location
+	h3!= "&ndash; &nbsp;&nbsp;&nbsp;My Music Stand&nbsp;&nbsp;&nbsp; &ndash;"
+	input(type="button" value="Add")#addBtn
+
+//- Define page content
+block page_content
+	+presentAddCard
+	each song in present
+		+currentMusicCard(song)

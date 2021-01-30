@@ -1,0 +1,11 @@
+//- This file is a template for the reedmaking info
+mixin reedmakingPricingCard(pricing)
+	section.card.reedmakingCard
+		h2 #{pricing.name}
+		p #{pricing.description}
+		div.controlsCont
+			span.msg
+			div.ctrlBtnEdit
+				i(class="far fa-edit" data-id=`${pricing.id}`)
+			div.ctrlBtnDelete
+				i(class="far fa-times-circle" data-id=`${pricing.id}`)

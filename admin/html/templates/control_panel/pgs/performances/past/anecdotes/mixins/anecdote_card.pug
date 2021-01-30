@@ -1,0 +1,13 @@
+//- This file is a template for the anecdotes info
+mixin anecdoteCard(anecdote)
+	section.card.anecdoteCard
+		img(src=`${anecdote.img.src}`,alt=`${anecdote.img.alt}`)
+		h2 #{anecdote.name}
+		h4 Title: #{anecdote.title}
+		p #{anecdote.anecdote}
+		div.controlsCont
+			span.msg
+			div.ctrlBtnEdit
+				i(class="far fa-edit" data-id=`${anecdote.id}`)
+			div.ctrlBtnDelete
+				i(class="far fa-times-circle" data-id=`${anecdote.id}`)

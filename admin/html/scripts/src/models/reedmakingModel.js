@@ -11,7 +11,7 @@
 // Development server
 //const server = "http://localhost:8080/cca-admin-api/reedmaking";
 // Production server
-const server = "https://cca-server.herokuapp.com/cca-admin-api/reedmaking"
+const server = "https://cca-server.herokuapp.com/cca-admin-api/reedmaking";
 /*
 	Future Add documentation
 */

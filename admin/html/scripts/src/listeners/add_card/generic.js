@@ -8,8 +8,8 @@
 export function addCardListener(event) {
 	let controlMethods = this;
 
-	// path[0] === add button; path[1] === div.headerCont
-	let headerCont = event.path[1];
+	// path[0] === add button
+	let headerCont = event.path[0];
 	let addCard = headerCont.nextElementSibling;
 	/*Children of addCard*/
 	let form = addCard.firstElementChild;

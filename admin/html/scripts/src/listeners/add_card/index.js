@@ -9,9 +9,9 @@ import {
 /*******************************/
 function addPastCardListener(event) {
 	let addPastPerformance = this;
-	// path[0] === add button; path[1] === div.headerCont
-	let headerCont = event.path[1];
-	let addCard = headerCont.nextElementSibling;
+	// path[0] === add button
+	let addBtn = event.path[0];
+	let addCard = addBtn.nextElementSibling;
 	/*Children of addCard*/
 	let form = addCard.firstElementChild;
 	// Get access to file input button
@@ -49,9 +49,9 @@ function addPastCardListener(event) {
 /*********************************/
 function addPresentCardListener(event) {
 	let addSong = this;
-	// path[0] === add button; path[1] === div.headerCont
-	let headerCont = event.path[1];
-	let addCard = headerCont.nextElementSibling;
+	// path[0] === add button
+	let addBtn = event.path[0];
+	let addCard = addBtn.nextElementSibling;
 	// Access form of addCard
 	let form = addCard.firstElementChild;
 
@@ -68,9 +68,9 @@ function addPresentCardListener(event) {
 }
 function addFutureCardListener(event) {
 	let addFuturePerformance = this;
-	// path[0] === add button; path[1] === div.headerCont
-	let headerCont = event.path[1];
-	let addCard = headerCont.nextElementSibling;
+	// path[0] === add button
+	let addBtn = event.path[0];
+	let addCard = addBtn.nextElementSibling;
 	// Access form of addCard
 	let form = addCard.firstElementChild;
 

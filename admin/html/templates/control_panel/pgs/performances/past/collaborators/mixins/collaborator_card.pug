@@ -1,0 +1,12 @@
+//- This file is a template for the collaborators info
+mixin collaboratorCard(collaborator)
+	section.card.collaboratorCard
+		img(src=`${collaborator.img.src}`,alt=`${collaborator.img.alt}`)
+		h2 #{collaborator.name}
+		h4 Title: #{collaborator.title}
+		div.controlsCont
+			span.msg
+			div.ctrlBtnEdit
+				i(class="far fa-edit" data-id=`${collaborator.id}`)
+			div.ctrlBtnDelete
+				i(class="far fa-times-circle" data-id=`${collaborator.id}`)

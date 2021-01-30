@@ -9,9 +9,9 @@ const PORT = process.env.PORT || 8080;
 const server = http.createServer((req,res) => {
 	// First 3 setHeader's are for development ONLY
 	// Source: https://stackoverflow.com/questions/56339978/how-can-i-make-my-front-end-app-access-my-node-server-apis
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    //res.setHeader("Access-Control-Allow-Origin", "*");
+    //res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    //res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
 
 	if (req.url !== "favicon.ico") {
 		if ((req.url === "/contact") && (req.method === "POST"))
@@ -40,9 +40,19 @@ server.listen(PORT, () => {
 
 		Protected Admin access
 		/cca-admin-login
+		CCA Admin Control Paneel
 		if (logged in)
 			// Redirect -> renders pug template
 			res.writeHead(301,{Location: '/cca-control-panel'});
+		/cca-admin-control-panel/performance/past
+		/cca-admin-control-panel/performance/past/collaborators
+		/cca-admin-control-panel/performance/past/anecdotes
+		/cca-admin-control-panel/performance/present
+		/cca-admin-control-panel/performance/future
+		/cca-admin-control-panel/editing
+		/cca-admin-control-panel/reedmaking
+
+		CCA Admin API
 		/cca-admin-api/performance/past
 		/cca-admin-api/performance/present
 		/cca-admin-api/performance/future

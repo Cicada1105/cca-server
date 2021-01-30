@@ -1,0 +1,29 @@
+//-
+	This file inherits from the base template
+extends ../../../page_template.pug
+
+//- Call init function for past performances, appending to included script
+//-block append scripts
+	script
+		- begin.initFuturePerformancesListeners();
+
+//- Define styles to include, appending to included global style
+block append styles
+	style
+		include ../../../../../styling/future_performances.css
+
+//- Define mixins needed for past_performances
+block mixins
+	include ./mixins/add_card.pug
+	include ./mixins/performance_card.pug
+
+//- Define location
+block location
+	h3!= "&ndash; &nbsp;&nbsp;&nbsp;Future Performances&nbsp;&nbsp;&nbsp; &ndash;"
+	input(type="button" value="Add")#addBtn
+
+//- Define page content
+block page_content
+	+futureAddCard
+	each performance in future
+		+futurePerformanceCard(performance)

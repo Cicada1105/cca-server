@@ -6,13 +6,7 @@
 const pug = require('pug');
 // Import cca-admin-api router to handle differing protected requests
 const ADMIN_API = require("./api/");
-// Import fs to handle file calls
-const fs = require("fs");
-
-// Data file paths to be read sent to control panel template to be updated
-const editingPath = './site_data/editing.json';
-const performancesPath = './site_data/performance.json';
-const reedmakingPath = './site_data/reedmaking.json';
+const ADMIN_CONTROL_PANEL = require("./html/templates/control_panel/");
 
 // Development
 //const SERVER_URL = "http://localhost:8080";
@@ -34,23 +28,9 @@ function Router(req,res) {
 		}));
 	}
 	// Handle if trying to get to panel w/out logging in
-	else if (req.url === "/cca-admin-control-panel") {
+	else if (req.url.startsWith("/cca-admin-control-panel")) {
 		if (loggedIn) {
-			fn = pug.compileFile(`${__dirname}/html/templates/control_panel.pug`);
-
-			res.writeHead(200, {
-				"Content-Type":"text/html"
-			});
-
-			let performancesBuffer = fs.readFileSync(performancesPath);
-			let performancesJSON = performancesBuffer.toString();
-			let performances = JSON.parse(performancesJSON);
-
-			res.end(
-				fn({
-					...performances
-				})
-			);
+			ADMIN_CONTROL_PANEL.Router(req,res);
 		}
 		else {
 			fn = pug.compileFile(`${__dirname}/html/templates/login.pug`);
@@ -63,8 +43,12 @@ function Router(req,res) {
 	else if ((req.url.startsWith("/cca-admin-api")) && (loggedIn)) {
 		ADMIN_API.Router(req,res);
 	}
-	else 
+	else {
+		res.writeHead(404,{
+			"Content-Type":"text/strings"
+		});
 		res.end("Unable to find resource");
+	}
 }
 
 module.exports = {

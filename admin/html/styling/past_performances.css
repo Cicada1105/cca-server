@@ -1,0 +1,81 @@
+/*   DISPLAY CARDS   */
+section.pastCard > img {
+	width: 150px;
+}
+article.subHeaderCont {
+	display:flex;
+	flex-direction:row;
+	flex-wrap:wrap;
+	justify-content: space-between;
+	width:55%;
+}
+div#instrumentsCont {
+	display: inline;
+	margin-left:7.25rem;
+}
+div.instrumentsCont > h4 {
+	display:inline-block;
+}
+section.pastCard > p.date {
+	font-style:italic;
+	font-family:"Raleway Dots", "Lato", sans-serif;
+	font-weight: bolder;
+	text-align: center;
+	font-size:0.9rem;
+	margin:0;
+	margin-bottom:5px;
+	width:51%;
+}
+/*   ADD CARDS   */
+input#location {
+	display: inline-block;
+}
+div#instrumentsCont > input#add_instrument {
+	margin-left:1rem;
+}
+div#instrumentsCont > input[type = "text"] {
+	display: inline-block
+}
+ul#instruments {
+	margin:auto;
+	float:right;
+	height:75px;
+	width:12rem;
+	overflow-y:auto;
+	margin-right:13rem;
+}
+ul#instruments > li {
+	padding-bottom:5px;
+}
+ul#instruments i {
+	float:right;
+}
+ul#instruments i:hover {
+	cursor: pointer;
+}
+section.addCard input[type = "date"] {
+	display:block;
+	margin:2rem 0rem 1.25rem 0rem;
+}
+section.addCard div#imgCont {
+	position: relative;
+	display: inline-block;
+	border: 2px dashed black;
+	margin-bottom:15px;
+	width:150px;
+	height:110px;
+}
+div#imgCont > i {
+	position: absolute;
+	display:block;
+	font-size: 2rem;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+}
+section.addCard div.fileCont {
+	position: relative;
+	display:inline;
+	margin-left:10px;
+	top:70px;
+}

@@ -1,0 +1,31 @@
+//-
+	This file inherits from the base template
+extends ../../../../page_template.pug
+
+//- Call init function for anecdotes, appending to included script
+//-block append scripts
+	script
+		- document.alert();
+
+
+//- Define styles to include, appending to included global style
+block append styles
+	style
+		include ../../../../../../styling/anecdotes.css
+
+//- Define mixins needed for anecdotes
+block mixins
+	include ./mixins/add_card.pug
+	include ./mixins/anecdote_card.pug
+
+//- Define location
+block location
+	h3!= "&ndash; &nbsp;&nbsp;&nbsp;Anecdotes&nbsp;&nbsp;&nbsp; &ndash;"
+	input(type="button" value="Add")#addBtn
+
+//- Define page content
+block page_content
+	+anecdotegAddCard
+	//- Loop through data passed to pug template
+	each anecdote in anecdotes
+		+anecdoteCard(anecdote)
