@@ -10,12 +10,13 @@ mixin futurePerformanceCard(performance)
 						h4 #{performance.instruments[i]}
 					else
 						h4!= `,&nbsp;&nbsp;&nbsp;${performance.instruments[i]}`
-		p.date #{performance.date}
+		p.date #{performance.date_time["date"]}
 		-
-			let startTime = performance.time.start > 12 ? performance.time.start-12 : performance.time.start;
-			let startTimePeriod = performance.time.start < 12 ? "AM" : "PM";
-			let endTime = performance.time.end > 12 ? performance.time.end - 12 : performance.time.end;
-			let enndTimePeriod = performance.time.end < 12 ? "AM" : "PM";
+			let time = performance.date_time["time"];
+			let startTime = time.start > 12 ? time.start-12 : time.start;
+			let startTimePeriod = time.start < 12 ? "AM" : "PM";
+			let endTime = time.end > 12 ? time.end - 12 : time.end;
+			let enndTimePeriod = time.end < 12 ? "AM" : "PM";
 		p.time #{startTime}#{startTimePeriod} - #{endTime}#{enndTimePeriod}
 		p #{performance.description}
 		div.controlsCont

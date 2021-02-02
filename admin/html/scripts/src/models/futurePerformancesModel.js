@@ -18,7 +18,7 @@ const server = "http://localhost:8080/cca-admin-api/performance/future";
 	Future add documentation
 */
 function add(newPerformance) {
-	let { name, location, instruments, date, time: { start, end }, description } = newPerformance;
+	let { name, location, instruments, date_time: { date, time: { start, end } }, description } = newPerformance;
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
 		fetch(server, {
@@ -30,10 +30,12 @@ function add(newPerformance) {
 				name,
 				location,
 				instruments,
-				date,
-				time: {
-					start,
-					end
+				date_time: {
+					date,
+					time: {
+						start,
+						end
+					}
 				},
 				description
 			})

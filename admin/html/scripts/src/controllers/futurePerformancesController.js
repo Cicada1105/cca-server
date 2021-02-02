@@ -22,10 +22,12 @@ function addFuturePerformance(event) {
 		name: form.elements["name"].value,
 		location: form.elements["location"].value,
 		instruments: instrumentsArray,
-		date: form.elements["date"].value,
-		time: {
-			start: startTime.toString(),
-			end: endTime.toString()
+		date_time: {
+			date: form.elements["date"].value,
+			time: {
+				start: startTime.toString(),
+				end: endTime.toString()
+			}	
 		},
 		description: form.elements["description"].value
 	}
