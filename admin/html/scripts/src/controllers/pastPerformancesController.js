@@ -2,6 +2,8 @@
 
 // Require past performance model
 import * as PastPerformances from "../models/pastPerformancesModel.js";
+// Import utility functions
+import { formatDate } from './utils.js';
 /*
 	Future addPastPerformance documentation
 */
@@ -16,6 +18,8 @@ function addPastPerformance(event) {
 	let instrumentsArray = [];
 	let instrumentsUL = form.querySelector("#instruments");
 	instrumentsUL.childNodes.forEach(instrument => instrumentsArray.push(instrument.innerText));
+	// Format date 
+	let formattedDate = formatDate(form.elements["date"].valueAsDate);
 	// Convert file to array buffer to be sennt and stored in request
 	let myReader = new FileReader();
 	myReader.readAsDataURL(file);
@@ -25,7 +29,7 @@ function addPastPerformance(event) {
 			description: formEls['description'].value,
 			location:formEls['location'].value,
 			instruments:instrumentsArray,
-			date:form.elements["date"].value,
+			date:formattedDate,
 			img: {
 				src: myReader.result,
 				alt: imgAlt
