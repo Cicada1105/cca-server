@@ -1,6 +1,8 @@
 /*
 	File for handling repetitive API tasks
 */
+// Require filesystem to help read from files
+const fs = require("fs");
 
 function getBodyData(req) {
 	return new Promise((resolve,reject) => {
@@ -18,6 +20,13 @@ function getBodyData(req) {
 	})
 }
 
+function writeToFile(file,data) {
+	fs.writeFile(file,data,"utf8",(err) => {
+		if (err) throw err;
+	});
+}
+
 module.exports = {
-	getBodyData
+	getBodyData,
+	writeToFile
 }

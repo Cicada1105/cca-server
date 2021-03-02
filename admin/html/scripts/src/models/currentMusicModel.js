@@ -10,7 +10,7 @@
 */
 
 // Development server
-const server = "http://localhost:8080/cca-admin-api/performance/present";
+const server = "http://localhost:2020/cca-admin-api/performance/present";
 // Production server
 //const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/present";
 

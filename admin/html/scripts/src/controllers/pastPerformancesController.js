@@ -39,7 +39,11 @@ function addPastPerformance(event) {
 		PastPerformances.add(testData).then((result) => {
 			let { msg, status } = result;
 			alert(`${status}: ${msg}`);
-			document.location.reload();
+			// Replace current location with current location to mimic refresh, including token
+			// Get token
+			let token = window.sessionStorage.getItem("token");
+			// Replace location
+			document.location.replace(`${document.location.origin}${document.location.pathname}?token=${token}`);
 		}).catch((error) => {
 			console.log("Error:");
 			console.log(error);
@@ -63,7 +67,11 @@ function removePastPerformance(event) {
 	PastPerformances.remove(performanceID).then((result) => {
 		let { msg, status } = result;
 		alert(`${status}: ${msg}`);
-		document.location.reload();
+		// Replace current location with current location to mimic refresh, including token
+		// Get token
+		let token = window.sessionStorage.getItem("token");
+		// Replace location
+		document.location.replace(`${document.location.origin}${document.location.pathname}?token=${token}`);
 	}).catch((error) => {
 		console.log("Error:");
 		console.log(error);

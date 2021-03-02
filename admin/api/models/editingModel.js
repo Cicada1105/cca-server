@@ -6,6 +6,8 @@
 const editingPricings = require("../../../site_data/editing.json");
 // Import fs to handle file calls
 const fs = require("fs");
+// Require method to retrieve file data
+const { getFileData } = require("../../utils.js");
 /*
 	Future add documentation
 */

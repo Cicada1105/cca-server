@@ -1,6 +1,31 @@
-DOCTYPE(html)
-html(lang="en")
-	head
-		title Admin Login
-	body
-		p Welcome #{user} to the pug template cca-admin login page
+//-
+	This file inherits from the base template
+extends control_panel/page_template.pug
+
+//- Call init function for current music, appending to included script
+//-block append scripts
+	script
+		- begin.initEditingListeners();
+
+//- Define styles to include, appending to included global style
+block append styles
+	style
+		include ../styling/login.css
+
+block mixins
+
+//- Define location
+block location
+	h3!= "&ndash; &nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp; &ndash;"
+
+//- Define page content
+block page_content
+	section.card
+		form#login(action="http://localhost:2020/cca-admin-login" method="POST" enctype="application/json")
+			div.inputCont
+				input(type="text" name="username" placeholder="Username..." required)
+				span(id="userErrMsg") * #{userErrMsg}
+			div.inputCont
+				input(type="password" name="password" placeholder="Password..." required)
+				span(id="passErrMsg") * #{passErrMsg}
+			input(type="submit" value="Login")

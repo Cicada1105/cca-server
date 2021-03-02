@@ -20,7 +20,11 @@ function addSong(event) {
 	CurrentMusic.add(userSong).then((result) => {
 		let { msg, status } = result;
 		alert(`${status}: ${msg}`);
-		document.location.reload();
+		// Replace current location with current location to mimic refresh, including token
+		// Get token
+		let token = window.sessionStorage.getItem("token");
+		// Replace location
+		document.location.replace(`${document.location.origin}${document.location.pathname}?token=${token}`);
 	}).catch((error) => {
 		console.log("Error:");
 		console.log(error);
@@ -43,7 +47,11 @@ function removeSong(event) {
 	CurrentMusic.remove(songID).then((result) => {
 		let { msg, status } = result;
 		alert(`${status}: ${msg}`);
-		document.location.reload();
+		// Replace current location with current location to mimic refresh, including token
+		// Get token
+		let token = window.sessionStorage.getItem("token");
+		// Replace location
+		document.location.replace(`${document.location.origin}${document.location.pathname}?token=${token}`);
 	}).catch((error) => {
 		console.log("Error:");
 		console.log(error);

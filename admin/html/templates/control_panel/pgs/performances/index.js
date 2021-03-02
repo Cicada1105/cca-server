@@ -4,8 +4,9 @@
 
 // Import pug 
 const pug = require('pug');
-// Import fs to handle file calls
-const fs = require("fs");
+
+// Import method for retrieving token from url and file data
+const { getTokenFromURL, getFileData } = require("../../../../../utils.js");
 
 // Data file paths to be read sent to control panel template to be updated
 const performancesPath = './site_data/performance.json';
@@ -22,57 +23,65 @@ const anecdotesPath = './site_data/anecdotes.json';
 */
 function Router(req,res) {
 	let url = req.url;
-	let paths = url.split("/"); // ["","cca-admin-control-panel","performances","ret","of","path"]
-	let performances_paths = paths.slice(3); // ["rest","of","path"]
+	let paths = url.split("/"); // ["","cca-admin-control-panel","performances",...restOfPath,"?token=<token>"]
+	// Remove ["","cca-admin-control-panel","performances"] at beginning and ["?token=<token>"} at end && returns [...restOfPath]
+	let performances_paths = paths.slice(3,paths.length - 1); // ["rest","of","path"]
 	let performances_url = performances_paths.join("/");; // "rest/of/path"
 
 	let fn;
 	let buffer, dataJSON, data;
 	
+	let token = null;
 	if (performances_url.startsWith("past")) {
 		let past_url = performances_url.substr(4); // Returns whatever comes after "past"
 		
 		switch(past_url) {
 			case "":
-				buffer = fs.readFileSync(performancesPath);
-				dataJSON = buffer.toString();
-				data = JSON.parse(dataJSON);
+				data = getFileData(performancesPath);
 
 				fn = pug.compileFile(`${__dirname}/past/root/index.pug`);
 
+				// Retrieve token from url
+				token = getTokenFromURL(req);
+
 				res.writeHead(200, {
 					"Content-Type":"text/html"
 				});
 				res.end(fn({
-					"past": data["past"]
+					"past": data["past"],
+					"token": token
 				}));
 			break;
 			case "/collaborators":
-				buffer = fs.readFileSync(collaboratorsPath);
-				dataJSON = buffer.toString();
-				data = JSON.parse(dataJSON);
+				data = getFileData(collaboratorsPath);
 
 				fn = pug.compileFile(`${__dirname}/past/collaborators/index.pug`);
 
+				// Retrieve token from url
+				token = getTokenFromURL(req);
+
 				res.writeHead(200, {
 					"Content-Type":"text/html"
 				});
 				res.end(fn({
-					"collaborators": data
+					"collaborators": data,
+					"token": token
 				}))
 			break;
 			case "/anecdotes":
-				buffer = fs.readFileSync(anecdotesPath);
-				dataJSON = buffer.toString();
-				data = JSON.parse(dataJSON);
+				data = getFileData(anecdotesPath);
 
 				fn = pug.compileFile(`${__dirname}/past/anecdotes/index.pug`);
+
+				// Retrieve token from url
+				token = getTokenFromURL(req);
 
 				res.writeHead(200, {
 					"Content-Type":"text/html"
 				});
 				res.end(fn({
-					"anecdotes": data
+					"anecdotes": data,
+					"token": token
 				}))
 			break;
 			default:
@@ -83,31 +92,34 @@ function Router(req,res) {
 		}
 	}
 	else if (performances_url === "present") {
-		buffer = fs.readFileSync(performancesPath);
-		dataJSON = buffer.toString();
-		data = JSON.parse(dataJSON);
+		data = getFileData(performancesPath);
 
 		fn = pug.compileFile(`${__dirname}/music_stand/index.pug`);
 
+		// Retrieve token from url
+		token = getTokenFromURL(req);
+
 		res.writeHead(200, {
 			"Content-Type": "text/html"
 		});
 		res.end(fn({
-			"present": data["present"]
+			"present": data["present"],
+			"token": token
 		}));
 	}
 	else if (performances_url === "future") {
-		buffer = fs.readFileSync(performancesPath);
-		dataJSON = buffer.toString();
-		data = JSON.parse(dataJSON);
-
+		data = getFileData(performancesPath);
 		fn = pug.compileFile(`${__dirname}/future/index.pug`);
+
+		// Retrieve token from url
+		token = getTokenFromURL(req);
 
 		res.writeHead(200, {
 			"Content-Type": "text/html"
 		});
 		res.end(fn({
-			"future": data["future"]
+			"future": data["future"],
+			"token": token
 		}))
 	}
 	else {

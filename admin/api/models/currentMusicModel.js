@@ -4,8 +4,10 @@
 
 // Import performance data to be used by the model
 const performancesPath = "./site_data/performance.json";
-// Import fs to handle file calls
-const fs = require("fs");
+// Require method to retrieve file data
+const { getFileData } = require("../../utils.js");
+// Require method for writing to file
+const { writeToFile } = require("../utils.js");
 // Import uuid for adding new resource
 const { v4: uuidv4 } = require("uuid");
 
@@ -15,9 +17,8 @@ const { v4: uuidv4 } = require("uuid");
 function add(newSong) {
 	return new Promise((resolve,reject) => {
 		// Get performances from file
-		let performancesBuffer = fs.readFileSync(performancesPath);
-		let performancesJSON = performancesBuffer.toString();
-		let parsedPerformances = JSON.parse(performancesJSON);
+		let parsedPerformances = getFileData(performancesPath);
+
 		// Pull out present music
 		let currentMusic = parsedPerformances["present"];
 		// Add unique id to new song
@@ -25,21 +26,19 @@ function add(newSong) {
 			id:uuidv4(),
 			...newSong
 		}
-		
 		// Push new song into present performances array
 		currentMusic.push(newSongWithID);
 		// Update performances data to reflect resent present performances change
 		parsedPerformances["present"] = currentMusic;
 
-		// Write newly updated music to file writeFileSync
-		fs.writeFile(performancesPath,JSON.stringify(parsedPerformances),"utf8",(err) => {
-			if (err) {
-				console.log(err);
-				reject("Internal Server Error. Try again later");
-			}
-			else 
-				resolve("Successfully added new present performance");
-		})
+		// Write data to file, catching any error that may occur
+		try {
+			writeToFile(performancesPath,JSON.stringify(parsedPerformances));
+			resolve("Successfully added new present performance");
+		} catch(e) {
+			console.log(err);
+			reject("Internal Server Error. Try again later");
+		}
 	})
 }
 /*
@@ -53,12 +52,8 @@ function update(song) {
 */
 function remove(songID) {
 	return new Promise((resolve,reject) => {
-		console.log(`Removing present performance with id of: ${songID}`);
-
 		// Get performances from file
-		const performancesBuffer = fs.readFileSync(performancesPath);
-		const performancesJSON = performancesBuffer.toString();
-		const performances = JSON.parse(performancesJSON);
+		const performances = getFileData(performancesPath);
 		
 		let index = performances["present"].findIndex((performance) => performance.id === songID);
 		if (index === -1)
@@ -69,16 +64,13 @@ function remove(songID) {
 			// Update present performances with rest of data
 			let updatedPerformances = {...performances,"present":updatedPresentPerformances};
 			// Update file, reflectting new performances
-			fs.writeFile(performancesPath,JSON.stringify(updatedPerformances),"utf8",(err) => {
-				if (err) {
-					console.log(err);
-					reject("Internal Server Error. Try again later");
-				}
-				else {
-					console.log("Updated present performances");
-					resolve("Successfully removed present performance!");
-				}
-			});
+			try {
+				writeToFile(performancesPath,JSON.stringify(updatedPerformances));
+				resolve("Successfully removed present performance!");
+			} catch(e) {
+				console.log(err);
+				reject("Internal Server Error. Try again later");
+			}
 		}
 	})
 }

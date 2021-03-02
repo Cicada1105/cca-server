@@ -21,20 +21,18 @@ html(lang="en")
 
 		// A container for a dark, transparent overlay when navigation bar is displayed
 		#bg_block
-		// Container for holding side navigation bar
-		#side_nav_cont
 		#nav_bar_cont
-			h2(onclick="window.location.href='https://cca-server.herokuapp.com/cca-admin-control-panel/'") CCA Control Panel
+			h2(onclick="window.location.href='http://localhost:2020/cca-admin-control-panel/'") CCA Control Panel
 			i.fas.fa-bars
 			nav
-				a(href="/cca-admin-control-panel/performance/past") Past Performances
-				a.past_sublink(href="/cca-admin-control-panel/performance/past") Performances
-				a.past_sublink(href="/cca-admin-control-panel/performance/past/collaborators") Collaborators
-				a.past_sublink(href="/cca-admin-control-panel/performance/past/anecdotes") Anecdotes
-				a(href="/cca-admin-control-panel/performance/present") My Music Stand
-				a(href="/cca-admin-control-panel/performance/future") Future Performances
-				a(href="/cca-admin-control-panel/editing") Editing
-				a(href="/cca-admin-control-panel/reedmaking") Reedmaking
+				a(href="/cca-admin-control-panel/performance/past/") Past Performances
+				a.past_sublink(href="/cca-admin-control-panel/performance/past/") Performances
+				a.past_sublink(href="/cca-admin-control-panel/performance/past/collaborators/") Collaborators
+				a.past_sublink(href="/cca-admin-control-panel/performance/past/anecdotes/") Anecdotes
+				a(href="/cca-admin-control-panel/performance/present/") My Music Stand
+				a(href="/cca-admin-control-panel/performance/future/") Future Performances
+				a(href="/cca-admin-control-panel/editing/") Editing
+				a(href="/cca-admin-control-panel/reedmaking/") Reedmaking
 
 		//- Pug comment that won't be outputted as html comment
 		h1.controlPanelHeader Admin Control Panel
@@ -43,4 +41,4 @@ html(lang="en")
 			h3 &ndash; &nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp; &ndash;
 		//- Block for page content. Default is homme page content
 		block page_content
-			h4#welcome_text Welcome to the CCA Admin Control Panel!
+			h3#welcome_text Welcome to the CCA Admin Control Panel!

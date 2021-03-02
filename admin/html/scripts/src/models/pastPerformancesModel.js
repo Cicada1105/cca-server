@@ -9,7 +9,7 @@
 				the data as parameters to be rendered to the screen
 */
 // Development server
-const server = "http://localhost:8080/cca-admin-api/performance/past";
+const server = "http://localhost:2020/cca-admin-api/performance/past";
 // Production server
 //const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/past";
 /*

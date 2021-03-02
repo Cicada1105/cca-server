@@ -4,8 +4,10 @@
 
 // Import reedmaking data to be used by the model
 const reedmakingPricesPath = "./site_data/reedmaking.json";
-// Import fs to handle file calls
-const fs = require("fs");
+// Require method to retrieve file data
+const { getFileData } = require("../../utils.js");
+// Require method for writing to file
+const { writeToFile } = require("../utils.js");
 
 /*
 	Future add documentation
@@ -27,9 +29,7 @@ function remove(pricingID) {
 		console.log(`Removing reedmaking pricing with id of: ${pricingID}`);
 
 		// Get prices from file
-		const reedmakingPricesBuffer = fs.readFileSync(reedmakingPricesPath);
-		const reedmakingPricesJSON = reedmakingPricesBuffer.toString();
-		const reedmakingPrices = JSON.parse(reedmakingPricesJSON);
+		const reedmakingPrices = getFileData(reedmakingPricesPath);
 
 		let index = reedmakingPrices.findIndex((pricing) => pricing.id === pricingID);
 		if (index === -1)
@@ -38,17 +38,15 @@ function remove(pricingID) {
 			// Filter out reedmaking pricing who's ID matches that of pricingID
 			let updatedPricings = reedmakingPrices.filter((pricing) => pricing.id !== pricingID );
 			// Update file, reflectting new pricings
-			fs.writeFile("./site_data/reedmaking.json",JSON.stringify(updatedPricings),"utf8",(err) => {
-				if (err) {
-					console.log(err);
-					reject("Internal Server Error. Try again later");
-				}
-				else {
-					console.log("Updated pricings");
-					console.log(updatedPricings);
-					resolve("Successfully removed reedmaking pricing!");
-				}
-			});
+			try {
+				writeToFile(reedmakingPricesPath, JSON.stringify(updatedPricings));
+				console.log("Updated pricings");
+				console.log(updatedPricings);
+				resolve("Successfully removed reedmaking pricing!");
+			} catch(e) {
+				console.log(err);
+				reject("Internal Server Error. Try again later");
+			}
 		}
 	})
 }

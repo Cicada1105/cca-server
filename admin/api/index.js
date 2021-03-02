@@ -17,8 +17,9 @@ function Router(req,res) {
 	//     Method
 	const method = req.method;
 	//     Path
-	const paths = req.url.split("/"); // ["","cca-admin-api",...restOfPath]
-	const reducedPaths = paths.slice(2); // Removes ["","cca-admin-api"] && returns [...restOfPath]
+	const paths = req.url.split("/"); // ["","cca-admin-api",...restOfPath, ,"?token=<token>"]
+	// Remove ["","cca-admin-api"] at beginning and ["?token=<token>"} at end && returns [...restOfPath]
+	const reducedPaths = paths.slice(2);
 	const newPath = reducedPaths.join("/"); // [...restOfPath] becomes "rest/Of/Path"
 
 	/*

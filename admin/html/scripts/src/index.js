@@ -1,20 +1,15 @@
-import * as PastController from "./controllers/pastPerformancesController.js"
-import * as PresentController from "./controllers/currentMusicController.js"
-import * as FutureController from "./controllers/futurePerformancesController.js"
-import * as EditingController from "./controllers/editingController.js"
-import * as ReedmakingController from "./controllers/reedmakingController.js"
-
-import { handleEditDeleteClick } from "./listeners/display_card/";
-import { addPastCardListener, addPresentCardListener, addFutureCardListener } from "./listeners/add_card/";
+import * as PageListeners from './listeners/pages.js';
 
 const initListeners = () => {
 	/* Set evet listener for navigation */
 	// background overlay
 	let bg_overlay = document.getElementById("bg_block");
-	// transparent container holding navigation bar container
-	let side_nav_cont = document.getElementById("side_nav_cont");
 	// navigation bar container
 	let nav_bar_cont = document.getElementById("nav_bar_cont");
+	// Navigation element
+	let nav_element = nav_bar_cont.lastElementChild;
+	// Navigation links
+	let nav_links = nav_element.getElementsByTagName("a");
 	// Get access to X button
 	let i_btn = nav_bar_cont.getElementsByTagName("i")[0];
 
@@ -24,7 +19,6 @@ const initListeners = () => {
 
 		// Set attributes depending on state of navigation bar
 		bg_overlay.style.display = is_displayed ? "none" : "block";
-		side_nav_cont.style.left = is_displayed ? "-21rem" : "0rem";
 		nav_bar_cont.style.left = is_displayed ? "-21rem" : "0rem";
 		i_btn.style.right = is_displayed ? "-30px" : "20px";
 		// Change class of i_btn between "X" and "hamburger bars" once transition is done
@@ -37,112 +31,94 @@ const initListeners = () => {
 	});
 
 	let pathname = document.location.pathname; // Get current path of file
-	let paths = pathname.split("/"); // Split up pathname into sub paths
-	let last_path = paths.slice(paths.length - 1); // Return last path to determine current location
-	// Call specific listeners depending on path name
-	switch(last_path[0]) {
-		case "past":
-			initPastPerformanceListeners();
-		break;
-		case "collaborators":
-			initCollaboratorListener();
-		break;
-		case "anecdotes":
-			initAnecdoteListeners();
-		break;
-		case "present":
-			initMusicStandListeners();
-		break;
-		case "future":
-			initFuturePerformancesListeners();
-		break;
-		case "editing":
-			initEditingListeners();
-		break
-		case "reedmaking":
-			initReedmakingListeners();
-		break;
+	// Split up pathname into sub paths
+	let paths = pathname.split("/"); // returns ["","cca-admin-control-panel","rest","of","path",""]
+	let starting_path = paths[1]; // returns "cca-admin-control-panel" or "cca-admin-login"
+
+	// Check if in control panel
+	if (starting_path === "cca-admin-control-panel") {
+		let token;
+		// Remove first part of path to figure out rest of path
+		starting_path = paths.slice(2)[0];
+		/*
+			Check if on welcome page then
+				- Retrieve token from url
+				- Store in sessionStorage
+			else
+				- Retrieve token from storage
+
+			- Remove from url
+		*/
+		if (starting_path === "") {
+			/*Get token from url, save to session, then remove from url*/
+			token = getToken();
+			window.sessionStorage.setItem("token",token);
+		}
+		else {
+			// Get token from storage
+			token = window.sessionStorage.getItem("token");
+			// Call specific listeners depending on path name
+			switch(starting_path) {
+
+				case "performance":
+					// Get rest of path after 'performance' to determine subdirectory
+					starting_path = paths.slice(3)[0];
+					switch(starting_path) {
+
+						case "past":
+							// Get rest of path after 'past' to determine subdirectory
+							starting_path = paths.slice(4)[0]
+							switch(starting_path) {
+
+								case "collaborators":
+									PageListeners.initCollaboratorListener();
+								break;
+								case "anecdotes":
+									PageListeners.initAnecdoteListeners();
+								break;
+								case "":
+									PageListeners.initPastPerformanceListeners();
+								break;
+
+							}
+						break;
+						case "present":
+							PageListeners.initMusicStandListeners();
+						break;
+						case "future":
+							PageListeners.initFuturePerformancesListeners();
+						break;	
+
+					}
+				break;
+				case "editing":
+					PageListeners.initEditingListeners();
+				break
+				case "reedmaking":
+					PageListeners.initReedmakingListeners();
+				break;
+				
+			}
+		}
+		// Remove token from url by pushing location, without token, to state
+		window.history.pushState("","",`${window.location.origin}${pathname}`);
+
+		// Add token to navigation links
+		for (let link of nav_links)
+			// Add token to current url to be read by server
+			link.href += `?token=${token}`;
 	}
 }
-const initPastPerformanceListeners = () => {
-	// Get header contaier to access add button
-	let addBtn = document.getElementById("addBtn");
-	// Access displayed cards
-	let pastCards = document.getElementsByClassName("pastCard");
-		// Set click event listener for Add button of Past Performances
-	addBtn.addEventListener("click",addPastCardListener.bind(PastController.addPastPerformance));
-	// Loop throuh past cards, adding event listeners to edit and delete buttons
-	for (let card of pastCards) {
-		// Get controls container 
-		let controlsCont = card.lastElementChild;
-		// Get access to edit and delete button containers
-		let controlsConts = controlsCont.querySelectorAll("[class *= ctrlBtn]");
-		// Access each individual container
-		let editBtnCont = controlsConts[0];
-		let deleteBtnCont = controlsConts[1];
-		
-		// Add event listeners to control buttons containers
-		editBtnCont.addEventListener("click", handleEditDeleteClick.bind(PastController.updatePastPerformance));
-		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(PastController.removePastPerformance));
-	}
-}
-const initCollaboratorListener = () => {
-	console.log("Init collaborattors listeners");
-}
-const initAnecdoteListeners = () => {
-	console.log("Init anecdotes listeners");
-}
-const initMusicStandListeners = () => {
-	// Get header contaier to access add button
-	let addBtn = document.getElementById("addBtn");
-	// Access displayed cards
-	let presentCards = document.getElementsByClassName("presentCard");
 
-	// Set click event listener for Add button of Current Music
-	addBtn.addEventListener("click", addPresentCardListener.bind(PresentController.addSong));
-	// Loop through present cards, adding event listeners to edit and delete buttons
-	for (let card of presentCards) {
-		// Get controls conntainer
-		let controlsCont = card.lastElementChild;
-		// Get access to edit and delete button containers
-		let controlsConts = controlsCont.querySelectorAll("[class *= ctrlBtn]");
-		// Access each individual container
-		let editBtnCont = controlsConts[0];
-		let deleteBtnCont = controlsConts[1];
-
-		// Add event listeners to control buttons containers
-		editBtnCont.addEventListener("click",handleEditDeleteClick.bind(PresentController.updateSong));
-		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(PresentController.removeSong));
-	}
-}
-const initFuturePerformancesListeners = () => {
-	// Get header contaier to access add button
-	let addBtn = document.getElementById("addBtn");
-	// Access displayed cards
-	let futureCards = document.getElementsByClassName("futureCard");
-
-	// Set click event listener for Add button of Future Performances
-	addBtn.addEventListener("click",addFutureCardListener.bind(FutureController.addFuturePerformance));
-	// Loop through future cards, adding event listeners to edit and delete buttons
-	for (let card of futureCards) {
-		// Get controls conntainer
-		let controlsCont = card.lastElementChild;
-		// Get access to edit and delete button containers
-		let controlsConts = controlsCont.querySelectorAll("[class *= ctrlBtn]");
-		// Access each individual containers
-		let editBtnCont = controlsConts[0];
-		let deleteBtnCont = controlsConts[1];
-
-		// Add event listeners to control buttons containers
-		editBtnCont.addEventListener("click",handleEditDeleteClick.bind(FutureController.updateFuturePerformance));
-		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(FutureController.removeFuturePerformance));
-	}
-}
-const initEditingListeners = () => {
-	console.log("Init editing listeners");
-}
-const initReedmakingListeners = () => {
-	console.log("Init reedmaking listeners");
+function getToken() {
+	// Store search parameters of current location url
+	let search = document.location.search; // Returns "/?token=..."
+	// Create new search parameters objecct 
+	let searchParamsObj = new URLSearchParams(search);
+	// Get token from search params object
+	let token = searchParamsObj.get("token");
+	// Return token
+	return token;
 }
 
 export { initListeners }

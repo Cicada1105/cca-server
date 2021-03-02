@@ -1,0 +1,55 @@
+section.card {
+	margin-top:5rem;
+}
+form#login {
+	margin:auto;
+	margin-top:1.5rem;
+}
+.inputCont {
+	position: relative;
+	width:fit-content;
+	margin:auto;
+}
+input {
+	background-color:#cccccc;
+	border:3px solid #646464;
+	font-family:"Libre Baskerville", sans;
+	padding-top:4px;
+	padding-bottom:3px;
+	padding-left:8px;
+	color:black;
+	display:inline-block;
+	margin:auto;
+	margin-bottom:1rem;
+	font-size:1.2rem;
+}
+input::placeholder {
+	color:#4d4d4d;
+}
+input:-ms-input-placeholder {
+	color:#4d4d4d;	
+}
+input::-ms-input-placeholder {
+	color:#4d4d4d;
+}
+[id $= "ErrMsg"] {
+	position: absolute;
+	font-size:1.1rem;
+	color:red;
+	width:fit-content;
+	left:101%;
+	top:10%;
+}
+input[type="submit"] {
+	border:1.5px solid #646464;
+	display:block;
+	padding:0.45rem 1.25rem;
+	margin:auto;
+	margin-top:5rem;
+	margin-bottom:1rem;
+	border-radius:6px;
+}
+input[type="submit"]:hover {
+	background-color:#b3b3b3;
+	cursor:pointer;
+}

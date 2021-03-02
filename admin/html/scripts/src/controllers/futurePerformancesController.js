@@ -15,15 +15,17 @@ function formatTime(timeMS) {
 	let hourFloat = timeMS / CONVERSION_TO_HOURS;
 	// Round hour float down to get full hour
 	let hour = Math.floor(hourFloat);
+	// Store time of day am/pm
+	let amPm = hour < 12 ? "am" : "pm";
+	// Subtract hours from time to extract minutes
+	let minutesFloat = hourFloat - hour;
 	// If hour is greater than 12, subtract 12 (time is in 24 hour time)
 	if (hour > 12)
 		hour -= 12;
-	// Subtract hours from time to extract minutes
-	let secondsFloat = timeMS - hour;
 	// Multiple remaining decimal (in hours) by 60 to convert to minutes
-	let minutes = Math.floor(secondsFloat * 60);
+	let minutes = (minutesFloat * 60).toFixed();
 
-	formatStr = `${hour} : ${minutes} ` + (hour < 12 ? "am" : "pm");
+	formatStr = `${hour}:${minutes} ${amPm}`;
 
 	return formatStr;
 }
@@ -49,20 +51,21 @@ function addFuturePerformance(event) {
 		name: form.elements["name"].value,
 		location: form.elements["location"].value,
 		instruments: instrumentsArray,
-		date_time: {
-			date: formattedDate,
-			time: {
-				start,
-				end
-			}	
+		date: formattedDate,
+		time: {
+			start,
+			end
 		},
 		description: form.elements["description"].value
 	}
-
 	FuturePerformances.add(futurePerformanceData).then((result) => {
 		let { msg, status } = result;
 		alert(`${status}: ${msg}`);
-		document.location.reload();
+		// Replace current location with current location to mimic refresh, including token
+		// Get token
+		let token = window.sessionStorage.getItem("token");
+		// Replace location
+		document.location.replace(`${document.location.origin}${document.location.pathname}?token=${token}`);
 	}).catch((error) => {
 		console.log("Error:");
 		console.log(error);
@@ -85,7 +88,11 @@ function removeFuturePerformance(event) {
 	FuturePerformances.remove(performanceID).then((result) => {
 		let { msg, status } = result;
 		alert(`${status}: ${msg}`);
-		document.location.reload();
+		// Replace current location with current location to mimic refresh, including token
+		// Get token
+		let token = window.sessionStorage.getItem("token");
+		// Replace location
+		document.location.replace(`${document.location.origin}${document.location.pathname}?token=${token}`);
 	}).catch((error) => {
 		console.log("Error:");
 		console.log(error);
