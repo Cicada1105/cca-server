@@ -9,11 +9,6 @@ const bcrypt = require("bcrypt");
 
 function isValidUser({ username, password }) {
 	return new Promise(async (resolve,reject) => {
-		bcrypt.genSalt(10,(err,salt) => {
-			bcrypt.hash("Musical_Cuticle92",salt,(err,hashedPass) => {
-				//console.log(hashedPass);
-			})
-		})
 		// Get uses
 		const user = getFileData('./admin/login/user.json');
 
