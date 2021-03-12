@@ -1,4 +1,3 @@
-
 export function revertControlBtns(event) {
 	let ctrlsCont = event.path[2];	// path[0] === icon#; path[1]  === icon#Cont; path[2] === div.controlsCont
 	// Retrieve containers holding icons

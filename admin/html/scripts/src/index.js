@@ -71,7 +71,7 @@ const initListeners = () => {
 							switch(starting_path) {
 
 								case "collaborators":
-									PageListeners.initCollaboratorListener();
+									PageListeners.initCollaboratorListeners();
 								break;
 								case "anecdotes":
 									PageListeners.initAnecdoteListeners();
@@ -103,6 +103,10 @@ const initListeners = () => {
 		// Remove token from url by pushing location, without token, to state
 		window.history.pushState("","",`${window.location.origin}${pathname}`);
 
+		// Add click event listener to navigation header to include token to header
+		nav_bar_cont.firstElementChild.addEventListener("click",() => {
+			window.location.href=`http://localhost:2020/cca-admin-control-panel/?token=${token}`;
+		},{once:true})
 		// Add token to navigation links
 		for (let link of nav_links)
 			// Add token to current url to be read by server

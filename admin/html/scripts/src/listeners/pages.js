@@ -3,13 +3,14 @@
 */
 import { handleEditDeleteClick } from "./display_card/";
 
-import * as PastController from "../controllers/pastPerformancesController.js"
-import * as PresentController from "../controllers/currentMusicController.js"
-import * as FutureController from "../controllers/futurePerformancesController.js"
-import * as EditingController from "../controllers/editingController.js"
-import * as ReedmakingController from "../controllers/reedmakingController.js"
+/*   Performances Controllers   */
+import * as PastController from "../controllers/performances/past/";
+import * as PresentController from "../controllers/performances/currentMusicController.js";
+import * as FutureController from "../controllers/performances/futureController.js";
+import * as EditingController from "../controllers/editing/";
+import * as ReedmakingController from "../controllers/reedmakingController.js";
 
-import { addPastCardListener, addPresentCardListener, addFutureCardListener } from "./add_card/";
+import { addPastCardListener, addCollaboratorCardListener, addPresentCardListener, addFutureCardListener } from "./add_card/";
 
 const initPastPerformanceListeners = () => {
 	// Get header contaier to access add button
@@ -33,8 +34,27 @@ const initPastPerformanceListeners = () => {
 		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(PastController.removePastPerformance));
 	}
 }
-const initCollaboratorListener = () => {
-	console.log("Init collaborattors listeners");
+const initCollaboratorListeners = () => {
+	// Get access to add button
+	let addBtn = document.getElementById("addBtn");
+	// Access display cards
+	let collaboratorCards = document.getElementsByClassName("collaboratorCard");
+	// Set click event listener for Add button of Collaborators
+	addBtn.addEventListener("click",addCollaboratorCardListener.bind(PastController.addCollaborator));
+	// Loop through collaborator cards, adding event listeners to edit and delete buttons
+	for (let card of collaboratorCards) {
+		// Get controls container 
+		let controlsCont = card.lastElementChild;
+		// Get access to edit and delete button containers
+		let controlsConts = controlsCont.querySelectorAll("[class *= ctrlBtn]");
+		// Access each individual container
+		let editBtnCont = controlsConts[0];
+		let deleteBtnCont = controlsConts[1];
+		
+		// Add event listeners to control buttons containers
+		editBtnCont.addEventListener("click", handleEditDeleteClick.bind(PastController.updateCollaborator));
+		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(PastController.removeCollaborator));
+	}
 }
 const initAnecdoteListeners = () => {
 	console.log("Init anecdotes listeners");
@@ -94,7 +114,7 @@ const initReedmakingListeners = () => {
 
 export { 
 	initPastPerformanceListeners,
-	initCollaboratorListener,
+	initCollaboratorListeners,
 	initAnecdoteListeners,
 	initMusicStandListeners,
 	initFuturePerformancesListeners,

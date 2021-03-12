@@ -32,11 +32,13 @@ server.listen(PORT, () => {
 	Routes:
 		General access
 		/contact
-		/api/performance/past
-		/api/performance/present
-		/api/performance/future
-		/api/reedmaking
-		/api/editing
+		/api
+			/performance
+				/past
+				/present
+				/future
+			/reedmaking
+			/editing
 
 		Protected Admin access
 		/cca-admin-login
@@ -44,20 +46,31 @@ server.listen(PORT, () => {
 		if (logged in)
 			// Redirect -> renders pug template
 			res.writeHead(301,{Location: '/cca-control-panel'});
-		/cca-admin-control-panel/performance/past
-		/cca-admin-control-panel/performance/past/collaborators
-		/cca-admin-control-panel/performance/past/anecdotes
-		/cca-admin-control-panel/performance/present
-		/cca-admin-control-panel/performance/future
-		/cca-admin-control-panel/editing
-		/cca-admin-control-panel/reedmaking
+		/cca-admin-control-panel
+			/performance
+				/past
+					/
+					/collaborators
+					/anecdotes
+				/present
+				/future
+			/editing
+			/reedmaking
 
 		CCA Admin API
-		/cca-admin-api/performance/past
-		/cca-admin-api/performance/present
-		/cca-admin-api/performance/future
-		/cca-admin-api/reedmaking
-		/cca-admin-api/editing
+		/cca-admin-api
+			/performance
+				/past
+					/
+					/collaborators
+					/anecdotes
+				/present
+				/future
+			/reedmaking
+			/editing
+				/literature_type
+				/genre
+				/rate
 
 		NOTE: 
 			Controllers can be async/await

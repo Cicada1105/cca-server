@@ -36,7 +36,6 @@ function Router(req,res) {
 		verifyToken(req).then((user) => {
 			ADMIN_CONTROL_PANEL.Router(req,res);	
 		}).catch((err) => {
-			console.log(err);
 			res.writeHead(301,{"Location":`${SERVER_URL}/cca-admin-login`});
 			res.end();
 		})

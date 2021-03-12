@@ -7,7 +7,7 @@
 /********************************/
 export function addCardListener(event) {
 	let controlMethods = this;
-
+	console.log(controlMethods.submitMethod);
 	// path[0] === add button
 	let headerCont = event.path[0];
 	let addCard = headerCont.nextElementSibling;

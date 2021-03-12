@@ -1,7 +1,7 @@
 import { addCardListener } from "./generic.js";
 import { 
 	fileSelect, addToList, 
-	clearPastForm, clearPresentForm, clearFutureForm 
+	clearPastForm, clearCollaboratorForm, clearPresentForm, clearFutureForm 
 } from "./utils.js";
 
 /*******************************/
@@ -41,7 +41,29 @@ function addPastCardListener(event) {
 	}
 	// Bind cardControlMethods to value of 'this' for addCardListener and pass in event as only argument
 	let cardListener = addCardListener.bind(cardControlMethods, event);	// First param = value of 'this', ...rest = arguments
-	// Call bounded function
+	// Call bound function
+	cardListener();
+}
+/*************************************/
+/*	Add Collaborators Card Listener  */
+/*************************************/
+function addCollaboratorCardListener(event) {
+	let addCollaborator = this;
+	// path[0] === add button
+	let addBtn = event.path[0];
+	let addCard = addBtn.nextElementSibling;
+	/*Children of addCard*/
+	let form = addCard.firstElementChild;
+
+	// Call generic listener, binding and passing proper arguments
+	// Define value of 'this'
+	let cardControlMethods = {
+		submitMethod: addCollaborator,
+		clearMethod: clearCollaboratorForm.bind(form) // clearCollaboratorForm needs access to form
+	}
+	// Bind cardControlMethods to value of 'this' for addCardListener and pass in event as only argument
+	let cardListener = addCardListener.bind(cardControlMethods, event); // First param = value of this, ...rest = arguments
+	// Call bound function
 	cardListener();
 }
 /*********************************/
@@ -63,7 +85,7 @@ function addPresentCardListener(event) {
 	}
 	// Bind cardControlMethods to value of 'this' for addCardListener and pass in event as only argument
 	let cardListener = addCardListener.bind(cardControlMethods, event);	// First param = value of 'this', ...rest = arguments
-	// Call bounded function
+	// Call bound function
 	cardListener();
 }
 function addFutureCardListener(event) {
@@ -92,8 +114,8 @@ function addFutureCardListener(event) {
 	}
 	// Bind cardControlMethods to value of 'this' for addCardListener and pass in event as only argument
 	let cardListener = addCardListener.bind(cardControlMethods, event);	// First param = value of 'this', ...rest = arguments
-	// Call bounded function
+	// Call bound function
 	cardListener();
 }
 
-export { addPastCardListener, addPresentCardListener, addFutureCardListener }
+export { addPastCardListener, addCollaboratorCardListener, addPresentCardListener, addFutureCardListener }

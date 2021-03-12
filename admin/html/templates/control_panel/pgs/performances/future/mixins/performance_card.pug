@@ -12,7 +12,7 @@ mixin futurePerformanceCard(performance)
 						h4 ,&nbsp;&nbsp;&nbsp;#{performance.instruments[i]}
 		p.date #{performance.date}
 		- let time = performance["time"];
-		p.time time.start - time.end
+		p.time #{time.start} - #{time.end}
 		p #{performance.description}
 		div.controlsCont
 			span.msg

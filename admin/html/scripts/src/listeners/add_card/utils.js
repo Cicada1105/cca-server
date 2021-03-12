@@ -105,6 +105,12 @@ function clearPastForm() {
 	// Clear form
 	form.reset();
 }
+function clearCollaboratorForm() {
+	const form = this;
+
+	// Clear form
+	form.reset();
+}
 function clearPresentForm() {
 	const form = this;
 
@@ -131,5 +137,6 @@ function clearFutureForm() {
 
 export { 
 	fileSelect, addToList,
-	clearPastForm, clearPresentForm, clearFutureForm
+	clearPastForm, clearCollaboratorForm, 
+	clearPresentForm, clearFutureForm
 }

@@ -15,14 +15,63 @@ const server = "http://localhost:2020/cca-admin-api/reedmaking";
 /*
 	Future Add documentation
 */
-function add(pricing) {
-	console.log(`Adding to pricings: ${pricing}`);
+function add({ name, description, pricing }) {
+	return new Promise((resolve,reject) => {
+		fetch(server, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				name,
+				description,
+				pricing
+			})
+		}).then(response => {
+			response.json().then(data => {
+				resolve({
+					msg: data["msg"],
+					status: response.status
+				})
+			}).catch(err => {
+				reject({
+					msg: err,
+					status: err.status
+				})
+			})
+		})	
+	})
 }
 /*
 	Future Edit documentation
 */
-function edit(pricing) {
-	console.log(`Updating the following pricings: ${pricing}`);
+function edit({ id, name, description, pricing }) {
+	return new Promise((resolve,reject) => {
+		fetch(server, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				id,
+				name,
+				description,
+				pricing
+			})
+		}).then(response => {
+			response.json().then(data => {
+				resolve({
+					msg: data["msg"],
+					status: response.status
+				})
+			}).catch(err => {
+				reject({
+					msg: err,
+					status: err.status
+				})
+			})
+		})	
+	})
 }
 /*
 	Future Remove documentation
