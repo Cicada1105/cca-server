@@ -1,12 +1,33 @@
 //- This file is a template for the editing info
+
+//- Include rates mixin to handle rates table template
+include ./rates_table.pug
+
 mixin editingPricingCard(pricing)
+	div#addLitTypeCont
+		h2 Literature Type
+		i(class="far fa-plus-square")
 	section.card.editingCard
-		
-		div.controlsCont
-			span.msg
-			div.ctrlBtnEdit
-				i(class="far fa-edit") 
-				//-(data-id=`${pricing.id}`)
-			div.ctrlBtnDelete
-				i(class="far fa-times-circle")
-				//-data-id=`${pricing.id}`)
+		header.editingType
+			h1 #{pricing.type}
+		table.genres
+			caption
+				h4 Genres
+				i(class="far fa-plus-square")
+			thead
+				tr
+					td Name
+					td
+			tbody
+				each genre in pricing.genres
+					tr
+						td #{genre.display}
+						td.controls
+							i(class="far fa-edit" data-id=`${genre.id}`)
+							i(class="far fa-times-circle" data-id=`${genre.id}`)
+		h4.ratesHeader Standard Proofreading
+		+RatesTable(pricing.editing["Standard Proofreading"].rates)
+		h4.ratesHeader Developmental Editing
+		+RatesTable(pricing.editing["Developmental Editing"].rates)
+		h4.ratesHeader Both
+		+RatesTable(pricing.editing["Both"].rates)

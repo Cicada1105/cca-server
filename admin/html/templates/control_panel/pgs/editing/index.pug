@@ -14,16 +14,16 @@ block append styles
 
 //- Define mixins needed for music_stand
 block mixins
-	include ./mixins/add_card.pug
+	//-include ./mixins/add_card.pug
 	include ./mixins/editing_card.pug
 
 //- Define location
 block location
 	h3!= "&ndash; &nbsp;&nbsp;&nbsp;Editing&nbsp;&nbsp;&nbsp; &ndash;"
-	input(type="button" value="Add")#addBtn
+	//input(type="button" value="Add")#addBtn
 
 //- Define page content
 block page_content
-	+editingAddCard
+	//+editingAddCard
 	each pricing in editing
 		+editingPricingCard(pricing)

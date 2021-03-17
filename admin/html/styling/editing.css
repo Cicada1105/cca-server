@@ -1,0 +1,67 @@
+i:hover {
+	cursor:pointer;
+}
+div#addLitTypeCont {
+	margin:1.5rem auto 0.5rem auto;
+	width:700px;
+}
+div#addLitTypeCont > h2 {
+	display: inline;
+	font-size:1.65rem; /*h1 = font-size 2rem, h2 = font-size 1.5rem*/
+}
+div#addLitTypeCont > i {
+	float:right;
+	font-size:1.65rem;
+}
+header.editingType {
+	margin:0.25rem auto 1.25rem 1rem;
+}
+header.editingType > h1 {
+	margin:0;
+}
+h4.ratesHeader {
+	border-bottom:1px solid black;
+	padding-bottom:5px;
+	text-align:center;
+	margin:auto;
+	width:8rem;
+}
+section.editingCard > table {
+	border-collapse: collapse;
+	margin:auto;
+	margin-bottom:2.5rem;
+	width:75%;
+}
+section.editingCard > table.genres {
+	width:40%;
+}
+caption {
+	margin:10px 0px;
+}
+caption > h4 {
+	display:inline;
+	float:left;
+	margin:0px;
+	padding-left:15px;
+}
+caption > i {
+	font-size:1.25rem;
+	float:right;
+	padding-right:15px;
+}
+thead {
+	background-color:#e4e4e4;
+}
+tr > td {
+	text-align: center;
+	padding:14px 10px;
+}
+tr > td.controls {
+	width:fit-content;
+}
+td.controls > i {
+	font-size:1.15rem;
+}
+td.controls > i:last-of-type {
+	padding-left:20px;
+}
