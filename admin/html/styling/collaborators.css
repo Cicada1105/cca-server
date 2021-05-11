@@ -1,0 +1,23 @@
+/*   Add Card   */
+section#addCard div#imgCont {
+	position: relative;
+	display: inline-block;
+	border: 2px dashed black;
+	margin-bottom:15px;
+	width:150px;
+	height:110px;
+}
+div#imgCont > i {
+	position: absolute;
+	display:block;
+	font-size: 2rem;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+}
+section#addCard div.fileCont {
+	position: relative;
+	display:inline;
+	margin-left:10px;
+	top:70px;
+}

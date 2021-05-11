@@ -1,10 +1,10 @@
 //- This file is a template for the current music info
 mixin currentMusicCard(song)
 	section.card.presentCard
-		h2 #{song.name}
-		h4 By: #{song.by}
-		p #{song.description}
-		div.controlsCont
+		h2.name #{song.name}
+		h4.composer By: #{song.by}
+		p.description #{song.description}
+		aside.controlsCont
 			span.msg
 			div.ctrlBtnEdit 
 				i(class="far fa-edit" data-id=`${song.id}`)

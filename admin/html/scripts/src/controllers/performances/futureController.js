@@ -11,7 +11,7 @@ import { successCallback, failedCallback } from '../utils.js';
 function formatTime(timeMS) {
 	let formatStr = "";
 
-	const CONVERSION_TO_HOURS = 1000 * 60 * 60; // 100s in m; 60s in m; 60m in h
+	const CONVERSION_TO_HOURS = 1000 * 60 * 60; // 1000ms in s; 60s in m; 60m in h
 
 	// Get hours from ms by dividing
 	let hourFloat = timeMS / CONVERSION_TO_HOURS;
@@ -42,8 +42,8 @@ function formatTime(timeMS) {
 	Future addFuturePerformance documentation
 */
 function addFuturePerformance(event) {
-	let addCard = event.path[3];
-	let form = addCard.firstElementChild;
+	let controlsCont = event.path[2];
+	let form = controlsCont.previousElementSibling;
 
 	// Store instruments in array
 	let instrumentsArray = [];
@@ -56,7 +56,7 @@ function addFuturePerformance(event) {
 	let end = formatTime(form.elements["end_time"].valueAsNumber);
 
 	let futurePerformanceData = {
-		name: form.elements["name"].value,
+		name: form.elements["title"].value,
 		location: form.elements["location"].value,
 		instruments: instrumentsArray,
 		date: formattedDate,
@@ -72,30 +72,32 @@ function addFuturePerformance(event) {
 	Future updateFuturePerformance documentation
 */
 function updateFuturePerformance(event) {
-	let addCard = event.path[3];
-	let form = addCard.firstElementChild;
+	let controlsCont = event.path[2];
+	let form = controlsCont.previousElementSibling;
 
 	// Store instruments in array
 	let instrumentsArray = []
 	let instrumentsUL = form.querySelector("#instruments");
 	instrumentsUL.childNodes.forEach(instrumentLI => instrumentsArray.push(instrumentLI.innerText));
+	// Retrieve form elements
+	let formElements = form.elements;
 	// Format date 
-	let formattedDate = formatDate(form.elements["date"].valueAsDate);
+	let formattedDate = formatDate(formElements["date"].valueAsDate);
 	// Format times
-	let start = formatTime(form.elements["start_time"].valueAsNumber);
-	let end = formatTime(form.elements["end_time"].valueAsNumber);
+	let start = formatTime(formElements["start_time"].valueAsNumber);
+	let end = formatTime(formElements["end_time"].valueAsNumber);
 
 	let updatedPerformanceData = {
 		id: event.target.dataset["id"],
-		name: form.elements["name"].value,
-		location: form.elements["location"].value,
+		name: formElements["title"].value,
+		location: formElements["location"].value,
 		instruments: instrumentsArray,
 		date: formattedDate,
 		time: {
 			start,
 			end
 		},
-		description: form.elements["description"].value
+		description: formElements["description"].value
 	}
 	FuturePerformances.edit(updatedPerformanceData).then(successCallback).catch(failedCallback);
 }

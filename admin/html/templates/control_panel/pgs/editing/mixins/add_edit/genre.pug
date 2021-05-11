@@ -1,0 +1,9 @@
+//-File for handling genre add/edit template
+
+//-Extend base add/edit template
+include ./template.pug
+
+mixin addEditGenre
+	+baseCard(id="singleInputCard")
+		form
+			input(type="text" placeholder="Genre...")#addGenre

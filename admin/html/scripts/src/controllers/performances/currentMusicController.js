@@ -9,8 +9,8 @@ import { successCallback, failedCallback } from '../utils.js';
 	Future addSong documentation
 */
 function addSong(event) {
-	let addCard = event.path[3];
-	let form = addCard.firstElementChild;
+	let controlsCont = event.path[2];
+	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 
 	let userSong = {
@@ -25,8 +25,8 @@ function addSong(event) {
 	Future updateSong documentation
 */
 function updateSong(event) {
-	let addCard = event.path[3];
-	let form = addCard.firstElementChild;
+	let controlsCont = event.path[2];
+	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 
 	let userSong = {

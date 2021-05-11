@@ -16,8 +16,10 @@ function addRate(event) {
 	Future updateRate documentation
 */
 function updateRate(event) {
-	let rate = "UPDATING RATE";
-	Genre.edit(rate).then(successCallback).catch(failedCallback);
+	// Get and store rate ID of current rate being updated
+	let rateID = event.target.dataset["id"];
+	
+	Genre.edit(rateID).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeRate documentation

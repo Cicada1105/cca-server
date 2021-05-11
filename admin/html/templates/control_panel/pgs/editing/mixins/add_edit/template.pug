@@ -1,0 +1,14 @@
+//-This file is for creating the basic template of an add/edit card
+
+mixin baseCard
+	//-attributes contains the element attributes of the invoking function
+	section.card(id!=attributes.id)
+		header.inputCardHeader
+			span.cardFunction &nbsp;
+			span.litType &nbsp;
+			span.dataType
+		article.input
+			block
+		footer.confirmDeclineBtns
+			input(type="button" value="Cancel" class="cancel")
+			input(type="button" value="Add" class="confirm")

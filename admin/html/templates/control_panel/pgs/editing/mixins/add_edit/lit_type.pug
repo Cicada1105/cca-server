@@ -1,0 +1,51 @@
+//-File for handling genre add/edit template
+
+//-Extend base add/edit template
+include ./template.pug
+
+mixin addEditLitType
+	+baseCard(id="addLitTypeInputCard")
+		form
+			div.inputRow
+				label(for="litTypeInput") Type: &nbsp;&nbsp;
+				input(type="text" id="litTypeInput" placeholder="Enter..." name="litType")
+
+			//-h4.genresHeader Genres
+			table.genres
+				caption
+					h3.genresCaptionHeader Genres
+				tbody
+					tr.genreInputRow
+						td
+							input(type="text" placeholder="Genre..." name="genre")
+							i(class="far fa-plus-square").addIcon
+			//-h4.ratesHeader Rates
+			//-span  Include Flat Rate?
+			//-input(type="checkbox" name="includeFlatRate")
+			table.rates
+				caption
+					h3.ratesCaptionHeader Rates
+					span  Include Flat Rate?
+					input(type="checkbox" name="includeFlatRate")
+				thead
+					tr
+						td Min
+						td Max
+						td Flat Rate
+						td Per Hour
+						td Per Word
+						td
+				tbody 
+					tr.inputRates
+						td
+							input(type="text" name="min" placeholder="00")
+						td
+							input(type="text" name="max" placeholder="00")
+						td
+							input(type="text" name="flatRate" placeholder="$0.00")
+						td
+							input(type="text" name="perHour" placeholder="$0.00")
+						td
+							input(type="text" name="perWord" placeholder="$0.00")
+						td
+							i(class="far fa-plus-square").addIcon

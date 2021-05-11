@@ -11,8 +11,8 @@ import { successCallback, failedCallback } from '../../utils.js';
 	Future addPastPerformance documentation
 */
 function addPastPerformance(event) {
-	let addCard = event.path[3];
-	let form = addCard.firstElementChild;
+	let controlsCont = event.path[2];
+	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 
 	let file = formEls["imgFile"].files[0];

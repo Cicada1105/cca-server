@@ -15,19 +15,25 @@ const { v4: uuidv4 } = require("uuid");
 	Futture add documentation
 */
 function add(anecdote) {
-	console.log(anecdote);
+	return new Promise((resolve,reject) => {
+		resolve(`Added new anecdote: ${anecdote}`);
+	})
 }
 /*
 	Future update documentation
 */
 function update(anecdote) {
-	console.log(anecdote);
+	return new Promise((resolve,reject) => {
+		resolve(`Updated anecdote: ${anecdote}`);
+	})
 }
 /*
 	Future delete documentation
 */
 function remove(anecdoteID) {
-	console.log(anecdoteID);
+	return new Promise((resolve,reject) => {
+		resolve(`Delete anecdote with id of: ${anecdoteID}`);
+	})
 }
 
 module.exports = { 

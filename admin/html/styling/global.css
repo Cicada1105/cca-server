@@ -129,7 +129,7 @@ section.card p:last-of-type {
 	width:75%;
 }
 /*   Controls   */
-section.card > div.controlsCont {
+section.card > aside.controlsCont {
 	position: absolute;
 	text-align: center;
 	right:0;
@@ -146,30 +146,30 @@ span.msg {
 	top:10%;
 	width:65%;
 }
-div[class *= "Btn"] {
+#ctrlBtnAdd, #ctrlBtnClear, div[class *= "Btn"] {
 	position: absolute;
 	transform: translateY(-50%);
 }
-div[class *= "Btn"]:first-of-type {
+#ctrlBtnAdd, #ctrlBtnClear, div[class *= "Btn"]:first-of-type {
 	/*Sizings of edit icon*/
 	width:28.81px;
 	height:25px;
 }
-div[class *= "Btn"]:first-of-type > i:hover {
+#ctrlBtnAdd > i:hover, div[class *= "Btn"]:first-of-type > i:hover {
 	color:green;
 }
-div[class *= "Btn"]:last-of-type {
+#ctrlBtnClear, div[class *= "Btn"]:last-of-type {
 	/*Sizings of delete icon*/
 	width:25.61px;
 	height:25px;
 }
-div[class *= "Btn"]:last-of-type > i:hover {
+#ctrlBtnClear > i:hover, div[class *= "Btn"]:last-of-type > i:hover {
 	color:red;
 }
-div.controlsCont i {
+aside.controlsCont i {
 	font-size:1.6rem;
 }
-div.controlsCont i:hover {
+aside.controlsCont i:hover {
 	color:gray;
 	cursor:pointer;
 }
@@ -201,41 +201,48 @@ div.deleteBtnDecline {
 	right:25%;
 }
 /*   ADD CARDS   */
-section.addCard {
+section#addCard {
 	padding:20px 15px;
 	display:none;
 }
-section.addCard h2 {
+header {
+	padding-bottom:10px;
+	text-align: center;
+}
+header > span {
+	font-size:1.5rem;
+}/*
+section#addCard h2 {
 	position: absolute;
 	top:1rem;
 	left:50%;
 	transform:translateX(-50%);
 	margin:auto;
-}
+}*/
 form#addForm > input:nth-child(2) {
 	margin-top:1rem;
 }
 div.fileCont > input {
 	position: absolute;
 }
-section.addCard input[type="text"] {
+section#addCard input[type="text"] {
 	display:block;
 	margin-bottom: 10px;
 }
 form#addForm > input[type='text']:nth-of-type(1) {
 	font-size: 1rem;
 }
-section.addCard textarea {
+section#addCard textarea {
 	min-width:50%;
 	min-height:3.76rem;
 	max-width:75%;
 	max-height:10rem;
 }
-div.ctrlBtnAdd {
+div#ctrlBtnAdd {
 	top:50%;
 	left:25%;
 }
-div.ctrlBtnClear {
+div#ctrlBtnClear {
 	top:50%;
 	right:25%;
 }

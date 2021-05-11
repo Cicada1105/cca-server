@@ -33,9 +33,7 @@ function Router(req,res) {
 		FUTURE_PERFORMANCE_ROUTER.Router(req,res);
 	else {
 		// Unable to find path
-		res.writeHead(404,{
-			"Content-Type":"application/json"
-		});
+		res.status = 404;
 		res.end(JSON.stringify({
 			msg: "Cannot find path: " + req.url
 		}));

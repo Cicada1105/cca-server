@@ -1,11 +1,20 @@
 //- This file holds the pug mixin for the add card when user clicks on add button for respective sections
 mixin anecdotegAddCard
-	section.card.addCard
+	section.card#addCard
+		header
+			span.cardFunction
 		form#addForm
-			h2 Add:
-		div.controlsCont
+			div#imgCont
+				i.far.fa-images
+				input(type="image" name="imgDisplay" src="" alt="" width="150px")
+			div.fileCont
+				input(type="file" id="" name="imgFile")
+			input(type="text" name="name" spellcheck="true" placeholder="Enter Name...")
+			input(type="text" name="title" spellcheck="true" placeholder="Enter Title...")
+			textarea(name="anecdote" rows="4" cols="55" spellchheck="true" wrap="soft" placeholder="Enter Anecdote...")
+		aside.controlsCont
 			span.msg
-			div.ctrlBtnAdd
+			div#ctrlBtnAdd
 				i(class="fas fa-check-circle")
-			div.ctrlBtnClear
+			div#ctrlBtnClear
 				i(class="fas fa-times-circle")

@@ -1,14 +1,15 @@
 //- This file holds the pug mixin for the add card when user clicks on add button for respective sections
 mixin presentAddCard
-	section.card.addCard
+	section.card#addCard
+		header
+			span.cardFunction
 		form#addForm
-			h2 Add:
 			input(type="text" name="name" spellcheck="true" placeholder="Enter Name...")
 			input(type="text" name="composer" spellcheck="true" placeholder="Enter Composer...")
 			textarea(name="description" rows="4" cols="50" spellchheck="true" wrap="soft" placeholder="Enter Description...")
-		div.controlsCont
+		aside.controlsCont
 			span.msg
-			div.ctrlBtnAdd
+			div#ctrlBtnAdd
 				i(class="fas fa-check-circle")
-			div.ctrlBtnClear
+			div#ctrlBtnClear
 				i(class="fas fa-times-circle")

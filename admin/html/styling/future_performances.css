@@ -1,5 +1,5 @@
 /*   Add Card   */
-input#location {
+section#addCard input#location {
 	display: inline-block;
 }
 div#instrumentsCont {
@@ -29,11 +29,11 @@ ul#instruments i {
 ul#instruments i:hover {
 	cursor: pointer;
 }
-section.addCard input[type = "date"] {
+section#addCard input[type = "date"] {
 	display:block;
 	margin:2rem 0rem 1.25rem 0rem;
 }
-section.addCard input[type="time"] {
+section#addCard input[type="time"] {
 	margin-right:5rem;
 	margin-bottom:1.25rem;
 }

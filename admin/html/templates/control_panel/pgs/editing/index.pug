@@ -14,16 +14,23 @@ block append styles
 
 //- Define mixins needed for music_stand
 block mixins
-	//-include ./mixins/add_card.pug
-	include ./mixins/editing_card.pug
+	include ./mixins/lit_card.pug
+	include ./mixins/add_edit/genre.pug
+	include ./mixins/add_edit/rate.pug
+	include ./mixins/add_edit/lit_type.pug
 
 //- Define location
 block location
 	h3!= "&ndash; &nbsp;&nbsp;&nbsp;Editing&nbsp;&nbsp;&nbsp; &ndash;"
-	//input(type="button" value="Add")#addBtn
 
 //- Define page content
 block page_content
-	//+editingAddCard
+	div(id = "backDrop")
+	+addEditGenre
+	+addEditRate
+	+addEditLitType
+	div(id = "addLitTypeCont")
+		h2= "Literature Type"
+		i(class="far fa-plus-square")
 	each pricing in editing
-		+editingPricingCard(pricing)
+		+literaturePricingCard(pricing)

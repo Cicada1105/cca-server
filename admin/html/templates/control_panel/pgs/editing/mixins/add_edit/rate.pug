@@ -1,0 +1,25 @@
+//-File for handling genre add/edit template
+
+//-Extend base add/edit template
+include ./template.pug
+
+mixin addEditRate
+	+baseCard(id="rateInputCard")
+		form
+			span  Include Flat Rate?
+			input(type="checkbox" name="includeFlatRate")
+			div.inputRow
+				label(for="minInput") Minimum: &nbsp;&nbsp;
+				input(type="text" id="minInput" placeholder="00" name="min")
+			div.inputRow
+				label(for="maxInput") Maximum: &nbsp;&nbsp;
+				input(type="text" id="maxInput" placeholder="00" name="max")
+			div.inputRow
+				label(for="flatRateInput") Flat Rate: &nbsp;&nbsp;
+				input(type="text" id="flatRateInput" placeholder="$0.00" name="flatRate")
+			div.inputRow
+				label(for="perHourInput") Per Hour: &nbsp;&nbsp;
+				input(type="text" id="perHourInput" placeholder="$0.00" name="perHour")
+			div.inputRow
+				label(for="perWordInput") Per Word: &nbsp;&nbsp;
+				input(type="text" id="perWordInput" placeholder="$0.00" name="perWord")

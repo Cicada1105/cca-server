@@ -31,16 +31,14 @@ function Router(req,res) {
 	const CTRL_PANEL_BASE = `${__dirname}/pgs`;
 	let fn;
 	let buffer, dataJSON, data;
-	
-	if (ctrl_panel_url.startsWith("performance/")) 
+
+	if (ctrl_panel_url.startsWith("performance/"))
 		PERFORMANCES.Router(req,res);
 	else if (ctrl_panel_url === "editing") {
 		// Define path to editing pug template
 		fn = pug.compileFile(`${CTRL_PANEL_BASE}/editing/index.pug`);
-
 		// Retrieve editing data to pass to pug template
 		data = getFileData(editingPath);
-
 		// Retrieve token from url
 		const token = getTokenFromURL(req);
 
@@ -60,7 +58,6 @@ function Router(req,res) {
 
 		// Retrieve reedmaking data to pass to pug template
 		data = getFileData(reedmakingPath);
-
 		// Retrieve token from url
 		const token = getTokenFromURL(req);
 

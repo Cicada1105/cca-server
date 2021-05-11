@@ -13,13 +13,17 @@ const { writeToFile } = require("../../utils.js");
 	Future add documentation
 */
 function add(newPricing) {
-	console.log(`Adding new reedmaking pricing: ${newPricing}`)
+	return new Promise((resolve,reject) => {
+		resolve(`Adding new reedmaking pricing: ${newPricing}`);
+	})
 }
 /*
 	Future update documentation
 */
 function update(pricing) {
-	console.log(`Updating existing reedmaking pricing: ${pricing}`)
+	return new Promise((resolve,reject) => {
+		resolve(`Updating existing reedmaking pricing: ${pricing}`);
+	})
 }
 /*
 	Future remove documentation

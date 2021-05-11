@@ -9,6 +9,9 @@ import { successCallback, failedCallback } from '../utils.js';
 	Future addGenre documentation
 */
 function addGenre(event) {
+	// Get literature id current added genre is associated with
+	let litID = event.target.dataset["litID"];
+	
 	let genre = "ADDING GENRE";
 	Genre.add(genre).then(successCallback).catch(failedCallback);
 }
@@ -16,14 +19,16 @@ function addGenre(event) {
 	Future updateGenre documentation
 */
 function updateGenre(event) {
-	let genre = "UPDATING GENRE";
-	Genre.edit(genre).then(successCallback).catch(failedCallback);
+	// Get and store genre ID of current genre being edited
+	let genreID = event.target.dataset["id"];
+
+	Genre.edit(genreID).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeGenre documentation
 */
 function removeGenre(event) {
-	// Get and store genre ID of current editing price
+	// Get and store genre ID of current genre being deleted
 	let genreID = event.target.dataset["id"];
 
 	Genre.remove(genreID).then(successCallback).catch(failedCallback);

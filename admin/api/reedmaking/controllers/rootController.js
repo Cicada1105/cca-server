@@ -26,16 +26,43 @@ const ReedmakingModel = require("../models/rootModel.js");
 // Import utility function for handling the retrieval of body data
 const { getBodyData } = require("../../utils.js");
 
-function addPricing(req, res) {
-	ReedmakingModel.add("NEW REEDMAKING PRICING");
-	res.end("Added new reedmaking pricing");
+async function addPricing(req, res) {
+	res.setHeader("Content-Type","application/json");
+
+	await ReedmakingModel.add("NEW REEDMAKING PRICING").then((msg) => {
+		res.status = 201;
+		res.end(JSON.stringify({ msg }));
+	}).catch((err) => {
+		console.log("ERROR:");
+		console.log(err.message);
+		console.log(err.stack);
+
+		res.status = 500;
+		res.end(JSON.stringify({
+			msg: "Unable to process the request at this time"
+		}));
+	})
 }
-function updatePricing(req, res) {
-	ReedmakingModel.update("UPDATED REEDMAKING PRICING");
-	res.end("Updated reedmaking pricing");
+async function updatePricing(req, res) {
+	res.setHeader("Content-Type","application/json");
+
+	await ReedmakingModel.update("UPDATED REEDMAKING PRICING").then((msg) => {
+		res.status = 200;
+		res.end(JSON.stringify({ msg }));
+	}).catch((err) => {
+		console.log("ERROR:");
+		console.log(err.message);
+		console.log(err.stack);
+
+		res.status = 500;
+		res.end(JSON.stringify({
+			msg: "Unable to process the request at this time"
+		}));
+	})
 }
 async function removePricing(req, res) {
 	res.setHeader("Content-Type","application/json");
+	
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary attributes from body to remove pricing
 		let { id } = body;

@@ -57,9 +57,21 @@ async function addSong(req, res) {
 		}));
 	})
 }
-function updateSong(req, res) {
-	MusicModel.update("UPDATED SONG");
-	res.end("Updated Song");
+async function updateSong(req, res) {
+	res.setHeader("Content-Type","application/json");
+	await MusicModel.update("UPDATED SONG").then((msg) => {
+		res.status = 200;
+		res.end(JSON.stringify({ msg }))
+	}).catch((err) => {
+		console.log("Error:")
+		console.log(err.message);
+		console.log(err.stack);
+
+		res.status = 500;
+		res.end(JSON.stringify({
+			msg: "Problem getting body data"
+		}));	
+	})
 }
 async function removeSong(req, res) {
 	res.setHeader("Content-Type","application/json");

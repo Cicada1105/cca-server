@@ -15,9 +15,11 @@ function formatDate(date) {
 	let month = MONTHS[date.getMonth()];
 	// Get month date 
 	let utcDate = date.getUTCDate();
+	// Get year
+	let utcYear = date.getUTCFullYear();
 
 	// Format data accordingly
-	formattedStr = `${weekDay}, ${month} ${utcDate}`;
+	formattedStr = `${weekDay}, ${month} ${utcDate} ${utcYear}`;
 
 	return formattedStr;
 }

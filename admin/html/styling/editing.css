@@ -13,28 +13,30 @@ div#addLitTypeCont > i {
 	float:right;
 	font-size:1.65rem;
 }
-header.editingType {
+header.literatureType {
 	margin:0.25rem auto 1.25rem 1rem;
 }
-header.editingType > h1 {
+header.literatureType > h1 {
 	margin:0;
 }
-h4.ratesHeader {
+/* Includes genres and rates tables */
+section.literatureCard > table {
+	border-collapse: collapse;
+	margin:auto;
+	margin-bottom:2.5rem;
+	width:75%;
+}
+section.literatureCard > table.displayGenres {
+	width:40%;
+}
+h4.editingTypeHeader {
 	border-bottom:1px solid black;
 	padding-bottom:5px;
 	text-align:center;
 	margin:auto;
 	width:8rem;
 }
-section.editingCard > table {
-	border-collapse: collapse;
-	margin:auto;
-	margin-bottom:2.5rem;
-	width:75%;
-}
-section.editingCard > table.genres {
-	width:40%;
-}
+/* Container for 'Genres' and 'Rates' subheaders, and add button */
 caption {
 	margin:10px 0px;
 }
@@ -64,4 +66,139 @@ td.controls > i {
 }
 td.controls > i:last-of-type {
 	padding-left:20px;
+}
+/**********************/
+/*   Add/Edit Cards   */
+/*********************/
+/*                  */
+/*   General Card   */
+/*                  */
+div#backDrop {
+	background-color:black;
+	position: fixed;
+	display:none;
+	opacity:0.5;
+	top:0px;
+	width:100vw;
+	height:100vh;
+	z-index:1;
+}
+section[id *= "Input"] {
+	position:fixed;
+	display:none;
+	transform:translateX(-50%);
+	left:50%;
+	width:35%;
+	z-index:2;
+}
+/* Header container for card's action and name of item being acted upon */
+header.inputCardHeader {
+	border-bottom: 1px solid #cccccc;
+}
+/* Add/Edit action paired with title */
+header > span {
+	font-size:1.5rem;
+}
+article.input {
+	text-align:center;
+	padding:20px 10px;
+}
+div.inputRow {
+	margin-bottom:1.5rem;
+}
+/* footer contains confirm/decline buttons */
+footer.confirmDeclineBtns {
+	border-top: 1px solid #cccccc;
+	text-align: center;
+	padding-top:10px;
+}
+footer.confirmDeclineBtns > input {
+	border:1px solid black;
+	margin:0px 16px;
+}
+/* Cancel */
+input.cancel {
+	padding:6px 14px;
+}
+/* Add/Edit buttons */
+input.confirm {
+	background-color: #0053ff;
+	padding:6px 24px;
+	color:white;
+}
+/*                    */
+/*   Specific Cards   */
+/*                    */
+#singleInputCard input[type = "text"], .rateCard input[type = "text"] {
+	font-size:1rem;
+}
+/*
+	Add Genre Card
+*/
+#singleInputCard {
+	width:25%;
+}
+/*
+	Add Rate Card
+*/
+#rateInputCard > article.input > span:first-child {
+	display:inline-block;
+	margin-bottom:10px;
+}
+/* 
+	Add Literature Card 
+*/
+section#addLitTypeInputCard > div.inputRow {
+	position:relative;
+	width:fit-content;
+	margin-left:auto;
+	margin-right:auto;
+}
+label[for = "litTypeInput"] {
+	position: absolute;
+	transform:translateX(-100%);
+}
+section#addLitTypeInputCard table {
+	border-collapse: collapse;
+	margin:auto;
+	margin-bottom:2.5rem;
+}
+/* Genres Table */
+table.genres {
+	width:40%;
+}
+tr.genreInputRow > td {
+	position:relative;
+	padding:0px;
+}
+tr.genreInputRow input {
+	width:70%;
+}
+tr.genreInputRow i {
+	position:absolute;
+	transform:translateY(-50%);
+	top:50%;
+	right:0;
+}
+/* Rates Table */
+table.rates {
+	width:93%;
+}
+h3[class $= "Header"] {
+	border-bottom:1px solid black;
+	padding:0px 13px;
+	width:fit-content;
+}
+h3.genresCaptionHeader {
+	margin:0px;
+}
+i.addIcon {
+	font-size:1.2rem;
+}
+/* Row that contains the inputs for adding rates to new literature type card */
+tr.inputRates > td {
+	padding:5px 10px;
+}
+tr.inputRates input {
+	width:100%;
 }

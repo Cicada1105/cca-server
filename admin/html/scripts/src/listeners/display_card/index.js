@@ -94,5 +94,26 @@ function declineListener(event) {
 	// Revert controls back to original state
 	revertControlBtns(event);
 }
+/*
+	This function handles the ui for adding, 
+	editing and deleting literature data
+*/
+function handleLiteratureCard(event) {
+
+}
+/*
+	This function handles the ui for adding,
+	editing and deleting rate date
+*/
+function handleRateCard(event) {
+
+}
+/*
+	This function handles the ui for adding,
+	editing and deleting genre data
+*/
+function handleGenre(event) {
+
+}
 
 export { handleEditDeleteClick, confirmListenerRef, declineListener }

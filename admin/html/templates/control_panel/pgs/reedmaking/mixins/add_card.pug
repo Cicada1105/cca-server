@@ -1,11 +1,14 @@
 //- This file holds the pug mixin for the add card when user clicks on add button for respective sections
 mixin reedmakingAddCard
-	section.card.addCard
+	section.card#addCard
+		header
+			span.cardFunction
 		form#addForm
-			h2 Add:
-		div.controlsCont
+			input(type="text" name="name" placeholder="Reed Name...")
+			textarea(name="description" rows="4" cols="50" spellchheck="true" wrap="soft" placeholder="Enter Description...")
+		aside.controlsCont
 			span.msg
-			div.ctrlBtnAdd
+			div#ctrlBtnAdd
 				i(class="fas fa-check-circle")
-			div.ctrlBtnClear
+			div#ctrlBtnClear
 				i(class="fas fa-times-circle")

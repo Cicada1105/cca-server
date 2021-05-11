@@ -45,7 +45,9 @@ function add(newPerformance) {
 	Future update documentation
 */
 function update(performance) {
-	console.log(`Updating existing future performance: ${performance}`)
+	return new Promise((resolve,reject) => {
+		resolve(`Updating existing future performance: ${performance}`);
+	})
 }
 /*
 	Future remove documentation

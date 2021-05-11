@@ -17,20 +17,35 @@ const server = "http://localhost:2020/cca-admin-api/editing";
 /*
 	Fuure Add documentation
 */
-function add(pricingData) {
-	console.log(`Adding the following to pricings: ${pricingData}`);
+function add(litData) {
+	return new Promise((resolve,reject) => {
+		resolve({
+			status:200,
+			msg:`Adding the following literature type: ${litData}`
+		});
+	});
 }
 /*
 	Future Edit documentation
 */
-function edit(updatedPricing) {
-	console.log(`Updating the following pricing: ${updatedPricing}`);
+function edit(updatedLitType) {
+	return new Promise((resolve,reject) => {
+		resolve({
+			status:200,
+			msg:`Updating the following literature data: ${updatedLitType}`
+		});
+	});
 }
 /*
 	Future Remove documentation
 */
-function remove(pricingToBeRemoved) {
-	console.log(`Deleting ${pricingToBeRemoved} from pricings`);
+function remove(litType) {
+	return new Promise((resolve,reject) => {
+		resolve({
+			status:200,
+			msg:`Deleting the following literature data: ${litType}`
+		});
+	});
 }
 
 export { add, edit, remove }

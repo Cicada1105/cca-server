@@ -21,6 +21,9 @@ function Router(req,res) {
 	const reducedPaths = paths.slice(2);
 	const newPath = reducedPaths.join("/"); // [...restOfPath] becomes "rest/Of/Path"
 
+	// All responses will be of type 'application/json'
+	res.setHeader("Content-Type","application/json");
+
 	/*
 		Test if path needs to be directed to Performance Router
 	*/
@@ -32,9 +35,7 @@ function Router(req,res) {
 		EDITING_ROUTER.Router(req,res);
 	else {
 		// Unable to find path
-		res.writeHead(404,{
-			"Content-Type":"application/json"
-		});
+		res.status = 404;
 		res.end(JSON.stringify({
 			msg: "Cannot find path: " + req.url
 		}));

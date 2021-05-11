@@ -1,9 +1,9 @@
 //- This file is a template for the future performance info
 mixin futurePerformanceCard(performance)
 	section.card.futureCard
-		h2 #{performance.name}
+		h2.title #{performance.name}
 		article.subHeaderCont
-			h4 #{performance.location}
+			h4.location #{performance.location}
 			div.instrumentsCont
 				- for (let i = 0; i < performance.instruments.length; i++)
 					if i===0
@@ -13,8 +13,8 @@ mixin futurePerformanceCard(performance)
 		p.date #{performance.date}
 		- let time = performance["time"];
 		p.time #{time.start} - #{time.end}
-		p #{performance.description}
-		div.controlsCont
+		p.description #{performance.description}
+		aside.controlsCont
 			span.msg
 			div.ctrlBtnEdit
 				i(class="far fa-edit" data-id=`${performance.id}`)

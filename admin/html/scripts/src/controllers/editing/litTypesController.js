@@ -16,8 +16,10 @@ function addLiteratureType(event) {
 	Future updateLiteratureType documentation
 */
 function updateLiteratureType(event) {
-	let litType = "UPDATING LITERATURE TYPE";
-	LiteratureType.edit(litType).then(successCallback).catch(failedCallback);
+	// Get and store literature ID of current type being updated
+	let litTypeID = event.target.dataset["id"];
+	
+	LiteratureType.edit(litTypeID).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeLiteratureType documentation

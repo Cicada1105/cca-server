@@ -1,11 +1,19 @@
 //- This file holds the pug mixin for the add card when user clicks on add button for respective sections
 mixin collaboratorAddCard
-	section.card.addCard
+	section.card#addCard
+		header
+			span.cardFunction
 		form#addForm
-			h2 Add:
-		div.controlsCont
+			div#imgCont
+				i.far.fa-images
+				img(src="" alt="" width="150px")
+			div.fileCont
+				input(type="file" id="" name="imgFile")
+			input(type="text" name="name" spellcheck="true" placeholder="Enter Name...")
+			input(type="text" name="title" spellcheck="true" placeholder="Enter Title...")
+		aside.controlsCont
 			span.msg
-			div.ctrlBtnAdd
+			div#ctrlBtnAdd
 				i(class="fas fa-check-circle")
-			div.ctrlBtnClear
+			div#ctrlBtnClear
 				i(class="fas fa-times-circle")

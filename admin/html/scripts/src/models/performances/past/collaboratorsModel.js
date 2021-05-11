@@ -17,13 +17,14 @@ const server = "http://localhost:2020/cca-admin-api/performance/past/collaborato
 /*
 	Future add documentation
 */
-function add({ name, title, img: { src, alt } }) {
+function add(collaborator) {
+	// { name, title, img: { src, alt } }
 	return new Promise((resolve,reject) => {
 		fetch(server, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
-			},
+			}/*,
 			body: JSON.stringify({
 				name,
 				title,
@@ -31,7 +32,7 @@ function add({ name, title, img: { src, alt } }) {
 					src,
 					alt
 				}
-			})
+			})*/
 		}).then(response => {
 			response.json().then(data => {
 				resolve({
@@ -50,13 +51,14 @@ function add({ name, title, img: { src, alt } }) {
 /*
 	Future update documentation
 */
-function update({ id, name, title, img: { src, alt } }) {
+function update(collaborator) {
+	// { id, name, title, img: { src, alt } }
 	return new Promise((resolve,reject) => {
 		fetch(server, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json"
-			},
+			}/*,
 			body: JSON.stringify({
 				id,
 				name,
@@ -65,7 +67,7 @@ function update({ id, name, title, img: { src, alt } }) {
 					src,
 					alt
 				}
-			})
+			})*/
 		}).then(response => {
 			response.json().then(data => {
 				resolve({

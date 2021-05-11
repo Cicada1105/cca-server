@@ -46,9 +46,20 @@ async function addPerformance(req, res) {
 		}));
 	})
 }
-function updatePerformance(req, res) {
-	PastPerformancesModel.update("UPDATED PAST PERFORMANCE");
-	res.end("Updated past performmance");
+async function updatePerformance(req, res) {
+	await PastPerformancesModel.update("UPDATED PAST PERFORMANCE").then((msg) => {
+		res.status = 200;
+		res.end(JSON.stringify({ msg }))
+	}).catch((err) => {
+		console.log("Error:")
+		console.log(err.message);
+		console.log(err.stack);
+
+		res.status = 500;
+		res.end(JSON.stringify({
+			msg: "Problem getting body data"
+		}));
+	})
 }
 async function removePerformance(req, res) {
 	res.setHeader("Content-Type","application/json");

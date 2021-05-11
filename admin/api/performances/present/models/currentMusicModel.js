@@ -45,7 +45,9 @@ function add(newSong) {
 	Future update documentation
 */
 function update(song) {
-	console.log(`Updating existing song: ${song}`);
+	return new Promise((resolve,reject) => {
+		resolve(`Updating existing song: ${song}`);
+	})
 }
 /*
 	Future remove documentation

@@ -38,9 +38,7 @@ function Router(req,res) {
 			break;
 			default:
 				// Unable to recognize method
-				res.writeHead(405,{
-					"Content-Type":"application/json"
-				});
+				res.status = 405;
 				res.end(JSON.stringify({
 					msg: "Invalid method: " + req.method
 				}));
@@ -49,9 +47,7 @@ function Router(req,res) {
 	}
 	else {
 		// Unable to find path
-		res.writeHead(404,{
-			"Content-Type":"application/json"
-		});
+		res.status = 404;
 		res.end(JSON.stringify({
 			msg: "Cannot find path: " + req.url
 		}));
