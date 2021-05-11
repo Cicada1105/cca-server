@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 const { getTokenFromURL } = require("../../utils.js");
 
 // Development
-const SERVER_URL = "http://localhost:2020";
+//const SERVER_URL = "http://localhost:2020";
 // Production
 //const SERVER_URL = "https://cca-server.herokuapp.com";
 
