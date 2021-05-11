@@ -13,9 +13,9 @@ const ADMIN_LOGIN = require("./login/");
 const { verifyToken } = require("./login/middleware/");
 
 // Development
-const SERVER_URL = "http://localhost:2020";
+//const SERVER_URL = "http://localhost:2020";
 // Production
-//const SERVER_URL = "https://cca-server.herokuapp.com";
+const SERVER_URL = "https://cca-server.herokuapp.com";
 
 /*
 	Redirect
