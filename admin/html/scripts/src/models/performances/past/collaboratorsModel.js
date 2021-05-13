@@ -10,9 +10,9 @@
 */
 
 // Development server
-//const server = "http://localhost:2020/cca-admin-api/performance/past/collaborators";
+const server = "http://localhost:2020/cca-admin-api/performance/past/collaborators";
 // Production server
-const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/past/collaborators";
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/past/collaborators";
 
 /*
 	Future add documentation

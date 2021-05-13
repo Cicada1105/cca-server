@@ -10,16 +10,8 @@ const jwt = require("jsonwebtoken");
 // Import method for retrieving token from url
 const { getTokenFromURL } = require("../../utils.js");
 
-// Development
-//const SERVER_URL = "http://localhost:2020";
-// Production
-//const SERVER_URL = "https://cca-server.herokuapp.com";
-
 function createToken(payload) {
 	return new Promise(async (resolve, reject) => {
-		// Get public key
-		const fileBuffer = fs.readFileSync("./admin/login/public.pem");
-		const fileData = fileBuffer.toString();
 		// Retrieve certificate
 		const cert = getCertificate();
 

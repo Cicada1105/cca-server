@@ -32,7 +32,24 @@ function update(collaborator) {
 */
 function remove(collaboratorID) {
 	return new Promise((resolve,reject) => {
-		resolve(`Deleted collaborator with id of: ${collaboratorID}`);
+		// Get collaborators from file
+		const collaborators = getFileData(collaboratorsPath);
+
+		let index = collaborators.findIndex((collaborator) => collaborator.id === collaboratorID);
+		if (index === -1)
+			reject(`Unable to find collaborator with id of: ${collaboratorID}`);
+		else {
+			// Filter out collaborators whose IDs don't match that of collaboratorID
+			let updatedCollaborators = collaborators.filter((collaborator) => collaborator.id !== collaboratorID);
+			// Update file, reflecting updated collaborators
+			try {
+				writeToFile(collaboratorsPath,JSON.stringify(updatedCollaborators));
+				resolve("Successfully removed collaborator!");
+			} catch(e) {
+				console.error(e);
+				reject("Internal Server Error. Try again later");
+			}
+		}
 	})
 }
 
