@@ -50,7 +50,25 @@ function update(anecdote) {
 */
 function remove(anecdoteID) {
 	return new Promise((resolve,reject) => {
-		resolve(`Delete anecdote with id of: ${anecdoteID}`);
+		// Get anecdotes from file
+		let anecdotes = getFileData(anecdotesPath);
+
+		// Locate index of anecdote to be removed
+		let index = anecdotes.findIndex((anecdote) => anecdote.id === anecdoteID);
+		if (index === -1)
+			reject(`Unable to find anecdote with id of: ${anecdoteID}`);
+		else {
+			// Filter out anecdotes who's IDs do not match that of anecdoteID
+			let updatedAnecdotes = anecdotes.filter((anecdote) => anecdote.id !== anecdoteID);
+			// Update file, reflecting updated anecdotes
+			try {
+				writeToFile(anecdotesPath,JSON.stringify(updatedAnecdotes));
+				resolve(`Successfully removed ${anecdotes[index].name}'s anecdote!`);
+			} catch(e) {
+				console.error(e);
+				reject("Internal Server Error. Try again later");
+			}
+		}
 	})
 }
 

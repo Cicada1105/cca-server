@@ -51,19 +51,23 @@ async function updateAnecdote(req,res) {
 	});
 }
 async function removeAnecdote(req,res) {
-	await AnecdotesModel.remove("Anecdote ID to be removed").then((msg) => {
-		res.status = 200;
-		res.end(JSON.stringify({ msg }));
-	}).catche((err) => {
-		console.log("Error:")
-		console.log(err.message);
-		console.log(err.stack);
+	await getBodyData(req).then(async (body) => {
+		let { id } = body;
 
-		res.status = 500;
-		res.end(JSON.stringify({
-			msg: "Problem getting body data"
-		}));		
-	})
+		await AnecdotesModel.remove(id).then((msg) => {
+			res.status = 200;
+			res.end(JSON.stringify({ msg }));
+		}).catch((err) => {
+			console.log("Error:")
+			console.log(err.message);
+			console.log(err.stack);
+
+			res.status = 500;
+			res.end(JSON.stringify({
+				msg: "Problem getting body data"
+			}));		
+		});
+	});
 }
 
 module.exports = {
