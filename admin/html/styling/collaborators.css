@@ -21,3 +21,6 @@ section#addCard div.fileCont {
 	margin-left:10px;
 	top:70px;
 }
+section.collaboratorCard > img {
+	width:100px;
+}

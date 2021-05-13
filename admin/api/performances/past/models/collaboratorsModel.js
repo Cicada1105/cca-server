@@ -16,7 +16,25 @@ const { v4: uuidv4 } = require("uuid");
 */
 function add(collaborator) {
 	return new Promise((resolve,reject) => {
-		resolve(`Added new collaborator: ${collaborator}`);
+		// Get collaborators from file
+		let collaborators = getFileData(collaboratorsPath);
+		// Add unique id to new collaborator
+		let newCollaboratorWithID = {
+			id: uuidv4(),
+			...collaborator
+		}
+
+		// Push new collaborator into collaborators array
+		collaborators.push(newCollaboratorWithID);
+
+		// Write updated data to file, catching any error that may occur
+		try {
+			writeToFile(collaboratorsPath,JSON.stringify(collaborators));
+			resolve(`Added new collaborator: ${collaborator.name}`);
+		} catch(e) {
+			console.error(e);
+			reject("Internal Server Error. Try again later");
+		}
 	})
 }
 /*
@@ -44,7 +62,7 @@ function remove(collaboratorID) {
 			// Update file, reflecting updated collaborators
 			try {
 				writeToFile(collaboratorsPath,JSON.stringify(updatedCollaborators));
-				resolve("Successfully removed collaborator!");
+				resolve(`Successfully removed ${collaborators[index].name} from collaborators!`);
 			} catch(e) {
 				console.error(e);
 				reject("Internal Server Error. Try again later");

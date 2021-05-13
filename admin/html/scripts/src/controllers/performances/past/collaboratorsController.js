@@ -9,7 +9,27 @@ import { successCallback, failedCallback } from '../../utils.js';
 	Future addCollaborator documentation
 */
 function addCollaborator(event) {
-	Collaborators.add("Adding collaborator").then(successCallback).catch(failedCallback);
+	let controlsCont = event.path[2];
+	let form = controlsCont.previousElementSibling;
+	let formEls = form.elements;
+
+	let file = formEls["imgFile"].files[0]
+	let imgAlt = file.name;
+	// Convert file to array buffer to be sennt and stored in request
+	let myReader = new FileReader();
+	myReader.readAsDataURL(file);
+	myReader.onloadend = function() {
+		let newCollaborator = {
+			name: formEls["name"].value,
+			title: formEls["title"].value,
+			img: {
+				src: myReader.result,
+				alt: imgAlt
+			}
+		}
+
+		Collaborators.add(newCollaborator).then(successCallback).catch(failedCallback);
+	}
 }
 /*
 	Future updateCollaborator documentation

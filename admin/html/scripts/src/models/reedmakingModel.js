@@ -9,9 +9,9 @@
 				the data as parameters to be rendered to the screen
 */
 // Development server
-//const server = "http://localhost:2020/cca-admin-api/reedmaking";
+const server = "http://localhost:2020/cca-admin-api/reedmaking";
 // Production server
-const server = "https://cca-server.herokuapp.com/cca-admin-api/reedmaking";
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/reedmaking";
 /*
 	Future Add documentation
 */

@@ -9,26 +9,37 @@ const CollaboratorsModel = require("../models/collaboratorsModel.js");
 const { getBodyData } = require("../../../utils.js");
 
 async function addCollaborator(req,res) {
-	await CollaboratorsModel.add("New Collaborator").then((msg) => {
-		res.status = 201;
-		res.end(JSON.stringify({ msg }));
-	}).catch((err) => {
-		console.log("Error:")
-		console.log(err.message);
-		console.log(err.stack);
+	await getBodyData(req).then(async (body) => {
+		let { name, title, img: { src, alt }} = body;
 
-		res.status = 500;
-		res.end(JSON.stringify({
-			msg: "Problem getting body data"
-		}));
-	})
+		await CollaboratorsModel.add({
+			name,
+			title,
+			img: {
+				src,
+				alt
+			}
+		}).then((msg) => {
+			res.status = 201;
+			res.end(JSON.stringify({ msg }));
+		}).catch((err) => {
+			console.log("Error:")
+			console.log(err.message);
+			console.log(err.stack);
+
+			res.status = 500;
+			res.end(JSON.stringify({
+				msg: "Problem getting body data"
+			}));
+		})
+	});
 }
 async function updateCollaborator(req,res) {
 	await CollaboratorsModel.update("UPDATED COLLABORATOR").then((msg) => {
 		res.status = 200;
 		res.end(JSON.stringify({ msg }))
 	}).catch((err) => {
-		console.log("Error:")
+		console.log("Error:");
 		console.log(err.message);
 		console.log(err.stack);
 
@@ -46,7 +57,7 @@ async function removeCollaborator(req,res) {
 			res.status = 200;
 			res.end(JSON.stringify({ msg }));
 		}).catch((err) => {
-			console.log("Error:")
+			console.log("Error:");
 			console.log(err.message);
 			console.log(err.stack);
 
@@ -54,7 +65,7 @@ async function removeCollaborator(req,res) {
 			res.end(JSON.stringify({
 				msg: "Problem getting body data"
 			}));
-		})
+		});
 	});
 }
 
