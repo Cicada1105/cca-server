@@ -9,7 +9,28 @@ import { successCallback, failedCallback } from '../../utils.js';
 	Future addAnecdote documentation
 */
 function addAnecdote(event) {
-	Anecdotes.add("Adding Anecdote").then(successCallback).catch(failedCallback);
+	let controlsCont = event.path[2];
+	let form = controlsCont.previousElementSibling;
+	let formEls = form.elements;
+
+	let file = formEls["imgFile"].files[0];
+	let imgAlt = file.name;
+	// Convert file to array buffer to be sent and stored in request
+	let myReader = new FileReader();
+	myReader.readAsDataURL(file);
+	myReader.onloadend = function() {
+		let newAnecdote = {
+			name: formEls["name"].value,
+			title: formEls["title"].value,
+			anecdote: formEls["anecdote"].value,
+			img: {
+				src: myReader.result,
+				alt: imgAlt
+			}
+		}
+
+		Anecdotes.add(newAnecdote).then(successCallback).catch(failedCallback);
+	}
 }
 /*
 	Future updateAnecdote documentation

@@ -23,7 +23,7 @@ function addPastPerformance(event) {
 	instrumentsUL.childNodes.forEach(instrument => instrumentsArray.push(instrument.innerText));
 	// Format date 
 	let formattedDate = formatDate(form.elements["date"].valueAsDate);
-	// Convert file to array buffer to be sennt and stored in request
+	// Convert file to array buffer to be sent and stored in request
 	let myReader = new FileReader();
 	myReader.readAsDataURL(file);
 	myReader.onloadend = function() {

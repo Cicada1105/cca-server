@@ -16,7 +16,25 @@ const { v4: uuidv4 } = require("uuid");
 */
 function add(anecdote) {
 	return new Promise((resolve,reject) => {
-		resolve(`Added new anecdote: ${anecdote}`);
+		// Get anecdotes from file
+		let anecdotes = getFileData(anecdotesPath);
+		// Add unique id to newly added anecdote
+		let anecdoteWithID = {
+			id: uuidv4(),
+			...anecdote
+		}
+
+		// Push new anecdote into array with other anecdotes
+		anecdotes.push(anecdoteWithID);
+
+		// Write newly updated anecdotes to original file, catching any error that may occur
+		try {
+			writeToFile(anecdotesPath,JSON.stringify(anecdotes));
+			resolve(`Successfully added ${anecdote.name}'s anecdote`);
+		} catch(e) {
+			console.error(e);
+			reject("Internal Server Error. Try again later");
+		}
 	})
 }
 /*

@@ -17,22 +17,22 @@ const server = "http://localhost:2020/cca-admin-api/performance/past/anecdotes";
 /*
 	Future add documentation
 */
-function add(anecdote) {
-	// { name, title, img: { src, alt } }
+function add({ name, title, anecdote, img: { src, alt } }) {
 	return new Promise((resolve,reject) => {
 		fetch(server, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
-			}/*,
+			},
 			body: JSON.stringify({
 				name,
 				title,
+				anecdote,
 				img: {
 					src,
 					alt
 				}
-			})*/
+			})
 		}).then(response => {
 			response.json().then(data => {
 				resolve({
