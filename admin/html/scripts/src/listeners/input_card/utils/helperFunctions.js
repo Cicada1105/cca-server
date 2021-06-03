@@ -68,11 +68,7 @@ function createListItem(item) {
 	iEl.setAttribute("class","fas fa-times");
 
 	// Add event listener to 'x' to remove list item
-	iEl.addEventListener("click",(event) => {
-		// Retrieve li and remove
-		let li = event.path[1];
-		li.remove();
-	},{once:true});
+	iEl.addEventListener("click",() => li.remove(),{once:true});
 
 	li.appendChild(liTextNode);
 	li.appendChild(iEl);
@@ -84,40 +80,18 @@ function createListItem(item) {
 /********************************/
 function addGenreToList(event) {
 	let genreInput = event.target.previousElementSibling;
-	let genreTableBody = event.path[3];
 
-	// Create genre item based on user input, then add to table
-	let genreRow = createGenreRow(genreInput);
-	genreTableBody.appendChild(genreRow);
-	// Clear user input
-	genreInput.value = "";
-}
-function createGenreRow(genre) {
-	// Create a new row to hold new table data
-	let row = document.createElement("tr");
-	// Create a new table data element to hold the gennre and delete icon
-	let td = document.createElement("td");
-	// Create text node to hold actual genre text
-	let genreTxtNode = document.createTextNode(genre);
-	// Create delete icon
-	let iEl = document.createElement("i");
-	// Set classes for 'i' element
-	iEl.setAttribute("class","fas fa-times");
-
-	// Add event listener to delete icon to remove row if desired
-	iEl.addEventListener("click",(event) => {
-		// Retrieve row and remove
-		let row = event[2];
-		row.remove();
-	},{once:true});
-
-	// Append genre text and icon to table data element
-	td.appendChild(genreTxtNode);
-	td.appendChild(iEl);
-	// Append table data element to row and return
-	row.appendChild(td);
-
-	return row;
+	// Create genre item based on user input if entry is not empty
+	if (genreInput.value !== "") {
+		// Get access to list of genres
+		let genresList = event.target.nextElementSibling;
+		// create new genre list item
+		let genreItem = createListItem(genreInput.value);
+		// Add genre list item to list
+		genresList.appendChild(genreItem);
+		// Clear user input
+		genreInput.value = "";
+	}
 }
 function addRateToList(event) {
 	let rateInputRow = event.path[2];
@@ -136,13 +110,27 @@ function createRateRow(rateInputs) {
 	let row = document.createElement("tr");
 	// Loop through input values, creating table data elements and adding values to them
 	rateInputs.forEach(input => {
+		// Only get value if td is visible (not unincluded flat rate)
 		let td = document.createElement("td");
-		let txtNode = document.createTextNode(input);
+		let txtNode = document.createTextNode(input.value);
 		// Append text node containing user inputted value to table data element
 		td.appendChild(txtNode);
 		// Append table data element to row
 		row.appendChild(td);
 	});
+
+	// Create delete icon
+	let iEl = document.createElement("i");
+	// Set classes for 'i' element
+	iEl.setAttribute("class","fas fa-times");
+
+	// Add event listener to delete icon to remove row if desired
+	iEl.addEventListener("click",() => row.remove(),{once:true});
+	let iconTD = document.createElement("td");
+	// Append delete icon to td element
+	iconTD.appendChild(iEl);
+	// Append td element to row
+	row.appendChild(iconTD);
 
 	// Return row
 	return row;

@@ -8,9 +8,29 @@ const EditingModel = require("../models/ratesModel.js");
 // Import utility function for handling the retrieval of body data
 const { getBodyData } = require("../../utils.js");
 
-function addPricing(req, res) {
-	EditingModel.add("NEW EDITING PRICING");
-	res.end("Added new editing pricing");
+async function addPricing(req, res) {
+	await getBodyData(req).then(async (body) => {
+		// Retrieve data associated with new ricing
+		let { litID, editingType, min, max, perHour, perWord, flatRate } = body;
+		
+		await EditingModel.add({
+			litID, 
+			editingType, 
+			min, 
+			max, 
+			perHour, 
+			perWord, 
+			flatRate			
+		}).then(msg => {
+			res.status = 201;
+			res.end(JSON.stringify({ msg }));
+		}).catch(err => {
+			res.status = 500;
+			res.end(JSON.stringify({
+				msg: err
+			}));
+		});
+	});
 }
 function updatePricing(req, res) {
 	EditingModel.update("UPDATED EDITING PRICING");

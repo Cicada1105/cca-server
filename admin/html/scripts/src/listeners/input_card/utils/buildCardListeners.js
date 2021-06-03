@@ -209,12 +209,15 @@ function buildEditingRateCardListener(event) {
 	let displayEl = document.getElementById("rateInputCard");
 
 	// Apply listeners to current card
-	applyRateCardListeners(displayEl);
+	const cleanUp = applyRateCardListeners(displayEl);
 
 	// Call generic listener, binding and passing proper arguments
 	let controlMethods = {
 		submitMethod,
-		clearMethod: () => clearRatesInputForm(displayEl) // clearRatesInputForm needs access to current element
+		clearMethod: () => {
+			clearRatesInputForm(displayEl); // clearRatesInputForm needs access to current element
+			cleanUp();
+		}
 	}
 
 	displayEditingCardListener.call({

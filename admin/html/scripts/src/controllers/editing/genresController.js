@@ -10,10 +10,20 @@ import { successCallback, failedCallback } from '../utils.js';
 */
 function addGenre(event) {
 	// Get literature id current added genre is associated with
-	let litID = event.target.dataset["litID"];
-	
-	let genre = "ADDING GENRE";
-	Genre.add(genre).then(successCallback).catch(failedCallback);
+	let litID = event.target.dataset["litid"];
+	// Get access to form to retrieve data
+	let controlsCont = event.path[1];
+	let articleInput = controlsCont.previousElementSibling;
+	let form = articleInput.firstElementChild;
+	let elements = form.elements;
+
+	let genreData = {
+		litID,
+		display: elements["genre"].value,
+		value: elements["genre"].value.toLowerCase().replaceAll(" ","_")
+	}
+
+	Genre.add(genreData).then(successCallback).catch(failedCallback);
 }
 /*
 	Future updateGenre documentation

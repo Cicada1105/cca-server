@@ -24,7 +24,7 @@ function Router(req,res) {
 	// Remove ["","cca-admin-api", "editing"] at beginning && returns [...restOfPath]
 	const reducedPaths = paths.slice(3);
 	const newPath = reducedPaths.join("/"); // [...restOfPath] becomes "rest/Of/Path"
-
+	
 	/*
 		method === "GET" is "handled" by compiling the PUG templating,
 			passing in the data as parameters and then rendered to the screen

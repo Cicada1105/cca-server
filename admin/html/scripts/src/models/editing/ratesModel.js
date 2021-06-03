@@ -10,19 +10,42 @@
 */
 
 // Development server
-const server = "http://localhost:2020/cca-admin-api/editing";
+const server = "http://localhost:2020/cca-admin-api/editing/rates";
 // Production server
-//const server = "https://cca-server.herokuapp.com/cca-admin-api/editing";
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/editing/rates";
 
 /*
 	Fuure Add documentation
 */
-function add(rateData) {
+function add({ litID, editingType, min, max, perHour, perWord, flatRate }) {
 	return new Promise((resolve,reject) => {
-		resolve({
-			status:200,
-			msg:`Adding the following rate: ${rateData}`
-		});
+		fetch(server,{
+			method:"POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				litID,
+				editingType,
+				min,
+				max,
+				perHour,
+				perWord,
+				flatRate
+			})
+		}).then(response => {
+			response.json().then(data =>
+				resolve({
+					msg: data.msg,
+					status: response.status
+				})
+			)
+		}).catch(err => 
+			reject({
+				msg: err,
+				status: err.status
+			})
+		);
 	});
 }
 /*

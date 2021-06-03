@@ -25,10 +25,11 @@ block location
 
 //- Define page content
 block page_content
-	div(id = "backDrop")
-	+addEditGenre
-	+addEditRate
-	+addEditLitType
+	div#backDropCont
+		div(id = "backDrop")
+		+addEditGenre
+		+addEditRate
+		+addEditLitType
 	div(id = "addLitTypeCont")
 		h2= "Literature Type"
 		i(class="far fa-plus-square")

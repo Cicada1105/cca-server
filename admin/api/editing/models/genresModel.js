@@ -4,15 +4,46 @@
 
 // Import performance data to be used by the model
 const editingDataPath = "./site_data/editing.json";
-// Import fs to handle file calls
-const fs = require("fs");
+// Require method for writing to file
+const { writeToFile } = require("../../utils.js");
 // Require method to retrieve file data
 const { getFileData } = require("../../../utils.js");
+// Import uuid for adding new resource
+const { v4: uuidv4 } = require("uuid");
 /*
 	Future add documentation
 */
-function add(genre) {
-	console.log(`Adding new editing genre: ${genre}`)
+function add(genreData) {
+	return new Promise((resolve,reject) => {
+		// Get editing data from file
+		let editingData = getFileData(editingDataPath);
+		// Retrieve Literature type index associated with genre
+		let litTypeIndex = editingData.findIndex(lit => lit.id === genreData.litID);
+		let litTypeData = editingData[litTypeIndex];
+		// Retrieve all current genres of literature type
+		let genres = litTypeData["genres"];
+
+		// Create unique ID for new genre
+		let genreWithID = {
+			id: uuidv4(),
+			display: genreData["display"],
+			value: genreData["value"]
+		};
+		
+		// Push new genre into array of other genres
+		genres.push(genreWithID);
+		// Update literature type
+		litTypeData["genres"] = genres;
+		// Override old data 
+		editingData[litTypeIndex] = litTypeData;
+		// Write to file, catching any error that may occur
+		try {
+			writeToFile(editingDataPath,JSON.stringify(editingData));
+			resolve("Successfully added new editing genre")
+		} catch(e) {
+			reject("Internal Server Error. Try again later");
+		}
+	});
 }
 /*
 	Future update documentation

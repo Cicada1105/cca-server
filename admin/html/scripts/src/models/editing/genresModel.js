@@ -10,19 +10,38 @@
 */
 
 // Development server
-const server = "http://localhost:2020/cca-admin-api/editing";
+const server = "http://localhost:2020/cca-admin-api/editing/genres";
 // Production server
-//const server = "https://cca-server.herokuapp.com/cca-admin-api/editing";
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/editing/genres";
 
 /*
 	Fuure Add documentation
 */
-function add(genre) {
+function add({ litID, display, value }) {
 	return new Promise((resolve,reject) => {
-		resolve({
-			status:200,
-			msg: `Adding the following genre: ${genre}`
-		});
+		fetch(server,{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				litID,
+				display,
+				value
+			})
+		}).then(response => {
+			response.json().then(data => {
+				resolve({
+					msg: data.msg,
+					status: response.status
+				});
+			})
+		}).catch(err => {
+			reject({
+				msg: err,
+				status: err.status
+			})
+		})
 	});
 }
 /*

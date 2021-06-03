@@ -8,9 +8,25 @@ const GenresModel = require("../models/genresModel.js");
 // Import utility function for handling the retrieval of body data
 const { getBodyData } = require("../../utils.js");
 
-function addGenre(req, res) {
-	GenresModel.add("NEW GENRE");
-	res.end("Added new editing genre");
+async function addGenre(req, res) {
+	await getBodyData(req).then(async (body) => {
+		// Retrieve data associated with adding new genre
+		let { litID, display, value } = body;
+		
+		await GenresModel.add({
+			litID,
+			display,
+			value
+		}).then(msg => {
+			res.status = 201;
+			res.end(JSON.stringify({ msg }));
+		}).catch(err =>{
+			res.status = 500;
+			res.end(JSON.stringify({
+				msg: err
+			}));
+		});
+	})
 }
 function updateGenre(req, res) {
 	GenresModel.update("UPDATED GENRE");

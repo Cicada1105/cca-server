@@ -10,19 +10,42 @@
 */
 
 // Development server
-const server = "http://localhost:2020/cca-admin-api/editing";
+const server = "http://localhost:2020/cca-admin-api/editing/literature_types";
 // Production server
-//const server = "https://cca-server.herokuapp.com/cca-admin-api/editing";
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/editing/literature_types";
 
 /*
 	Fuure Add documentation
 */
-function add(litData) {
+function add({ type, genres, rates: { standard_proofreading, developmental_editing, both }}) {
 	return new Promise((resolve,reject) => {
-		resolve({
-			status:200,
-			msg:`Adding the following literature type: ${litData}`
-		});
+		fetch(server,{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				type,
+				genres,
+				rates: {
+					standard_proofreading,
+					developmental_editing,
+					both
+				}
+			})
+		}).then(response => {
+			response.json().then(data => 
+				resolve({
+					msg: data.msg,
+					status: response.status
+				})
+			)
+		}).catch(err =>
+			reject({
+				msg: err,
+				status: err.status
+			})
+		)
 	});
 }
 /*

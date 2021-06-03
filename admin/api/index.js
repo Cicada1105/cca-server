@@ -23,7 +23,7 @@ function Router(req,res) {
 
 	// All responses will be of type 'application/json'
 	res.setHeader("Content-Type","application/json");
-
+	
 	/*
 		Test if path needs to be directed to Performance Router
 	*/

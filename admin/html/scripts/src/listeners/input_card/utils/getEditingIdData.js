@@ -4,11 +4,20 @@
 	page
 */
 function getGenreIdentifierData(event) {
-	// Store title data type to describe genre data
-	let controls = event.target.parentElement;
-	let row = controls.parentElement;
-	let tableBody = row.parentElement;
-	let table = tableBody.parentElement;
+	// Store data needed to uniquely and quickly identify genre data
+	let table;
+
+	let selectedEl = event.target;
+	if (selectedEl.classList.contains("fa-plus-square")) {
+		let caption = selectedEl.parentElement;
+		table = caption.parentElement;
+	}
+	else {
+		let controls = selectedEl.parentElement;
+		let row = controls.parentElement;
+		let tableBody = row.parentElement;
+		table = tableBody.parentElement;	
+	}
 
 	let literatureType = table.dataset["littype"];
 	let litID = table.dataset["litid"];
@@ -23,11 +32,20 @@ function getGenreIdentifierData(event) {
 }
 function getRateIdentifierData(event) {
 	// Get editing type associated w/ rates
-	// may or may not return table
-	let controls = event.target.parentElement;
-	let row = controls.parentElement;
-	let tableBody = row.parentElement;
-	let table = tableBody.parentElement;
+	let table;
+
+	let selectedEl = event.target;
+	if (selectedEl.classList.contains("fa-plus-square")) {
+		let caption = selectedEl.parentElement;
+		table = caption.parentElement;
+	}
+	else {
+		// may or may not return table
+		let controls = event.target.parentElement;
+		let row = controls.parentElement;
+		let tableBody = row.parentElement;
+		table = tableBody.parentElement;	
+	}
 
 	let editingType = table.dataset["editingtype"];
 	// Store title data type to describe rate data

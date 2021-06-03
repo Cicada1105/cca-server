@@ -116,7 +116,7 @@ function genericEditingInputCardListener(event) {
 // Generic body listener
 function displayEditingCardListener(event) {
 	const { displayEl, displayData } = this;
-	const layOver = document.getElementById("backDrop");
+	const layOver = document.getElementById("backDropCont");
 	// If displayData is not undefined, contains edit data to be displayed
 	if (displayData) {
 		// Store display data to possibly be updated
@@ -140,6 +140,8 @@ function displayEditingCardListener(event) {
 	// Display background layover and form element
 	layOver.style.display = "block";
 	displayEl.style.display =  "block";
+	// Prevent document scrolling to limit it to visible card
+	document.body.style.overflowY = "hidden";
 
 	// Bind data and displayed element to generic card listener and call, passing in event
 	genericEditingInputCardListener.call({ ...this, displayEl },event);	// call([value of this],...args);

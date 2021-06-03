@@ -174,7 +174,7 @@ const initEditingListeners = () => {
 		// Add listener to editing types add buttons
 		let stndrdProofRatesCaption = stndrdProofRatesTable.firstElementChild;
 		let addStandardProofRateBtn = stndrdProofRatesCaption.lastElementChild;
-		addStandardProofRateBtn.addEventListener("click",Listeners.addEditingRateCard.bind(EditingController.addLiteratureType));
+		addStandardProofRateBtn.addEventListener("click",Listeners.addEditingRateCard.bind(EditingController.addRate));
 		/*   Edit/Delete buttons   */
 		// Access rates
 		let stndProofRates = stndrdProofRatesTable.lastElementChild.getElementsByTagName("tr");
@@ -193,7 +193,7 @@ const initEditingListeners = () => {
 		/*   Add button   */
 		let expEditRatesCaption = expEditRatesTable.firstElementChild;
 		let addExpEditRateBtn = expEditRatesCaption.lastElementChild;
-		addExpEditRateBtn.addEventListener("click",Listeners.addEditingRateCard.bind(EditingController.addLiteratureType));
+		addExpEditRateBtn.addEventListener("click",Listeners.addEditingRateCard.bind(EditingController.addRate));
 		/*   Edit/Delete buttons   */
 		// Access rates
 		let expEditRates = expEditRatesTable.lastElementChild.getElementsByTagName("tr");
@@ -212,7 +212,7 @@ const initEditingListeners = () => {
 		/*   Add button   */
 		let bothEditingRatesCaption = bothEditingRatesTable.firstElementChild;
 		let addBothEditingRateBtn = bothEditingRatesCaption.lastElementChild;
-		addBothEditingRateBtn.addEventListener("click",Listeners.addEditingRateCard.bind(EditingController.addLiteratureType));
+		addBothEditingRateBtn.addEventListener("click",Listeners.addEditingRateCard.bind(EditingController.addRate));
 		/*   Edit/Delete buttons   */
 		// Access rates
 		let bothEditRates = bothEditingRatesTable.lastElementChild.getElementsByTagName("tr");

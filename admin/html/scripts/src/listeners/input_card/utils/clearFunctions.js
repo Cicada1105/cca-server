@@ -62,8 +62,10 @@ function removeEditingInputForm(displayedEl) {
 	// Remove form and bg overlay from screen
 	displayedEl.style.display = "none";
 	// Remove form and bg overlay from screen
-	let layOver = document.getElementById("backDrop");
+	let layOver = document.getElementById("backDropCont");
 	layOver.style.display = "none";
+	// Allow normal body scrolling
+	document.body.style.overflowY = "scroll";
 }
 function clearSingleInputForm(el) {
 	const form = el.querySelector("article.input > form");
