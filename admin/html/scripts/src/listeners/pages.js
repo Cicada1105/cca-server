@@ -1,7 +1,7 @@
 /*
 	This file handles the listeners for specific pages
 */
-import { handleEditDeleteClick } from "./display_card/";
+import { handleDeleteClick } from "./display_card/";
 
 /*   Performances Controllers   */
 import * as PastController from "../controllers/performances/past/";
@@ -31,7 +31,7 @@ const initPastPerformanceListeners = () => {
 		
 		// Add event listeners to control buttons containers
 		editBtnCont.addEventListener("click", Listeners.editPastCard.bind(PastController.updatePastPerformance));
-		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(PastController.removePastPerformance));
+		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(PastController.removePastPerformance));
 	}
 }
 const initCollaboratorListeners = () => {
@@ -53,7 +53,7 @@ const initCollaboratorListeners = () => {
 		
 		// Add event listeners to control buttons containers
 		editBtnCont.addEventListener("click", Listeners.editCollaboratorCard.bind(PastController.updateCollaborator));
-		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(PastController.removeCollaborator));
+		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(PastController.removeCollaborator));
 	}
 }
 const initAnecdoteListeners = () => {
@@ -75,7 +75,7 @@ const initAnecdoteListeners = () => {
 
 		// Add event listeners to control buttons containers
 		editBtnCont.addEventListener("click",Listeners.editAnecdoteCard.bind(PastController.updateAnecdote));
-		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(PastController.removeAnecdote));
+		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(PastController.removeAnecdote));
 	}
 }
 const initMusicStandListeners = () => {
@@ -98,7 +98,7 @@ const initMusicStandListeners = () => {
 
 		// Add event listeners to control buttons containers
 		editBtnCont.addEventListener("click",Listeners.editPresentCard.bind(PresentController.updateSong));
-		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(PresentController.removeSong));
+		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(PresentController.removeSong));
 	}
 }
 const initFuturePerformancesListeners = () => {
@@ -121,7 +121,7 @@ const initFuturePerformancesListeners = () => {
 
 		// Add event listeners to control buttons containers
 		editBtnCont.addEventListener("click",Listeners.editFutureCard.bind(FutureController.updateFuturePerformance));
-		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(FutureController.removeFuturePerformance));
+		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(FutureController.removeFuturePerformance));
 	}
 }
 const initEditingListeners = () => {
@@ -162,10 +162,12 @@ const initEditingListeners = () => {
 		for (const genreControl of genresControls) {
 			// Add listener to edit buttton
 			let controls = genreControl.getElementsByTagName("i");
+			// Retrieve genre to display in delete confirmation
+			let genre = genreControl.previousElementSibling.textContent;
 			// Edit button
 			controls[0].addEventListener("click",Listeners.editEditingGenreCard.bind(EditingController.updateGenre));
 			// Delete button
-			controls[1].addEventListener("click",() => console.log("Delete genre"));
+			controls[1].addEventListener("click",(event) => confirm(`Are you sure you want to delete ${genre}?`) && EditingController.removeGenre(event));
 		}
 
 		// Access standard proofreading rates table
@@ -180,12 +182,28 @@ const initEditingListeners = () => {
 		let stndProofRates = stndrdProofRatesTable.lastElementChild.getElementsByTagName("tr");
 		// Loop through standard proofreading rates, adding listeners to edit and delete buttons
 		for (const ratesRow of stndProofRates) {
+			// Store and format data to clarify to admin
+			let rowEls = ratesRow.getElementsByTagName("td");
+			let formatText = "";
+			if (rowEls.length === 5) { // Does not include flatrate
+				formatText += ` - Min: ${rowEls[0].textContent}\n`;
+				formatText += ` - Max: ${rowEls[1].textContent}\n`;
+				formatText += ` - Per Hour: ${rowEls[2].textContent}\n`;
+				formatText += ` - Per Word: ${rowEls[3].textContent}`;
+			}
+			else { // Includes flatrate
+				formatText += ` - Min: ${rowEls[0].textContent}\n`;
+				formatText += ` - Max: ${rowEls[1].textContent}\n`;
+				formatText += ` - Flat Rate: ${rowEls[2].textContent}\n`;
+				formatText += ` - Per Hour: ${rowEls[3].textContent}\n`;	
+				formatText += ` - Per Word: ${rowEls[4].textContent}`;	
+			}
 			// Access controls
 			let controls = ratesRow.getElementsByTagName("i");
 			// Edit button
 			controls[0].addEventListener("click",Listeners.editEditingRateCard.bind(EditingController.updateRate));
 			// Delete button
-			controls[1].addEventListener("click",() => console.log("Delete rate"));
+			controls[1].addEventListener("click",(event) => confirm(`Are you sure you want to remove the following rate: \n${formatText}`) && EditingController.removeRate(event));
 		}
 
 		// Access Experimental editing rates table
@@ -199,12 +217,28 @@ const initEditingListeners = () => {
 		let expEditRates = expEditRatesTable.lastElementChild.getElementsByTagName("tr");
 		// Loop through experimental editing rates, adding listeners to edit and delete buttons
 		for (const ratesRow of expEditRates) {
+			// Store and format data to clarify to admin
+			let rowEls = ratesRow.getElementsByTagName("td");
+			let formatText = "";
+			if (rowEls.length === 5) { // Does not include flatrate
+				formatText += ` - Min: ${rowEls[0].textContent}\n`;
+				formatText += ` - Max: ${rowEls[1].textContent}\n`;
+				formatText += ` - Per Hour: ${rowEls[2].textContent}\n`;
+				formatText += ` - Per Word: ${rowEls[3].textContent}`;
+			}
+			else { // Includes flatrate
+				formatText += ` - Min: ${rowEls[0].textContent}\n`;
+				formatText += ` - Max: ${rowEls[1].textContent}\n`;
+				formatText += ` - Flat Rate: ${rowEls[2].textContent}\n`;
+				formatText += ` - Per Hour: ${rowEls[3].textContent}\n`;	
+				formatText += ` - Per Word: ${rowEls[4].textContent}`;	
+			}
 			// Access controls
 			let controls = ratesRow.getElementsByTagName("i");
 			// Edit button
 			controls[0].addEventListener("click",Listeners.editEditingRateCard.bind(EditingController.updateRate));
 			// Delete button
-			controls[1].addEventListener("click",() => console.log("Delete rate"));
+			controls[1].addEventListener("click",(event) => confirm(`Are you sure you want to remove the following rate: \n${formatText}`) && EditingController.removeRate(event));
 		}
 
 		// Access Both rates table
@@ -218,12 +252,28 @@ const initEditingListeners = () => {
 		let bothEditRates = bothEditingRatesTable.lastElementChild.getElementsByTagName("tr");
 		// Loop through both editing rates, adding listeners to edit and delte buttons
 		for (const ratesRow of bothEditRates) {
+			// Store and format data to clarify to admin
+			let rowEls = ratesRow.getElementsByTagName("td");
+			let formatText = "";
+			if (rowEls.length === 5) { // Does not include flatrate
+				formatText += ` - Min: ${rowEls[0].textContent}\n`;
+				formatText += ` - Max: ${rowEls[1].textContent}\n`;
+				formatText += ` - Per Hour: ${rowEls[2].textContent}\n`;
+				formatText += ` - Per Word: ${rowEls[3].textContent}`;
+			}
+			else { // Includes flatrate
+				formatText += ` - Min: ${rowEls[0].textContent}\n`;
+				formatText += ` - Max: ${rowEls[1].textContent}\n`;
+				formatText += ` - Flat Rate: ${rowEls[2].textContent}\n`;
+				formatText += ` - Per Hour: ${rowEls[3].textContent}\n`;	
+				formatText += ` - Per Word: ${rowEls[4].textContent}`;	
+			}
 			// Access controls
 			let controls = ratesRow.getElementsByTagName("i");
 			// Edit button
 			controls[0].addEventListener("click",Listeners.editEditingRateCard.bind(EditingController.updateRate));
 			// Delete button
-			controls[1].addEventListener("click",() => console.log("Delete rate"));
+			controls[1].addEventListener("click",() => confirm(`Are you sure you want to remove the following rate: \n${formatText}`) && EditingController.removeRate);
 		}
 	}
 }
@@ -247,7 +297,7 @@ const initReedmakingListeners = () => {
 
 		// Add event listeners to control buttons containers
 		editBtnCont.addEventListener("click",Listeners.editReedmakingCard.bind(ReedmakingController.updateReedmakingPricing));
-		deleteBtnCont.addEventListener("click",handleEditDeleteClick.bind(ReedmakingController.removeReedmakingPricing));
+		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(ReedmakingController.removeReedmakingPricing));
 	}
 }
 

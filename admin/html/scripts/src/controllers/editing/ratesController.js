@@ -46,10 +46,19 @@ function updateRate(event) {
 	Future removeRate documentation
 */
 function removeRate(event) {
-	// Get and store rate ID of current editing price
+	// Get and store rate ID, editing type rate is under and literature type ID to uniquely ID rate
 	let rateID = event.target.dataset["id"];
+	let ratesTable = event.path[4]; // Contains editing type and literature ID
+	let editingType = ratesTable.dataset["editingtype"];
+	let litID = ratesTable.dataset["litid"];
 
-	Rate.remove(rateID).then(successCallback).catch(failedCallback);
+	let uniqueRateData = {
+		litID,
+		editingType,
+		rateID
+	}
+
+	Rate.remove(uniqueRateData).then(successCallback).catch(failedCallback);
 }
 
 export { addRate, updateRate, removeRate }

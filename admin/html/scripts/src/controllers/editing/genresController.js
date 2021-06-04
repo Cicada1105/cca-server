@@ -38,10 +38,18 @@ function updateGenre(event) {
 	Future removeGenre documentation
 */
 function removeGenre(event) {
-	// Get and store genre ID of current genre being deleted
+	// Access ID of genre that was selected to be removed
 	let genreID = event.target.dataset["id"];
+	// Access Literature ID associaated with genre
+	let genresTable = event.path[4]; // Has id of lit type storedin dataset
+	let litID = genresTable.dataset["litid"];
 
-	Genre.remove(genreID).then(successCallback).catch(failedCallback);
+	let uniqueGenreData = {
+		litID,
+		genreID
+	}
+
+	Genre.remove(uniqueGenreData).then(successCallback).catch(failedCallback);
 }
 
 export { addGenre, updateGenre, removeGenre }

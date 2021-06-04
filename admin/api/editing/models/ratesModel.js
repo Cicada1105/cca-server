@@ -63,38 +63,34 @@ function update(rate) {
 /*
 	Future remove documentation
 */
-function remove(rateID) {
+function remove(uniqueRateData) {
 	return new Promise((resolve,reject) => {
-		console.log(`Removing editing rate with id of: ${rateID}`);
+		// Get editing data from file
+		let editingData = getFileData(editingDataPath); 
+		// Retrieve index of literature type associatd with rate
+		let litTypeIndex = editingData.findIndex(lit => lit.id === uniqueRateData.litID);
+		let litData = editingData[litTypeIndex];
+		// Select editing type associated with rate
+		let litEditingTypes = litData["editing"];
+		let litEditingType = litEditingTypes[uniqueRateData["editingType"]];
+		let editingTypeRates = litEditingType.rates;
 
-		/*editingDataPath.forEach((litType) => {
-			litType.child["child"].forEach((editingType) => {
-				editingType["child"].forEach((rate) => {
+		// Filter out rate based on id to remove it from the rest
+		let filteredRates = editingTypeRates.filter(rate => rate.id !== uniqueRateData.rateID);
 
-				})
-			})
-		})*/
-		/*
-		if (index === -1)
-			reject(`Unable to find editing rate with id of: ${rateID}`);
-		else {
-			// Filter out editing rate who's ID matches that of rateID
-			let updatedPricings = editingPrices.filter((rate) => rate.id !== rateID );
-			// Update file, reflectting new pricings
-			fs.writeFile("./site_data/editing.json",JSON.stringify(updatedPricings),"utf8",(err) => {
-				if (err) {
-					console.log(err);
-					reject("Internal Server Error. Try again later");
-				}
-				else {
-					console.log("Updated pricings");
-					console.log(updatedPricings);
-					resolve("Successfully removed editing rate!");
-				}
+		// Update data to reflect changes
+		litEditingType["rates"] = filteredRates;
+		litEditingTypes[uniqueRateData["editingType"]] = litEditingType;
+		litData["editing"] = litEditingTypes;
+		editingData[litTypeIndex] = litData;
 
-			});
-		}*/
-		resolve("Removed editing rate");
+		// Write to file, catching any error that may occur
+		try {
+			writeToFile(editingDataPath,JSON.stringify(editingData));
+			resolve(`Successfully removed ${uniqueRateData["editingType"]} rate from ${editingData[litTypeIndex].type} section`);
+		} catch(e) {
+			reject("Internal Server Error. Try again later");
+		}
 	})
 }
 

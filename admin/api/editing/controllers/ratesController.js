@@ -37,15 +37,18 @@ function updatePricing(req, res) {
 	res.end("Updated editing pricing");
 }
 async function removePricing(req, res) {
-	res.setHeader("Content-Type","application/json");
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary attributes from body to remove editing data
-		let { id } = body;
+		let { litID, editingType, rateID } = body;
 
-		await EditingModel.remove(id).then((msg) => {
+		await EditingModel.remove({
+			litID,
+			editingType,
+			rateID
+		}).then(msg => {
 			res.status = 200;
 			res.end(JSON.stringify({ msg }));			
-		}).catch((err) => {
+		}).catch(err => {
 			res.status = 500;
 			res.end(JSON.stringify({ 
 				msg: err 

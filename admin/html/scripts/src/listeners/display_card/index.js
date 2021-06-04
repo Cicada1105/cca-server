@@ -1,7 +1,7 @@
 import { revertControlBtns } from './utils.js';
 
 var confirmListenerRef;
-function handleEditDeleteClick(event) {
+function handleDeleteClick(event) {
 	/* 
 		Event pathing:
 		path[0] === icon#; path[1] === icon#Cont; path[2] === divcontrolsCont
@@ -52,7 +52,7 @@ function handleEditDeleteClick(event) {
 	}
 }
 function confirmListener(event) {
-	// Prevent handleEditDeleteClick from being called when updated visual button is clicked again
+	// Prevent handleDeleteClick from being called when updated visual button is clicked again
 	event.stopPropagation();
 
 	// Store function, bounded by value of this, to be called when user confirms
@@ -79,7 +79,7 @@ function confirmListener(event) {
 	revertControlBtns(event);
 }
 function declineListener(event) {
-	// Prevent handleEditDeleteClick from being called when updated visual button is clicked again
+	// Prevent handleDeleteClick from being called when updated visual button is clicked again
 	event.stopPropagation();
 
 	// path[0] === icon#; path[1] === icon#Cont; path[2] === div.controlsCont;
@@ -116,4 +116,4 @@ function handleGenre(event) {
 
 }
 
-export { handleEditDeleteClick, confirmListenerRef, declineListener }
+export { handleDeleteClick, confirmListenerRef, declineListener }

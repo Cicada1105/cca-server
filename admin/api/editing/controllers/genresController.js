@@ -26,33 +26,36 @@ async function addGenre(req, res) {
 				msg: err
 			}));
 		});
-	})
+	}).catch(err => {
+		res.status = 500;
+		res.end(JSON.stringify({
+			msg: "Unable to process the request at this time"
+		}));
+	});
 }
 function updateGenre(req, res) {
 	GenresModel.update("UPDATED GENRE");
 	res.end("Updated editing genre");
 }
 async function removeGenre(req, res) {
-	res.setHeader("Content-Type","application/json");
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary attributes from body to remove editing data
-		let { id } = body;
-
-		await GenresModel.remove(id).then((msg) => {
+		let { litID, genreID } = body;
+		
+		await GenresModel.remove({
+			litID,
+			genreID
+		}).then(msg => {
 			res.status = 200;
 			res.end(JSON.stringify({ msg }));			
-		}).catch((err) => {
+		}).catch(err => {
 			res.status = 500;
 			res.end(JSON.stringify({ 
-				msg: err 
+				msg: err.message
 			}));
 		})
 
 	}).catch((err) => {
-		console.log("ERROR:");
-		console.log(err.message);
-		console.log(err.stack);
-
 		res.status = 500;
 		res.end(JSON.stringify({
 			msg: "Unable to process the request at this time"

@@ -62,12 +62,31 @@ function edit(rate) {
 /*
 	Future Remove documentation
 */
-function remove(rate) {
+function remove({litID, editingType, rateID}) {
 	return new Promise((resolve,reject) => {
-		resolve({
-			status:200,
-			msg:`Deleting the following rate: ${rate}`
-		});
+		fetch(server,{
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				litID,
+				editingType,
+				rateID
+			})
+		}).then(response =>
+			response.json().then(data =>
+				resolve({
+					msg: data.msg,
+					status: response.status
+				})
+			)
+		).catch(err =>
+			reject({
+				msg: err,
+				status: err.status
+			})
+		);
 	});
 }
 

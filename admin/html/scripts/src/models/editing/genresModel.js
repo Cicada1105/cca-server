@@ -30,12 +30,12 @@ function add({ litID, display, value }) {
 				value
 			})
 		}).then(response => {
-			response.json().then(data => {
+			response.json().then(data => 
 				resolve({
 					msg: data.msg,
 					status: response.status
-				});
-			})
+				})
+			)
 		}).catch(err => {
 			reject({
 				msg: err,
@@ -58,12 +58,30 @@ function edit(updatedGenre) {
 /*
 	Future Remove documentation
 */
-function remove(genre) {
+function remove({litID, genreID}) {
 	return new Promise((resolve,reject) => {
-		resolve({
-			status:200,
-			msg:`Deleting the following genre ${genre}`
-		});
+		fetch(server,{
+			method: "DELETE",
+			headers: {
+				"Content-Type":"application/json"
+			},
+			body: JSON.stringify({
+				litID,
+				genreID
+			})
+		}).then(response =>
+			response.json().then(data =>
+				resolve({
+					msg: data.msg,
+					status: response.status	
+				})
+			)
+		).catch(err =>
+			reject({
+				msg: err.message,
+				satus: err.status
+			})
+		)
 	});
 }
 

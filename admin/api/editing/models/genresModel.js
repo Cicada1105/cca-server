@@ -39,7 +39,7 @@ function add(genreData) {
 		// Write to file, catching any error that may occur
 		try {
 			writeToFile(editingDataPath,JSON.stringify(editingData));
-			resolve("Successfully added new editing genre")
+			resolve(`Successfully added ${genreData["display"]} to ${litTypeData["type"]}'s genres`);
 		} catch(e) {
 			reject("Internal Server Error. Try again later");
 		}
@@ -54,38 +54,29 @@ function update(genre) {
 /*
 	Future remove documentation
 */
-function remove(genreID) {
+function remove(uniqueGenreData) {
 	return new Promise((resolve,reject) => {
-		console.log(`Removing editing genre with id of: ${genreID}`);
+		// Get editing data from file
+		let editingData = getFileData(editingDataPath);
 
-		/*editingDataPath.forEach((litType) => {
-			litType.child["child"].forEach((editingType) => {
-				editingType["child"].forEach((rate) => {
+		// Retrieve literature info associated with genre
+		let litDataIndex = editingData.findIndex(litType => litType["id"] === uniqueGenreData["litID"]);
+		// Find index of genre that contains specified id; Index used for splicing and getting genre text
+		let genres = editingData[litDataIndex].genres;
+		let genreIndex = genres.findIndex(genre => genre["id"] === uniqueGenreData["genreID"]);
+		// Filter out genre based on id to remove it from the rest
+		let removedGenre = genres.splice(genreIndex,1);
 
-				})
-			})
-		})*/
-		/*
-		if (index === -1)
-			reject(`Unable to find editing genre with id of: ${genreID}`);
-		else {
-			// Filter out editing genre who's ID matches that of genreID
-			let updatedPricings = editingPrices.filter((genre) => genre.id !== genreID );
-			// Update file, reflectting new pricings
-			fs.writeFile("./site_data/editing.json",JSON.stringify(updatedPricings),"utf8",(err) => {
-				if (err) {
-					console.log(err);
-					reject("Internal Server Error. Try again later");
-				}
-				else {
-					console.log("Updated pricings");
-					console.log(updatedPricings);
-					resolve("Successfully removed editing genre!");
-				}
+		// Update literature type assocaited with genre chosen to be removed
+		editingData[litDataIndex].genres = genres;
 
-			});
-		}*/
-		resolve("Removed editing genre");
+		// WRite to file, catching any error that may occur
+		try {
+			writeToFile(editingDataPath,JSON.stringify(editingData));
+			resolve(`Successfully removed ${removedGenre[0].display} from ${editingData[litDataIndex].type}'s genres`);
+		} catch(e) {
+			reject("Internal Server Error. Try again later");
+		}
 	})
 }
 
