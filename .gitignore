@@ -2,5 +2,5 @@
 
 node_modules/**
 package-lock.json
-admin/login/public.pem
-admin/login/user.json
+#admin/login/public.pem
+#admin/login/user.json
