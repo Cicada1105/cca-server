@@ -8,17 +8,17 @@
 		Note: 	GET is "handled" by compiling the PUG templates and passing in
 				the data as parameters to be rendered to the screen
 */
-// Development server
-const server = "http://localhost:2020/cca-admin-api/performance/past";
-// Production server
-//const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/past";
+// Server link
+const SERVER_URL = `${process.env.SERVER_URL}/cca-admin-api/performance/past`;
+//const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/pasta";
+
 /*
 	Future add documentation
 */
 function add({ name, description, location, instruments, date, img:{ src, alt }}) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "POST",
 			headers: {
 				"Content-Type":"application/json"
@@ -56,7 +56,7 @@ function edit(pastPerformance) {
 	// { id, name, description, location, instruments, date, img:{ src, alt }}
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "PUT",
 			headers: {
 				"Content-Type":"application/json"
@@ -94,7 +94,7 @@ function edit(pastPerformance) {
 function remove(performanceID) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "DELETE",
 			headers: {
 				"Content-Type":"application/json"

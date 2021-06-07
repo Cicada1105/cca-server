@@ -8,16 +8,16 @@
 		Note: 	GET is "handled" by compiling the PUG templates and passing in
 				the data as parameters to be rendered to the screen
 */
-// Development server
-const server = "http://localhost:2020/cca-admin-api/reedmaking";
-// Production server
-//const server = "https://cca-server.herokuapp.com/cca-admin-api/reedmaking";
+// Server link
+const SERVER_URL = `${process.env.SERVER_URL}/cca-admin-api/reedmaking`;
+//const SERVER_URL = "http://localhost:2020/cca-admin-api/reedmaking";
+
 /*
 	Future Add documentation
 */
 function add({ name, description, pricing }) {
 	return new Promise((resolve,reject) => {
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -47,7 +47,7 @@ function add({ name, description, pricing }) {
 */
 function edit({ id, name, description, pricing }) {
 	return new Promise((resolve,reject) => {
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json"
@@ -79,7 +79,7 @@ function edit({ id, name, description, pricing }) {
 function remove(pricingID) {
 	console.log(`Removing the following pricingID: ${pricingID}`);
 	// Make request to server, passig in proper method, headers and body data
-	fetch(server, {
+	fetch(SERVER_URL, {
 		method: "DELETE",
 		headers: {
 			"Content-Type":"application/json"

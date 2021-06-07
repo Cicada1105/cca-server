@@ -4,10 +4,9 @@
   "description": "Server handling for carl-colvin-arts",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "build-server": "npm run-script compile-server; npm run-script bundle-server",
-    "compile-server": "babel ./admin/html/scripts/src --out-dir ./admin/html/scripts/lib --compact true --no-comments",
+    "compile-server": "babel ./admin/html/scripts/src --out-dir ./admin/html/scripts/lib --minified --no-comments",
     "bundle-server": "browserify ./admin/html/scripts/lib/ --outfile ./admin/html/scripts/index.js --standalone begin"
   },
   "author": "Josh Colvin",
@@ -22,6 +21,7 @@
   "devDependencies": {
     "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.9",
-    "@babel/preset-env": "^7.12.7"
+    "@babel/preset-env": "^7.12.7",
+    "dotenv": "^10.0.0"
   }
 }

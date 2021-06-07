@@ -9,10 +9,9 @@
 				the data as parameters to be rendered to the screen
 */
 
-// Development server
-const server = "http://localhost:2020/cca-admin-api/performance/present";
-// Production server
-//const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/present";
+// Server link
+const SERVER_URL = `${process.env.SERVER_URL}/cca-admin-api/performance/present`;
+//const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/present";
 
 /*
 	Future add documentation
@@ -20,7 +19,7 @@ const server = "http://localhost:2020/cca-admin-api/performance/present";
 function add({ name, by, description }) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "POST",
 			headers: {
 				"Content-Type":"application/json"
@@ -51,7 +50,7 @@ function add({ name, by, description }) {
 function edit({ id, name, by, description }) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "PUT",
 			headers: {
 				"Content-Type":"application/json"
@@ -83,7 +82,7 @@ function edit({ id, name, by, description }) {
 function remove(songID) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "DELETE",
 			headers: {
 				"Content-Type":"application/json"

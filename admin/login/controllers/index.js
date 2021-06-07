@@ -7,10 +7,8 @@ const querystring = require("querystring");
 const LoginModel = require("../models/");
 // Require create token for user logging in
 const { createToken } = require("../middleware/");
-// Development
-//const SERVER = "http://localhost:2020";
-// Production
-const SERVER = "https://cca-server.herokuapp.com";
+// Server link
+const SERVER = process.env.SERVER_URL;
 
 function login(req,res) {
 	// Get user data 

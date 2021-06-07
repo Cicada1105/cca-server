@@ -12,10 +12,8 @@ const ADMIN_LOGIN = require("./login/");
 // Import middleware for checking if user has access to admin control panel
 const { verifyToken } = require("./login/middleware/");
 
-// Development
-const SERVER_URL = "http://localhost:2020";
-// Production
-//const SERVER_URL = "https://cca-server.herokuapp.com";
+// Server link
+const SERVER_URL = process.env.SERVER_URL;
 
 /*
 	Redirect

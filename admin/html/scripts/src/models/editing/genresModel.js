@@ -9,17 +9,16 @@
 				the data as parameters to be rendered to the screen
 */
 
-// Development server
-const server = "http://localhost:2020/cca-admin-api/editing/genres";
-// Production server
-//const server = "https://cca-server.herokuapp.com/cca-admin-api/editing/genres";
+// Server link
+const SERVER_URL = `${process.env.SERVER_URL}/cca-admin-api/editing/genres`;
+//const SERVER_URL = "http://localhost:2020/cca-admin-api/editing/genres";
 
 /*
 	Fuure Add documentation
 */
 function add({ litID, display, value }) {
 	return new Promise((resolve,reject) => {
-		fetch(server,{
+		fetch(SERVER_URL,{
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -60,7 +59,7 @@ function edit(updatedGenre) {
 */
 function remove({litID, genreID}) {
 	return new Promise((resolve,reject) => {
-		fetch(server,{
+		fetch(SERVER_URL,{
 			method: "DELETE",
 			headers: {
 				"Content-Type":"application/json"

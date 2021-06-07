@@ -9,10 +9,9 @@
 				the data as parameters to be rendered to the screen
 */
 
-// Development server
-const server = "http://localhost:2020/cca-admin-api/performance/future";
-// Production server
-//const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/future";
+// Server link
+const SERVER_URL = `${process.env.SERVER_URL}/cca-admin-api/performance/future`;
+//const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/future";
 
 /*
 	Future add documentation

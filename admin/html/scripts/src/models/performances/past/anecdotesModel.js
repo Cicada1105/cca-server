@@ -9,17 +9,16 @@
 				the data as parameters to be rendered to the screen
 */
 
-// Development server
-const server = "http://localhost:2020/cca-admin-api/performance/past/anecdotes";
-// Production server
-//const server = "https://cca-server.herokuapp.com/cca-admin-api/performance/past/anecdotes";
+// Server link
+const SERVER_URL = `${process.env.SERVER_URL}/cca-admin-api/performance/past/anecdotes`;
+//const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/past/anecdotes";
 
 /*
 	Future add documentation
 */
 function add({ name, title, anecdote, img: { src, alt } }) {
 	return new Promise((resolve,reject) => {
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -54,7 +53,7 @@ function add({ name, title, anecdote, img: { src, alt } }) {
 function update(anecdote) {
 	// { id, name, title, img: { src, alt } }
 	return new Promise((resolve,reject) => {
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json"
@@ -88,7 +87,7 @@ function update(anecdote) {
 */
 function remove(anecdoteID) {
 	return new Promise((resolve,reject) => {
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json"

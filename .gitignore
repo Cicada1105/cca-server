@@ -1,8 +1,16 @@
-# gitignore comment -> ignore node_modules, package-lock.json
+# Files for git to ignore when pushing to remote branch
 
-node_modules/**
-package-lock.json
-#admin/html/scripts/index.js
-#admin/html/scripts/lib/**
-admin/login/public.pem
-admin/login/user.json
+# Dependencies
+/node_modules
+/package-lock.json
+
+# Compiled files
+/admin/html/scripts/index.js
+admin/html/scripts/lib
+
+# User data
+/admin/login/public.pem
+/admin/login/user.json
+
+# Global variables
+.env

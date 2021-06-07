@@ -21,7 +21,7 @@ block location
 //- Define page content
 block page_content
 	section.card
-		form#login(action="http://localhost:2020/cca-admin-login" method="POST" enctype="application/json")
+		form#login(action=`${process.env.SERVER_URL}/cca-admin-login` method="POST" enctype="application/json")
 			div.inputCont
 				input(type="text" name="username" placeholder="Username..." required)
 				span(id="userErrMsg") * #{userErrMsg}
