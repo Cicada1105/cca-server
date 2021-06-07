@@ -10,9 +10,9 @@
 */
 
 // Development server
-//const server = "http://localhost:2020/cca-admin-api/editing/genres";
+const server = "http://localhost:2020/cca-admin-api/editing/genres";
 // Production server
-const server = "https://cca-server.herokuapp.com/cca-admin-api/editing/genres";
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/editing/genres";
 
 /*
 	Fuure Add documentation

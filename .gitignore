@@ -2,5 +2,7 @@
 
 node_modules/**
 package-lock.json
-#admin/login/public.pem
-#admin/login/user.json
+#admin/html/scripts/index.js
+#admin/html/scripts/lib/**
+admin/login/public.pem
+admin/login/user.json

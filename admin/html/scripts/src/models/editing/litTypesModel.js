@@ -10,9 +10,9 @@
 */
 
 // Development server
-//const server = "http://localhost:2020/cca-admin-api/editing/literature_types";
+const server = "http://localhost:2020/cca-admin-api/editing/literature_types";
 // Production server
-const server = "https://cca-server.herokuapp.com/cca-admin-api/editing/literature_types";
+//const server = "https://cca-server.herokuapp.com/cca-admin-api/editing/literature_types";
 
 /*
 	Fuure Add documentation
