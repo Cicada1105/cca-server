@@ -9,9 +9,10 @@
 				the data as parameters to be rendered to the screen
 */
 
-// Server link
-const SERVER_URL = `${process.env.SERVER_URL}/cca-admin-api/performance/future`;
+// Development
 //const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/future";
+// Production
+const SERVER_URL = 'https://cca-server.herokuapp.com/cca-admin-api/performance/future';
 
 /*
 	Future add documentation
@@ -19,7 +20,7 @@ const SERVER_URL = `${process.env.SERVER_URL}/cca-admin-api/performance/future`;
 function add({ name, location, instruments, date, time: { start, end }, description }) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "POST",
 			headers: {
 				"Content-Type":"application/json"
@@ -56,7 +57,7 @@ function add({ name, location, instruments, date, time: { start, end }, descript
 function edit({ id, name, location, instruments, date, time: { start, end }, description }) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "PUT",
 			headers: {
 				"Content-Type":"application/json"
@@ -94,7 +95,7 @@ function edit({ id, name, location, instruments, date, time: { start, end }, des
 function remove(performanceID) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
-		fetch(server, {
+		fetch(SERVER_URL, {
 			method: "DELETE",
 			headers: {
 				"Content-Type":"application/json"

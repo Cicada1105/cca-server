@@ -8,9 +8,11 @@
 		Note: 	GET is "handled" by compiling the PUG templates and passing in
 				the data as parameters to be rendered to the screen
 */
-// Server link
-const SERVER_URL = `${process.env.SERVER_URL}/cca-admin-api/reedmaking`;
+
+// Development
 //const SERVER_URL = "http://localhost:2020/cca-admin-api/reedmaking";
+// Production
+const SERVER_URL = 'https://cca-server.herokuapp.com/cca-admin-api/reedmaking';
 
 /*
 	Future Add documentation

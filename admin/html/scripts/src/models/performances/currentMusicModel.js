@@ -9,9 +9,10 @@
 				the data as parameters to be rendered to the screen
 */
 
-// Server link
-const SERVER_URL = `${process.env.SERVER_URL}/cca-admin-api/performance/present`;
+// Development
 //const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/present";
+// Production
+const SERVER_URL = 'https://cca-server.herokuapp.com/cca-admin-api/performance/present';
 
 /*
 	Future add documentation
