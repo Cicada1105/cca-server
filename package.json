@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "build-server": "npm run-script compile-server; npm run-script bundle-server",
-    "compile-server": "babel ./admin/html/scripts/src --out-dir ./admin/html/scripts/lib --minified --no-comments",
+    "compile-server": "babel ./admin/html/scripts/src --out-dir ./admin/html/scripts/lib --compact true --no-comments",
     "bundle-server": "browserify ./admin/html/scripts/lib/ --outfile ./admin/html/scripts/index.js --standalone begin"
   },
   "author": "Josh Colvin",
@@ -16,12 +16,12 @@
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.4.11",
     "pug": "^3.0.0",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.9",
-    "@babel/preset-env": "^7.12.7",
-    "dotenv": "^10.0.0"
+    "@babel/preset-env": "^7.12.7"
   }
 }

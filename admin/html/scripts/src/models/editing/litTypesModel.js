@@ -10,9 +10,9 @@
 */
 
 // Development
-//const SERVER_URL = "http://localhost:2020/cca-admin-api/editing/literature_types";
+const SERVER_URL = "http://localhost:2020/cca-admin-api/editing/literature_types";
 // Production
-const SERVER_URL = 'https://cca-server.herokuapp.com/cca-admin-api/editing/literature_types';
+//const SERVER_URL = 'https://cca-server.herokuapp.com/cca-admin-api/editing/literature_types';
 
 /*
 	Fuure Add documentation

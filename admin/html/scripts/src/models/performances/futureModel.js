@@ -10,9 +10,9 @@
 */
 
 // Development
-//const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/future";
+const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/future";
 // Production
-const SERVER_URL = 'https://cca-server.herokuapp.com/cca-admin-api/performance/future';
+//const SERVER_URL = 'https://cca-server.herokuapp.com/cca-admin-api/performance/future';
 
 /*
 	Future add documentation
