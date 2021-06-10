@@ -44,9 +44,36 @@ function add(newPerformance) {
 /*
 	Future update documentation
 */
-function update(performance) {
+function update(editedPerformance) {
 	return new Promise((resolve,reject) => {
-		resolve(`Updating existing past performance: ${performance}`);
+		// Get performances from file
+		let parsedPerformances = getFileData(performancesPath);
+		// Pull out past performance
+		let pastPerformances = parsedPerformances["past"];
+
+		// Find index of performance in storage that matches id of updated performance
+		let index = pastPerformances.findIndex((performance) => performance.id === editedPerformance.id);
+		if (index === -1)
+			reject(`Unable to find past performance with id of: ${editedPerformance.id}`);
+		else {
+			// If edited image was left alone, don't update image
+			if (editedPerformance.img["src"] === undefined) {
+				let { img, ...editedPerformanceWithoutImg } = editedPerformance;
+				// Update stored performance
+				Object.assign(pastPerformances[index],editedPerformanceWithoutImg);
+			}
+			else 
+				Object.assign(pastPerformances[index],editedPerformance)
+			// Update past performances with rest of data
+			let updatedPerformances = { ...parsedPerformances, "past": pastPerformances }
+			// Update file, reflecting updated performance
+			try {
+				writeToFile(performancesPath,JSON.stringify(updatedPerformances));
+				resolve(`Successfully updated ${pastPerformances[index].name}`);
+			} catch(e) {
+				reject("Internal Server Error. Try again later");
+			}
+		}
 	})
 }
 /*
@@ -56,13 +83,15 @@ function remove(performanceID) {
 	return new Promise((resolve,reject) => {
 		// Get performances from file
 		const performances = getFileData(performancesPath);
-		
-		let index = performances["past"].findIndex((performance) => performance.id === performanceID);
+		// Pull out past performance
+		let pastPerformances = performances["past"];
+
+		let index = pastPerformances.findIndex((performance) => performance.id === performanceID);
 		if (index === -1)
 			reject(`Unable to find past performance with id of: ${performanceID}`);
 		else {
 			// Filter out past performance who's ID matches that of performanceID
-			let updatedPastPerformances = performances["past"].filter((performance) => performance.id !== performanceID );
+			let updatedPastPerformances = pastPerformances.filter((performance) => performance.id !== performanceID );
 			// Update past performances with rest of data
 			let updatedPerformances = {...performances,"past":updatedPastPerformances};
 			// Update file, reflectting new performances

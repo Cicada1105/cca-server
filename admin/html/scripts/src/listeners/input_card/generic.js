@@ -12,6 +12,9 @@ function handleControlListeners(displayEl) {
 	let controlsCont = displayEl.lastElementChild;
 	// Access individual tags
 	let icons = controlsCont.getElementsByTagName("i");
+	// If icon has ID (added as ID for editting), store and add to new icon
+	let id = undefined;
+	icons[0].hasAttribute("data-id") && (id = icons[0].dataset["id"]);
 	// Remove icons to remove previous event listeners
 	icons[0].remove();
 	icons[0].remove();
@@ -30,6 +33,8 @@ function handleControlListeners(displayEl) {
 	let icon1 = icons[0];
 	let icon2 = icons[1];
 
+	// Re-add ID if not undefined
+	id && icon1.setAttribute("data-id",id);
 	if (getComputedStyle(displayEl).display === "block") {
 		// Add event listeners to icons
 		icon1.addEventListener("click",controlMethods.submitMethod, { capture: false, once:true });
@@ -40,8 +45,10 @@ function displayCardListener(event) {
 	// displayData is a map containing the 
 	const { displayEl, displayData, controlMethods } = this;
 
+	// Store target info
+	let targetEl = event.target;
 	// Set header according to which button was pressed
-	let cardFunction = event.target.classList.contains("fa-edit") ? "Edit" : "Add";
+	let cardFunction = targetEl.classList.contains("fa-edit") ? "Edit" : "Add";
 	displayEl.getElementsByClassName("cardFunction")[0].textContent = cardFunction;
 	
 	// If displayData is not undefined, display data to be edited, else clear any previous data
@@ -51,6 +58,13 @@ function displayCardListener(event) {
 		const elements = form.elements;
 		// Loop through displayData Map, accessing corresponding input field with mapped item
 		displayData.forEach((val,key) => elements[key].value = val);
+
+		const id = targetEl.dataset["id"];
+		// Get access to edit button control and add unique ID
+		const editBtnConfirm = document.getElementById("ctrlBtnAdd");
+		const editBtnConfirmIcon = editBtnConfirm.firstElementChild;
+		editBtnConfirm.firstElementChild.setAttribute("data-id",targetEl.dataset["id"]);
+
 		// Scroll to top for user to view edit data
 		window.scrollTo({top:0,behavior:"smooth"});
 	}
@@ -60,7 +74,10 @@ function displayCardListener(event) {
 		let icon = clearBtnCont.firstElementChild;
 		// Create new click event to imitate user click
 		let clickEvent = new MouseEvent("click");
-		icon.dispatchEvent(clickEvent);	
+		icon.dispatchEvent(clickEvent);
+		// Remove data-id attribute from if edit button was clicked previously
+		const editBtnConfirm = document.getElementById("ctrlBtnAdd");
+		editBtnConfirm.firstElementChild.removeAttribute("data-id");
 	}
 
 	// Toggle display data only if add button is pressed again

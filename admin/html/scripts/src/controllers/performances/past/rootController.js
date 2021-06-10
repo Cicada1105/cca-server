@@ -46,8 +46,54 @@ function addPastPerformance(event) {
 	Future updatePastPerformance documentation
 */
 function updatePastPerformance(event) {
-	let updatedPerformance = "UPDATED PAST PERFORMANCE";
-	PastPerformances.edit(updatedPerformance).then(successCallback).catch(failedCallback);
+	let controlsCont = event.path[2];
+	let form = controlsCont.previousElementSibling;
+	let formEls = form.elements;
+
+	// Retrieve Unique ID assocaited with past performance
+	let id = event.target.dataset["id"];
+
+	// Store values of instruments in array
+	let instrumentsArray = [];
+	let instrumentsUL = form.querySelector("#instruments");
+	instrumentsUL.childNodes.forEach(instrument => instrumentsArray.push(instrument.innerText));
+	// Format date 
+	let formattedDate = formatDate(form.elements["date"].valueAsDate);
+
+	// Store known data
+	let updatedPerformance = {
+		id,
+		name: formEls["title"].value,
+		description: formEls['description'].value,
+		location:formEls['location'].value,
+		instruments:instrumentsArray,
+		date:formattedDate,
+		img: {
+			src: undefined,
+			alt: undefined
+		}
+	}
+
+	// Retrieve files from input
+	let files = formEls["imgFile"].files;
+	// Check if new image was chosen
+	if (files.length === 1) { // Create file reader to retrieve file
+		let file = files[0];
+		let imgAlt = file.name;
+		// Convert file to array buffer to be sent and stored in request
+		let myReader = new FileReader();
+		myReader.readAsDataURL(file);
+		myReader.onloadend = function() {
+			// Add image data to updatedPerformance
+			updatedPerformance.img["src"] = myReader.result;
+			updatedPerformance.img["alt"] = imgAlt;
+
+			PastPerformances.edit(updatedPerformance).then(successCallback).catch(failedCallback);
+		}
+	}
+	else 
+		// No need to wait for fileread, just edit performance
+		PastPerformances.edit(updatedPerformance).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removePastPerformance documentation

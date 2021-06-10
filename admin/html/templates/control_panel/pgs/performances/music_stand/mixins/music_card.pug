@@ -2,7 +2,7 @@
 mixin currentMusicCard(song)
 	section.card.presentCard
 		h2.name #{song.name}
-		h4.composer By: #{song.by}
+		<span style="font-size:0.9rem">By:</span><h4 class="composer" style="display:inline-block;">#{song.by}</h4><br />
 		p.description #{song.description}
 		aside.controlsCont
 			span.msg

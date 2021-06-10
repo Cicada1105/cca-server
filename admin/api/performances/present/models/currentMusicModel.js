@@ -44,9 +44,31 @@ function add(newSong) {
 /*
 	Future update documentation
 */
-function update(song) {
+function update(editedSong) {
 	return new Promise((resolve,reject) => {
-		resolve(`Updating existing song: ${song}`);
+		// Get performances from file
+		let parsedPerformances = getFileData(performancesPath);
+
+		// Pull out present music
+		let currentMusic = parsedPerformances["present"];
+
+		// Find index in storage of song that matches the id of the edited song
+		let index = currentMusic.findIndex(song => song.id === editedSong.id);
+		if (index === -1)
+			reject(`Unable to find ${editedSong.name} by ${editedSong.by}`)
+		else {
+			// Update stored music
+			Object.assign(currentMusic[index],editedSong);
+			// Update present music with rest of performances
+			let updatedPerformances = { ...parsedPerformances, "present": currentMusic };
+			// Update file, reflecting changes to current music
+			try {
+				writeToFile(performancesPath,JSON.stringify(parsedPerformances));
+				resolve(`Successfully updated ${currentMusic[index].name} by ${currentMusic[index].by}`);
+			} catch(e) {
+				reject("Internal Server Error. Try again later");
+			}
+		}
 	})
 }
 /*

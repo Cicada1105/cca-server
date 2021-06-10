@@ -3,7 +3,7 @@ mixin anecdoteCard(anecdote)
 	section.card.anecdoteCard
 		img(src=`${anecdote.img.src}` alt=`${anecdote.img.alt}`)
 		h2.name #{anecdote.name}
-		h4.title Title: #{anecdote.title}
+		<span style="font-size:0.9rem">Title:</span> <h4 class="title" style="display:inline-block">#{anecdote.title}</h4><br />
 		p.anecdote #{anecdote.anecdote}
 		aside.controlsCont
 			span.msg

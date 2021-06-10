@@ -26,7 +26,6 @@ const MusicModel = require("../models/currentMusicModel.js");
 const { getBodyData } = require("../../../utils.js");
 
 async function addSong(req, res) {
-	res.setHeader("Content-Type","application/json");
 	// Get song data from body
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary info for adding 
@@ -58,19 +57,24 @@ async function addSong(req, res) {
 	})
 }
 async function updateSong(req, res) {
-	res.setHeader("Content-Type","application/json");
-	await MusicModel.update("UPDATED SONG").then((msg) => {
-		res.status = 200;
-		res.end(JSON.stringify({ msg }))
-	}).catch((err) => {
-		console.log("Error:")
-		console.log(err.message);
-		console.log(err.stack);
+	// Get song data from body
+	await getBodyData(req).then(async (body) => {
+		let { id, name, by, description } = body;
 
-		res.status = 500;
-		res.end(JSON.stringify({
-			msg: "Problem getting body data"
-		}));	
+		await MusicModel.update({
+			id,
+			name,
+			by,
+			description
+		}).then((msg) => {
+			res.status = 200;
+			res.end(JSON.stringify({ msg }))
+		}).catch((err) => {
+			res.status = 500;
+			res.end(JSON.stringify({
+				msg: "Problem getting body data"
+			}));	
+		})
 	})
 }
 async function removeSong(req, res) {

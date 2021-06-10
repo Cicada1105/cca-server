@@ -53,7 +53,7 @@ function add({ name, description, location, instruments, date, img:{ src, alt }}
 /*
 	Future edit documentation
 */
-function edit(pastPerformance) {
+function edit({ id, name, description, location, instruments, date, img:{ src, alt }}) {
 	// { id, name, description, location, instruments, date, img:{ src, alt }}
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
@@ -61,21 +61,19 @@ function edit(pastPerformance) {
 			method: "PUT",
 			headers: {
 				"Content-Type":"application/json"
-			}/*,
-			body: JSON.stringify({ 
-				name,
-				description,
-				location,
+			},
+			body: JSON.stringify({
+				id,
+				name, description, location,
 				instruments,
 				date,
 				img: {
 					src,
 					alt
 				}
-			})*/
+			})
 		}).then((response) => {
 			response.json().then(data => {
-				console.log(data);
 				resolve({
 					msg: data.msg,
 					status: response.status

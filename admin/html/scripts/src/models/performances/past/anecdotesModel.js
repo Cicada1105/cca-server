@@ -51,23 +51,23 @@ function add({ name, title, anecdote, img: { src, alt } }) {
 /*
 	Future update documentation
 */
-function update(anecdote) {
-	// { id, name, title, img: { src, alt } }
+function update({ id, name, title, anecdote, img: { src, alt }}) {
 	return new Promise((resolve,reject) => {
 		fetch(SERVER_URL, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json"
-			}/*,
+			},
 			body: JSON.stringify({
 				id,
 				name,
 				title,
+				anecdote,
 				img: {
 					src,
 					alt
 				}
-			})*/
+			})
 		}).then(response => {
 			response.json().then(data => {
 				resolve({

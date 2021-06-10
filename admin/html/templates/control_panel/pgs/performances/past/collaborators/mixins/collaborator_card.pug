@@ -3,7 +3,7 @@ mixin collaboratorCard(collaborator)
 	section.card.collaboratorCard
 		img(src=`${collaborator.img.src}` alt=`${collaborator.img.alt}`)
 		h2.name #{collaborator.name}
-		h4.title Title: #{collaborator.title}
+		<span style="font-size:0.9rem">Title:</span> <h4 class="title" style="display:inline-block">#{collaborator.title}</h4>
 		aside.controlsCont
 			span.msg
 			div.ctrlBtnEdit

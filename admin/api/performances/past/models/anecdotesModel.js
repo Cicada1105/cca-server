@@ -30,7 +30,7 @@ function add(anecdote) {
 		// Write newly updated anecdotes to original file, catching any error that may occur
 		try {
 			writeToFile(anecdotesPath,JSON.stringify(anecdotes));
-			resolve(`Successfully added ${anecdote.name}'s anecdote`);
+			resolve(`Successfully added anecdote by ${anecdote.name}`);
 		} catch(e) {
 			console.error(e);
 			reject("Internal Server Error. Try again later");
@@ -40,9 +40,33 @@ function add(anecdote) {
 /*
 	Future update documentation
 */
-function update(anecdote) {
+function update(editedAnecdote) {
 	return new Promise((resolve,reject) => {
-		resolve(`Updated anecdote: ${anecdote}`);
+		// Retrieve anecdotes from file
+		let anecdotes = getFileData(anecdotesPath);
+
+		// Find index of anecdote in storage that matches id of edited anecdote
+		let index = anecdotes.findIndex(anecdote => anecdote.id === editedAnecdote.id);
+		if (index === -1)
+			reject(`Unable to find past anecdote by ${editedCollaborator.name}`)
+		else {
+			// If edited image was left alone, don't update image in storage
+			if (editedAnecdote.img["src"] === undefined) {
+				let { img, ...editedAnecdoteWithoutImg } = editedAnecdote;
+				// Update stored aneccdotes
+				Object.assign(anecdotes[index],editedAnecdoteWithoutImg);
+			}
+			else
+				Object.assign(anecdotes[index],editedAnecdote)
+
+			// Update file, reflecting changes to anecdote
+			try {
+				writeToFile(anecdotesPath,JSON.stringify(anecdotes));
+				resolve(`Successfully updated anecdote by ${anecdotes[index].name}`);
+			} catch(e) {
+				reject("Internal Server Error. Try again later");
+			}
+		}
 	})
 }
 /*
@@ -63,7 +87,7 @@ function remove(anecdoteID) {
 			// Update file, reflecting updated anecdotes
 			try {
 				writeToFile(anecdotesPath,JSON.stringify(updatedAnecdotes));
-				resolve(`Successfully removed ${anecdotes[index].name}'s anecdote!`);
+				resolve(`Successfully removed anecdote by ${anecdotes[index].name}`);
 			} catch(e) {
 				console.error(e);
 				reject("Internal Server Error. Try again later");

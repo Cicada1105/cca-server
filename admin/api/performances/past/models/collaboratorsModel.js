@@ -40,9 +40,33 @@ function add(collaborator) {
 /*
 	Future update documentation
 */
-function update(collaborator) {
+function update(editedCollaborator) {
 	return new Promise((resolve,reject) => {
-		resolve(`Updated collaborator: ${collaborator}`);
+		// Get collaborators from file
+		let collaborators = getFileData(collaboratorsPath);
+
+		// Find index of collaborator in storage that matches id of edited collaborator
+		let index = collaborators.findIndex(collaborator => collaborator.id === editedCollaborator.id);
+		if (index === -1)
+			reject(`Unable to find past collaborator: ${editedCollaborator.name}`)
+		else {
+			// If edited image was left alone, don't update image
+			if (editedCollaborator.img["src"] === undefined) {
+				let { img, ...editedCollaboratorWithoutImg } = editedCollaborator;
+				// Update stored collaborators
+				Object.assign(collaborators[index],editedCollaboratorWithoutImg);
+			}
+			else
+				Object.assign(collaborators[index],editedCollaborator);
+
+			// Update file, reflecting changes to collaborator
+			try {
+				writeToFile(collaboratorsPath,JSON.stringify(collaborators));
+				resolve(`Successfully updated previous collaborator: ${collaborators[index].name}`);
+			} catch(e) {
+				reject("Internal Server Error. Try again later");
+			}
+		}
 	})
 }
 /*

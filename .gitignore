@@ -10,8 +10,8 @@ admin/html/scripts/lib
 #admin/html/scripts/src
 
 # User data
-#/admin/login/public.pem
-#/admin/login/user.json
+/admin/login/public.pem
+/admin/login/user.json
 
 # Global variables
 .env

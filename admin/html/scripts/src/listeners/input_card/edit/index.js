@@ -27,7 +27,7 @@ function editPastCardListener(event) {
 	let displayCard = event.path[3];
 	// Get data from current card
 	let displayData = getPastPerformanceData(displayCard);
-	
+
 	/* 
 		Build basic past performance card, binding functions and 
 		data associated with editPastCardListener to value of "this"
@@ -86,7 +86,7 @@ function editPresentCardListener(event) {
 
 	// Get data from current card
 	let displayData = getPresentPerformanceData(displayCard);
-	
+
 	/* 
 		Build basic present performance card, binding functions and 
 		data associated with addCollaboratorCardListener to 

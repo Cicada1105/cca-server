@@ -17,7 +17,7 @@ const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/past/collabo
 /*
 	Future add documentation
 */
-function add({ name, title, img: { src, alt } }) {
+function add({ name, title, img: { src, alt }}) {
 	return new Promise((resolve,reject) => {
 		fetch(SERVER_URL, {
 			method: "POST",
@@ -50,14 +50,13 @@ function add({ name, title, img: { src, alt } }) {
 /*
 	Future update documentation
 */
-function update(collaborator) {
-	// { id, name, title, img: { src, alt } }
+function update({ id, name, title, img: { src, alt }}) {
 	return new Promise((resolve,reject) => {
 		fetch(SERVER_URL, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json"
-			}/*,
+			},
 			body: JSON.stringify({
 				id,
 				name,
@@ -66,7 +65,7 @@ function update(collaborator) {
 					src,
 					alt
 				}
-			})*/
+			})
 		}).then(response => {
 			response.json().then(data => {
 				resolve({

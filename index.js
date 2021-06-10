@@ -6,6 +6,7 @@ const ADMIN = require('./admin/index.js');
 const API = require('./api/index.js');
 const EMAIL = require('./email/index.js');
 
+const SERVER_URL = process.env.SERVER_URL;
 const PORT = process.env.PORT || 2020;
 
 const server = http.createServer((req,res) => {
@@ -22,8 +23,10 @@ const server = http.createServer((req,res) => {
 			ADMIN.Router(req,res);
 		else if (req.url.startsWith("/api"))
 			API.Router(req,res);
-		else
-			res.end("Return safe 404 response");
+		else {
+			res.writeHead(301,{"Location":`${SERVER_URL}/cca-admin-login`});
+			res.end();
+		}
 	}
 });
 
