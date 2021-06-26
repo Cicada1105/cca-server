@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.edit=edit;var SERVER_URL="http://localhost:2020/cca-admin-api/reedmaking";function edit(name){return new Promise(function(resolve,reject){resolve({msg:"Successfully editted reed name: ".concat(name),status:200});});}

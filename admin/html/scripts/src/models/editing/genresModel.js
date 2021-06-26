@@ -9,10 +9,7 @@
 				the data as parameters to be rendered to the screen
 */
 
-// Development
 const SERVER_URL = "http://localhost:2020/cca-admin-api/editing/genres";
-// Production
-//const SERVER_URL = 'https://cca-server.herokuapp.com/cca-admin-api/editing/genres';
 
 /*
 	Fuure Add documentation
