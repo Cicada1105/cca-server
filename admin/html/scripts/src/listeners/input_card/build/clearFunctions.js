@@ -57,8 +57,11 @@ function clearFutureForm(form) {
 	// Clear form
 	form.reset();
 }
-/*  Clear functions for the editing page  */
-function removeEditingInputForm(displayedEl) {
+/*  
+	Clear functions for service pages (editing and reedmaking)
+*/
+/*   Functions applied across both pages   */
+const removeEditingInputForm = (displayedEl) => {
 	// Remove form and bg overlay from screen
 	displayedEl.style.display = "none";
 	// Remove form and bg overlay from screen
@@ -67,7 +70,7 @@ function removeEditingInputForm(displayedEl) {
 	// Allow normal body scrolling
 	document.body.style.overflowY = "scroll";
 }
-function clearSingleInputForm(el) {
+const clearBasicForm = (el) => {
 	const form = el.querySelector("article.input > form");
 
 	// Clear form
@@ -75,13 +78,18 @@ function clearSingleInputForm(el) {
 	// Remove element and backdrop from screen
 	removeEditingInputForm(el);
 }
-function clearRatesInputForm(el) {
-	const form = el.querySelector("article.input > form");
+/*    Functions speciffic to individual forms  */
+function clearSingleInputForm(el) {
+	// Clear data specific to single input form
 
-	// Clear form
-	form.reset();
-	// Remove element and backdrop from screen
-	removeEditingInputForm(el);
+	// Clear basic form
+	clearBasicForm(el);
+}
+function clearRatesInputForm(el) {
+	// Clear data specific to rate input form
+
+	// Clear basic form
+	clearBasicForm(el);
 }
 function clearAddLitTypeInputForm(el) {
 	const form = el.querySelector("article.input > form");
@@ -89,18 +97,37 @@ function clearAddLitTypeInputForm(el) {
 
 	// Clear Rates from list
 
-	// Clear form
-	form.reset();
-	// Remove element and backdrop from screen
-	removeEditingInputForm(el);
+	// Clear basic form
+	clearBasicForm(el);
 }
-function clearReedmakingForm(form) {
-	// Clear form
-	form.reset();
+function clearAddReedInputForm(el) {
+	// Clear data specific to add reed form
+
+	// Clear basic form
+	clearBasicForm(el);
+}
+function clearReedmNameForm(el) {
+	// Clear data specific to edit reed name form
+
+	// Clear basic form
+	clearBasicForm(el);
+}
+function clearReedDescriptionForm(el) {
+	// Clear data specific to edit reed description form
+
+	// Clear basic form
+	clearBasicForm(el);
+}
+function clearReedRatesForm(el) {
+	// Clear data specific to add/edit reed rate form
+
+	// Clear basic form
+	clearBasicForm(el);
 }
 
 export {
 	clearPastForm, clearCollaboratorForm, clearAnecdoteForm,
 	clearPresentForm, clearFutureForm, clearSingleInputForm, 
-	clearRatesInputForm, clearAddLitTypeInputForm, clearReedmakingForm
+	clearRatesInputForm, clearAddLitTypeInputForm, clearAddReedInputForm,
+	clearReedmNameForm, clearReedDescriptionForm, clearReedRatesForm
 }

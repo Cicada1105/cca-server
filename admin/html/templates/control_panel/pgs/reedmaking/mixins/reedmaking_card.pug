@@ -1,11 +1,28 @@
 //- This file is a template for the reedmaking info
-mixin reedmakingPricingCard(pricing)
-	section.card.reedmakingCard
-		h2.name #{pricing.name}
-		p.description #{pricing.description}
-		aside.controlsCont
-			span.msg
-			div.ctrlBtnEdit
-				i(class="far fa-edit" data-id=`${pricing.id}`)
-			div.ctrlBtnDelete
-				i(class="far fa-times-circle" data-id=`${pricing.id}`)
+mixin reedmakingPricingCard(reedData)
+	section.card.reedmakingCard(data-reedtype=`${reedData.name}`)
+		h3.nameHeader Name
+		header.nameHeaderCont
+			p.name #{reedData.name}
+			i(class="far fa-edit editNameBtn" data-id=`${reedData["id"]}`)
+		h3.descriptionHeader Description
+		i(class="far fa-edit editDescriptionBtn" data-id=`${reedData["id"]}`)
+		p.description #{reedData.description}
+
+		table.displayRates(data-reedtype=`${reedData.name}` data-reedid=`${reedData["id"]}`)
+			caption
+				h4 Rates
+				i(class="far fa-plus-square")
+			thead
+				tr
+					td Quantity
+					td Price
+					td
+			tbody
+				each rate in reedData.pricing
+					tr
+						td #{rate.quantity}
+						td #{rate.cost}
+						td.controls
+							i(class="far fa-edit" data-id=`${rate["id"]}`)
+							i(class="far fa-times-circle" data-id=`${rate["id"]}`)

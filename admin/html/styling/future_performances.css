@@ -69,3 +69,8 @@ p.date {
 p.time {
 	margin-bottom:1.5rem;
 }
+section.futureCard p.description {
+	display:inline-block;
+	font-size:0.8rem;
+	width:75%;
+}

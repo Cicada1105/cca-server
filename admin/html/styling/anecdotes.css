@@ -1,3 +1,9 @@
+/*  Card Descriptions  */
+section.anecdoteCard p.anecdote {
+	display:inline-block;
+	font-size:0.8rem;
+	width:75%;
+}
 /*   Add Card   */
 section#addCard div#imgCont {
 	position: relative;

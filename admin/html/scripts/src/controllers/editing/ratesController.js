@@ -10,7 +10,7 @@ import { successCallback, failedCallback } from '../utils.js';
 */
 function addRate(event) {
 	// Get lit ID and editing type associated with rates
-	let litID = event.target.dataset["litid"];
+	let litID = event.target.dataset["cardid"];
 	let editingType = event.target.dataset["editingtype"];
 	// Get access to form to retrieve data
 	let controlsFooter = event.path[1];

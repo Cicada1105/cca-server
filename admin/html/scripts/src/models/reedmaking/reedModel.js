@@ -17,9 +17,13 @@ const SERVER_URL = "http://localhost:2020/cca-admin-api/reedmaking";
 /*
 	Future Add documentation
 */
-function add({ name, description, pricing }) {
+function add(reed) {
 	return new Promise((resolve,reject) => {
-		fetch(SERVER_URL, {
+		resolve({
+			msg: `Successfully added new reed: ${reed}`,
+			status: 201
+		});
+		/*fetch(SERVER_URL, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -41,15 +45,19 @@ function add({ name, description, pricing }) {
 					status: err.status
 				})
 			})
-		})	
+		})*/
 	})
 }
 /*
 	Future Edit documentation
 */
-function edit({ id, name, description, pricing }) {
+function edit(reed) {
 	return new Promise((resolve,reject) => {
-		fetch(SERVER_URL, {
+		resolve({
+			msg: `Successfully updated reed: ${reed}`,
+			status: 200
+		});
+		/*fetch(SERVER_URL, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json"
@@ -72,29 +80,36 @@ function edit({ id, name, description, pricing }) {
 					status: err.status
 				})
 			})
-		})	
+		})*/
 	})
 }
 /*
 	Future Remove documentation
 */
 function remove(pricingID) {
-	console.log(`Removing the following pricingID: ${pricingID}`);
-	// Make request to server, passig in proper method, headers and body data
-	fetch(SERVER_URL, {
-		method: "DELETE",
-		headers: {
-			"Content-Type":"application/json"
-		},
-		body: JSON.stringify({ id: pricingID })
-	}).then(response => {
-		let dataJSON = response.json();
-		let data = JSON.parse(dataJSON);
-		let status = response.status;
-		console.log(status);
-		console.log(data.msg);
-	}).catch(err => {
-		console.log(err);
+	return new Promise((resolve,reject) => {
+		resolve({
+			msg: `Successfully remove reed with id of: ${pricingID}`,
+			status: 200
+		});
+		/*
+		// Make request to server, passig in proper method, headers and body data
+		fetch(SERVER_URL, {
+			method: "DELETE",
+			headers: {
+				"Content-Type":"application/json"
+			},
+			body: JSON.stringify({ id: pricingID })
+		}).then(response => {
+			let dataJSON = response.json();
+			let data = JSON.parse(dataJSON);
+			let status = response.status;
+			console.log(status);
+			console.log(data.msg);
+		}).catch(err => {
+			console.log(err);
+		});
+		*/
 	});
 }
 

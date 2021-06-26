@@ -16,7 +16,7 @@ function fileSelect(event) {
 	let img = imgCont.lastElementChild;
 	// Get user inputted image and convert to a usable img src
 	let fileInput = event.path[0];
-	
+	console.log(fileInput);
 	if (fileInput.files[0]) {
 		let file = fileInput.files[0];
 		// Store file name to be used as alt
@@ -48,7 +48,7 @@ function fileSelect(event) {
 /*Function for handling adding to instrument list for add future performance card*/
 function addToList(event) {
 	let instrumentsCont = event.path[1];
-
+	
 	// Get reference to user input tag
 	let instrumentsInput = instrumentsCont.firstElementChild;
 	// Retrieve user inputted text

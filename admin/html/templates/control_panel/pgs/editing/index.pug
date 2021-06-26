@@ -9,13 +9,12 @@ extends ../../page_template.pug
 
 //- Define styles to include, appending to included global style
 block append styles
-	style
-		include ../../../../styling/editing.css
+	include ../../../../styling/editing.css
 
 //- Define mixins needed for music_stand
 block mixins
 	include ./mixins/lit_card.pug
-	include ./mixins/add_edit/genre.pug
+	include ./mixins/add_edit/single_input.pug
 	include ./mixins/add_edit/rate.pug
 	include ./mixins/add_edit/lit_type.pug
 
@@ -27,7 +26,7 @@ block location
 block page_content
 	div#backDropCont
 		div(id = "backDrop")
-		+addEditGenre
+		+addEditSingleInput
 		+addEditRate
 		+addEditLitType
 	div(id = "addLitTypeCont")

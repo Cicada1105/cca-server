@@ -3,74 +3,73 @@
 */
 
 // Imports
-import { 
-	buildPastCardListener, buildAnecdoteCardListener, buildCollaboratorCardListener,
-	buildPresentCardListener, buildFutureCardListener, buildEditingAddLitCardListener,
-	buildSingleInputListener, buildEditingRateCardListener, buildReedmakingCardListener
-} from "../utils/buildCardListeners.js";
+import * as Build from "../build/";
 // import apply listeners functions that are different from their "edit" counterpart
-import { getGenreIdentifierData, getRateIdentifierData, getLitIdentifierData } from "../utils/getEditingIdData.js";
+import { 
+	getLitIdentifierData, getGenreIdentifierData, getEditingRateIDData, 
+	getAddReedIdentifierData, getReedRateIDData
+} from "../utils/getIdentifierData.js";
 
-function addPastCardListener(event) {
+function addPastCard(event) {
 	let addPastPerformance = this;
 
 	/* 
 		Build basic past performance card, binding functions and 
-		data associated with addPastCardListener to value of "this"
+		data associated with addPastCard to value of "this"
 	*/
-	buildPastCardListener.call({ 
+	Build.buildPastCard.call({ 
 		submitMethod: addPastPerformance
 	}, event);
 }
-function addAnecdoteCardListener(event) {
+function addAnecdoteCard(event) {
 	let addAnecdote = this;
 
 	/* 
 		Build basic anecdote card, binding functions and 
-		data associated with addAnecdoteCardListener to 
+		data associated with addAnecdoteCard to 
 		value of "this"
 	*/
-	buildAnecdoteCardListener.call({
+	Build.buildAnecdoteCard.call({
 		submitMethod: addAnecdote
 	}, event); // First param = value of 'this', ...rest = arguments
 }
-function addCollaboratorCardListener(event) {
+function addCollaboratorCard(event) {
 	let addCollaborator = this;
 
 	/* 
 		Build basic collaborator card, binding functions and 
-		data associated with addCollaboratorCardListener to 
+		data associated with addCollaboratorCard to 
 		value of "this"
 	*/
-	buildCollaboratorCardListener.call({
+	Build.buildCollaboratorCard.call({
 		submitMethod: addCollaborator
 	}, event); // First param = value of 'this', ...rest = arguments
 }
-function addPresentCardListener(event) {
+function addPresentCard(event) {
 	let addSong = this;
 
 	/* 
 		Build basic present performance card, binding functions and 
-		data associated with addPresentCardListener to 
+		data associated with addPresentCard to 
 		value of "this"
 	*/
-	buildPresentCardListener.call({
+	Build.buildPresentCard.call({
 		submitMethod: addSong
 	}, event);// First param = value of 'this', ...rest = arguments
 }
-function addFutureCardListener(event) {
+function addFutureCard(event) {
 	let addFuturePerformance = this;
 
 	/* 
 		Build basic future performance card, binding functions and 
-		data associated with addFutureCardListener to 
+		data associated with addFutureCard to 
 		value of "this"
 	*/
-	buildFutureCardListener.call({
+	Build.buildFutureCard.call({
 		submitMethod: addFuturePerformance
 	}, event); // First param = value of 'this', ...rest = arguments
 }
-function addEditingLiteratureTypeListener(event) {
+function addEditingLitTypeCard(event) {
 	// Specify cardID here
 	let addLitType = this;
 
@@ -79,15 +78,15 @@ function addEditingLiteratureTypeListener(event) {
 
 	/* 
 		Build basic editing lit card, binding functions and 
-		data associated with addEditingLiteratureTypeListener 
+		data associated with addEditingLitTypeCard 
 		to value of "this"
 	*/
-	buildEditingAddLitCardListener.call({
+	Build.buildEditingAddLitCard.call({
 		submitMethod: addLitType,
 		titleData
 	}, event); // First param = value of 'this', ...rest = arguments
 }
-function addEditingGenreListener(event) {
+function addEditingGenreCard(event) {
 	// Specify cardID here
 	let addGenre = this;
 
@@ -96,48 +95,64 @@ function addEditingGenreListener(event) {
 
 	/* 
 		Build basic editing genre card, binding functions and 
-		data associated with addEditingGenreListener to value 
+		data associated with addEditingGenreCard to value 
 		of "this"
 	*/
-	buildSingleInputListener.call({
+	Build.buildSingleInputCard.call({
 		submitMethod: addGenre,
 		idData,
 		titleData
 	}, event); // First param = value of 'this', ...rest = arguments
 }
-function addEditingRateListener(event) {
+function addEditingRateCard(event) {
 	let addRate = this;
 
 	// Get identifier data for card
-	let { idData, titleData } = getRateIdentifierData(event);
+	let { idData, titleData } = getEditingRateIDData(event);
 
 	/* 
 		Build basic editing rate card, binding functions and 
-		data associated with addEditingRateListener to value of "this"
+		data associated with addEditingRateCard to value of "this"
 	*/
-	buildEditingRateCardListener.call({
+	Build.buildEditingRateCard.call({
 		submitMethod: addRate,
 		idData,
 		titleData
 	}, event); // First param = value of 'this', ...rest = arguments
 }
-function addReedmakingCardListener(event) {
-	let addReed = this 
+function addReedCard(event) {
+	let addReed = this;
 
+	// Get identifier data for card
+	let { titleData } = getAddReedIdentifierData(event);
 	/* 
 		Build basic reedmaking card, binding functions and 
-		data associated with addReedmakingCardListener to 
+		data associated with addReedCard to 
 		value of "this"
 	*/
-	buildReedmakingCardListener.call({
-		submitMethod:addReed
+	Build.buildReedCard.call({
+		submitMethod:addReed,
+		titleData
+	},event);
+}
+function addReedRateCard(event) {
+	let addRate = this;
+
+	// Get identifier data for card
+	let { titleData } = getReedRateIDData(event);
+	/* 
+		Build basic reed rate card, binding functions and 
+		data associated with addReedRateCard to 
+		value of "this"
+	*/
+	Build.buildReedRateCard.call({
+		submitMethod:addRate,
+		titleData
 	},event);
 }
 
 export { 
-	addPastCardListener, addAnecdoteCardListener, 
-	addCollaboratorCardListener, addPresentCardListener, 
-	addFutureCardListener, addEditingLiteratureTypeListener,
-	addEditingGenreListener, addEditingRateListener,
-	addReedmakingCardListener
+	addPastCard, addAnecdoteCard, addCollaboratorCard, addPresentCard, 
+	addFutureCard, addEditingLitTypeCard, addEditingGenreCard, 
+	addEditingRateCard, addReedCard, addReedRateCard
 }

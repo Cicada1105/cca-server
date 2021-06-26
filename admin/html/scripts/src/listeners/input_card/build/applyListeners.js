@@ -4,7 +4,7 @@
 */
 
 // Util imports
-import { fileSelect, addToList, addGenreToList, addRateToList } from "./helperFunctions.js";
+import { fileSelect, addToList, addGenreToList, addRateToList } from "../utils/helperFunctions.js";
 
 /*********************************/
 /*   Apply Past Card Listeners   */
@@ -15,8 +15,9 @@ function applyPastCardListeners(addForm) {
 
 	let instrumentsCont = document.getElementById("instrumentsCont");
 	let addInstrumentBtn = instrumentsCont.querySelector("input[type='button']");
-	
+
 	if (getComputedStyle(addForm).display === "block") {
+		console.log(fileInputBtn);
 		// Add event listener to file input
 		fileInputBtn.addEventListener("change",fileSelect, { capture: false });
 		// Add event listener to button
@@ -64,12 +65,13 @@ function applyPresentCardListeners(addForm) {
 	// Apply any listeners specific to collaborators cardd
 }
 function applyFutureCardListeners(addForm) {
-	let instrumentsCont = addForm.querySelector("#instrumentsCont");
+	let instrumentsCont = document.getElementById("instrumentsCont");
 	let addInstrumentBtn = instrumentsCont.querySelector("input[type='button']");
 
-	if (getComputedStyle(addForm).display === "none") 
+	if (getComputedStyle(addForm).display === "block") {
 		// Add event listener to button
 		addInstrumentBtn.addEventListener("click",addToList,{ capture: false })
+	}
 	else
 		// Remove event listener from button
 		addInstrumentBtn.removeEventListener("click",addToList,{ capture: false })
@@ -77,7 +79,7 @@ function applyFutureCardListeners(addForm) {
 /********************/
 /*   Editing page   */
 /********************/
-function applySingleInpuutListeners(inputCard) {
+function applySingleInputListeners(inputCard) {
 	// Access form of inputCard
 	let form = inputCard.firstElementChild;
 
@@ -100,7 +102,7 @@ function applyRateCardListeners(inputCard) {
 	// Return function that is "cleanup" for when cancel button is pressed
 	return () => checkbox.removeEventListener("change",checkFunction);
 }
-function applyAddLiteratureTypeListeners(addCard) {
+function applyAddLitTypeListeners(addCard) {
 	// Access form of addCard
 	let article = addCard.getElementsByClassName("input")[0];
 	let form = article.firstElementChild;
@@ -145,35 +147,32 @@ function applyAddLiteratureTypeListeners(addCard) {
 		let ratesInputRow = ratesTableBody.firstElementChild;
 		let addBtnTD = ratesInputRow.lastElementChild;
 		let addRateBtn = addBtnTD.firstElementChild;
-		addRateBtn.addEventListener("click",addRateToList);
+		addRateBtn.addEventListener("click",addRateToList, { capture: false });
 
 		// Apply toggle listener to flat rate checkbox
 		let ratesTableCaption = table.firstElementChild;
 		let ratesCaptionHeader = ratesTableCaption.firstElementChild
 
 		// Add to map a cleanup function for removing listeners
-		cleanupFunctions.set(`${ratesCaptionHeader.textContent} rate`,() => addRateBtn.removeEventListener("click",addRateToList));
+		cleanupFunctions.set(`${ratesCaptionHeader.textContent} rate`,() => addRateBtn.removeEventListener("click",addRateToList, { capture: false }));
 	})
 
 	// Return function that is "cleanup" for when cancel button is pressed
 	return () => {
 		addGenreBtn.removeEventListener("click",addGenreToList);
-		addRateBtn.removeEventListener("click",addRateToList);
-		checkbox.removeEventListener("change",checkBoxCallback);
+		checkBox.removeEventListener("change",checkBoxCallback);
 		cleanupFunctions.forEach(func => func());
 	}
 }
 /***********************/
 /*   Reedmaking Page   */
 /***********************/
-function applyReedmakinglisteners(addForm) {
+function applyAddReedListeners(addCard) {
 
 }
 
 export {
-	applyPastCardListeners, applyCollaboratorCardListeners,
-	applyAnecdoteCardListeners, applyPresentCardListeners, 
-	applyFutureCardListeners, applySingleInpuutListeners,
-	applyRateCardListeners, applyAddLiteratureTypeListeners,
-	applyReedmakinglisteners
+	applyPastCardListeners, applyCollaboratorCardListeners, applyAnecdoteCardListeners, 
+	applyPresentCardListeners, applyFutureCardListeners, applySingleInputListeners,
+	applyRateCardListeners, applyAddLitTypeListeners, applyAddReedListeners
 }

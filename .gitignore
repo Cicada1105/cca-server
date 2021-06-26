@@ -6,7 +6,7 @@
 
 # Compiled files
 /admin/html/scripts/index.js
-admin/html/scripts/lib
+#admin/html/scripts/lib
 #admin/html/scripts/src
 
 # User data

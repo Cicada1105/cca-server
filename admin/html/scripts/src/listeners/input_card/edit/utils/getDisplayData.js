@@ -144,19 +144,27 @@ function getFuturePerformanceData(displayCard) {
 }
 /*   Editing Page   */
 function getLitDisplayData(event) {
+	// Create map to hold input data
+	let litMap = new Map();
+	
 	// Get displayed data for selected literature type
 	let header = event.target.previousElementSibling;
+	litMap.set("single_input",header);	// form single input is used for multiple functions on page
 
-	return [ header.textContent ];
+	return litMap;
 }
 function getGenreDisplayData(event) {
-	// Get displayed data for selected genre 
+	// Create map to hold input data
+	let genreMap = new Map();
+
+	/* Get displayed data for selected genre and put into map */
 	let controlsCont = event.target.parentElement;
 	let genreEl = controlsCont.previousElementSibling;
+	genreMap.set("single_input",genreEl.textContent);	// form single input is used for multiple functions on page
 	
-	return [ genreEl.textContent ]; 
+	return genreMap;
 }
-function getRateDisplayData(event) {
+function getEditingRateDisplayData(event) {
 	// Create map to hold input data
 	let rateMap = new Map();
 	
@@ -191,24 +199,56 @@ function getRateDisplayData(event) {
 	return rateMap;
 }
 /*   Reedmaking Page   */
-function getReedmakingDisplayData(displayCard) {
+function getReedNameDisplayData(event) {
+	// Create new map to hold input data
+	let nameMap = new Map();
+
+	let editBtn = event.target;
+	// Retrieve name of reed and then put into map
+	let reedName = editBtn.previousElementSibling.textContent;
+	nameMap.set("name",reedName);
+
+	return nameMap;
+}
+function getReedDescriptionDisplayData(event) {
 	// Create map to hold input data
-	let reedmakingMap = new Map();
+	let descriptionMap = new Map();
 
-	/* Get reedmaking data and put into map */
-	// Name of Reed
-	let name = displayCard.getElementsByClassName("name")[0].textContent;
-	reedmakingMap.set("name",name);
-	// Brief description about reed
-	let description = displayCard.getElementsByClassName("description")[0].textContent;
-	reedmakingMap.set("description",description);
+	let editBtn = event.target;
+	// Retrieve reed description and then put into map
+	let reedDescrription = editBtn.nextElementSibling.textContent;
+	descriptionMap.set("description",reedDescrription);
 
-	return reedmakingMap;
+	return descriptionMap;
+}
+function getReedRateDisplayData(event) {
+	// Create map to hold input data
+	let rateMap = new Map();
+
+	/* Get rate data and put into map */
+	// Retrieve conrols cont
+	let editBtn = event.target;
+	let controlsCont = editBtn.parentElement;
+	// Retrieve row
+	let rateRow = controlsCont.parentElement;
+	// Retrieve all table data elemets for row
+	let rateTds = rateRow.getElementsByTagName("td");
+	// Convert to array
+	let tdArray = Array.from(rateTds);
+	// Remove controls (last) container
+	let rates = tdArray.slice(0,-1);
+	// Reed rate quantity
+	rateMap.set("quantity",rates[0].textContent);
+	// Reed rate pricing
+	rateMap.set("price",rates[1].textContent);
+
+	return rateMap;
 }
 
 export {
 	getPastPerformanceData, getCollaboratorData, getAnecdoteData,
 	getPresentPerformanceData, getFuturePerformanceData,
-	getLitDisplayData, getGenreDisplayData, getRateDisplayData,
-	getReedmakingDisplayData
+	getLitDisplayData, getGenreDisplayData, getEditingRateDisplayData,
+	getReedNameDisplayData, getReedDescriptionDisplayData,
+	getReedRateDisplayData
 }

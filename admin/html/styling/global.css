@@ -122,12 +122,6 @@ section.card  h4 {
 	font-size:0.9rem;
 	font-style:italic;
 }
-/*  Card Descriptions  */
-section.card p:last-of-type {
-	display:inline-block;
-	font-size:0.8rem;
-	width:75%;
-}
 /*   Controls   */
 section.card > aside.controlsCont {
 	position: absolute;
@@ -171,6 +165,8 @@ aside.controlsCont i {
 }
 aside.controlsCont i:hover {
 	color:gray;
+}
+i:hover {
 	cursor:pointer;
 }
 div.ctrlBtnEdit {

@@ -41,7 +41,7 @@ function handleControlListeners(displayEl) {
 		icon2.addEventListener("click",controlMethods.clearMethod, { capture: false, once:true });
 	}
 }
-function displayCardListener(event) {
+function displayInputCard(event) {
 	// displayData is a map containing the 
 	const { displayEl, displayData, controlMethods } = this;
 
@@ -86,52 +86,56 @@ function displayCardListener(event) {
 	// Handle button controls
 	handleControlListeners.call(controlMethods,displayEl);
 }
-
-function genericEditingInputCardListener(event) {
+function genericServiceInputCardListener(event) {
 	const data = this;
-	// Use optional chaining to store items that could possibly be omitted
-	const litId = data.idData?.litID  || "";
-	const editingType = data.idData?.editingType || "";
-	const literatureType = data.titleData?.literatureType || "";
 
-	// Retrieve items that are required in each generic editing input card listener
-	const dataType = data.titleData["dataType"];
 	const submitMethod = data.controlMethods["submitMethod"];
 	const clearMethod = data.controlMethods["clearMethod"];
 	const displayEl = data["displayEl"];
-
-	let cardFunction = event.target.classList.contains("fa-edit") ? "Edit" : "Add";
-    // ${cardFunction}${literatureType}${dataType}
-	displayEl.getElementsByClassName("cardFunction")[0].textContent = cardFunction;
-
-	literatureType && (displayEl.getElementsByClassName("litType")[0].textContent = literatureType);
-
-	displayEl.getElementsByClassName("dataType")[0].textContent = dataType;
 
 	// Access control buttons container
 	let controlsCont = displayEl.getElementsByClassName("confirmDeclineBtns")[0];
 	let cancelBtn = controlsCont.firstElementChild;
 	let confirmBtn = controlsCont.lastElementChild;
 
-	if (displayEl.style.display === "none") {
-		cancelBtn.removeEventListener("click",clearMethod,{ capture: false, once:true });
-		confirmBtn.removeEventListener("click",submitMethod,{ capture: false, once:true });
-	}
-	else {
-		cancelBtn.addEventListener("click",clearMethod,{ capture: false, once:true });
-		confirmBtn.value = cardFunction;
-		// Append data to confirm button so confirm function can uniquely identify data to be edited/added
-		confirmBtn.setAttribute("data-id",event.target.dataset["id"]);
-		// If a genre or rate is being edited, litID is needed for unique identification
-		litId && confirmBtn.setAttribute("data-litId", litId);
+	/*   
+		Header:
+			${cardFunction} ${cardType} ${dataType}   
+	*/
+	/* Card function */
+	let cardFunction = event.target.classList.contains("fa-edit") ? "Edit" : "Add";
+	displayEl.getElementsByClassName("cardFunction")[0].textContent = cardFunction;
+	/* Card type */
+	// Use optional chaining to store items that could possibly be omitted
+	const cardType = data.titleData?.cardType || "";
+	cardType && (displayEl.getElementsByClassName("cardType")[0].textContent = cardType);
+	/* Data type */
+	// Retrieve items that are required in each generic editing input card listener
+	const dataType = data.titleData["dataType"];
+	displayEl.getElementsByClassName("dataType")[0].textContent = dataType;
+
+	/*
+		Footer:
+			Add listeners
+			Set confirm button to value of card function
+			Add attributes to confirm button that uniquely ID current data
+	*/
+	cancelBtn.addEventListener("click", clearMethod, { capture: false, once: true });
+	confirmBtn.addEventListener("click",submitMethod, { capture: false })
+	confirmBtn.value = cardFunction;
+
+	const dataID = event.target.dataset["id"] || "";
+	dataID && confirmBtn.setAttribute("data-id",dataID);
+
+	if (data.idData) {
+		confirmBtn.setAttribute("data-cardid", data.idData.cardID);
 		// If a rate is being edited, the editing type is needed for unique identification
-		editingType && confirmBtn.setAttribute("data-editingType",editingType);
-		confirmBtn.addEventListener("click",submitMethod,{ capture: false, once:true })
+		const editingType = data.idData.editingType || "";
+		editingType && confirmBtn.setAttribute("data-editingtype",editingType);
 	}
-    // Refresh 
 }
 // Generic body listener
-function displayEditingCardListener(event) {
+function displayServiceInputCard(event) {
 	const { displayEl, displayData } = this;
 	const layOver = document.getElementById("backDropCont");
 	// If displayData is not undefined, contains edit data to be displayed
@@ -143,14 +147,14 @@ function displayEditingCardListener(event) {
 		let formEl =  articleInput.firstElementChild;
 		// Get access to all inputs to then pre-fill fields
 		let elements = formEl.elements;
-		// If length of data array === 4, does not include flat rate
-		if (displayData.size === 4) 
+		// If data has flatRate, display flat rate input
+		if (displayData.has("flatRate"))
+			// Display flat rate row
+			elements["flatRate"].parentElement.style.display = "block";
+		else if (displayData.has("min")) // Only runs if displaydata does not have flat rate but is part of the editing rate
 			// Remove flat rate row
 			elements["flatRate"].parentElement.style.display = "none";
-		else if (displayData.size === 5) // Only data to include 5 items is rates with flatRate
-			// Remove flat rate row
-			elements["flatRate"].parentElement.style.display = "block";
-		
+
 		// Loop through displayData Map, accessing corresponding input field with mapped item
 		displayData.forEach((val,key) => elements[key].value = val);
 	}
@@ -161,7 +165,7 @@ function displayEditingCardListener(event) {
 	document.body.style.overflowY = "hidden";
 
 	// Bind data and displayed element to generic card listener and call, passing in event
-	genericEditingInputCardListener.call({ ...this, displayEl },event);	// call([value of this],...args);
+	genericServiceInputCardListener.call({ ...this, displayEl },event);	// call([value of this],...args);
 }
 
-export { displayCardListener, displayEditingCardListener }
+export { displayInputCard, displayServiceInputCard }

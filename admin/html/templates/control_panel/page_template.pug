@@ -8,12 +8,12 @@ html(lang="en")
 		script(src="https://kit.fontawesome.com/296e9763f7.js")
 
 		//- Each page that inherits this file will call their own function for initializing page
-		block scripts
-			script
+		script
+			block scripts
 				include ../../scripts/index.js
 		//- Each page that inherits this file will include their own style links
-		block styles
-			style
+		style
+			block styles
 				include ../../styling/global.css
 	body(onload="begin.initListeners()")
 		//- Block for any mixins

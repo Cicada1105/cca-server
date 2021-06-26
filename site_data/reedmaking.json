@@ -5,14 +5,17 @@
 		"description":"Has very good cane. Da best",
 		"pricing":[
 			{
+				"id":"68fbed48-3421-49e0-a820-d1146aa8330c",
 				"quantity":5,
 				"cost":50
 			},
 			{
+				"id":"9b6d6c9e-4e0f-44cc-b04b-9cd25e4e5ead",
 				"quantity":10,
 				"cost":90
 			},
 			{
+				"id":"3d3d1a77-cb47-41a4-8f96-6ffc18e5d5e7",
 				"quantity":20,
 				"cost":160
 			}
@@ -24,14 +27,17 @@
 		"description":"Has amazing cane. Top of da line",
 		"pricing":[
 			{
+				"id":"a5247396-0fdc-4101-94a7-8982c34e1b52",
 				"quantity":5,
 				"cost":75
 			},
 			{
+				"id":"0aac5295-7b68-4901-b9bf-134b3a261081",
 				"quantity":10,
 				"cost":140
 			},
 			{
+				"id":"a66356d1-d41c-4dc2-80f4-61b3eba82611",
 				"quantity":20,
 				"cost":240
 			}
@@ -43,14 +49,17 @@
 		"description":"Has amazing cane. Top of da line",
 		"pricing":[
 			{
+				"id":"da66a67f-6840-4ff0-91b6-0877976ea4d7",
 				"quantity":5,
 				"cost":75
 			},
 			{
+				"id":"c6c77a77-dc12-4cc7-ba4f-791f9b8e7f83",
 				"quantity":10,
 				"cost":140
 			},
 			{
+				"id":"7644b397-6643-415e-9a73-ded12f0f76b2",
 				"quantity":20,
 				"cost":240
 			}

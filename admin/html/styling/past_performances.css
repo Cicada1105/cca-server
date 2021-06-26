@@ -25,6 +25,11 @@ section.pastCard > p.date {
 	margin:0px 0px 5px 18%;
 	width:19%;
 }
+section.pastCard p.description {
+	display:inline-block;
+	font-size:0.8rem;
+	width:75%;
+}
 /*   ADD CARDS   */
 section#addCard input#location {
 	display: inline-block;

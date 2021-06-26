@@ -1,0 +1,15 @@
+//- This file is for creating the basic template of the add/edit reed data card
+
+mixin baseCard
+	//-attributes contains the element attributes of the invoking function
+	section.card(id!=attributes.id)
+		header.inputCardHeader
+			span.cardFunction &nbsp;
+			span.cardType &nbsp;
+			span.dataType
+		article.input
+			form.addForm
+				block
+		footer.confirmDeclineBtns
+			input(type="button" value="Cancel" class="cancel")
+			input(type="button" value="Add" class="confirm")

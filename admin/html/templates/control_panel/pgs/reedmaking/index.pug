@@ -9,21 +9,30 @@ extends ../../page_template.pug
 
 //- Define styles to include, appending to included global style
 block append styles
-	style
-		include ../../../../styling/reedmaking.css
+	include ../../../../styling/reedmaking.css
 
 //- Define mixins needed for music_stand
 block mixins
-	include ./mixins/add_card.pug
 	include ./mixins/reedmaking_card.pug
+	include ./mixins/add_edit/name.pug
+	include ./mixins/add_edit/description.pug
+	include ./mixins/add_edit/rate.pug
+	include ./mixins/add_edit/reed.pug
 
 //- Define location
 block location
 	h3!= "&ndash; &nbsp;&nbsp;&nbsp;Reedmaking&nbsp;&nbsp;&nbsp; &ndash;"
-	input(type="button" value="Add")#addBtn
 
 //- Define page content
 block page_content
-	+reedmakingAddCard
+	div(id="backDropCont")
+		div(id = "backDrop")
+		+editName
+		+editDescription
+		+addEditRate
+		+addReed
+	div(id = "addReedCont")
+		h2= "Reed Type"
+		i(class="far fa-plus-square")
 	each pricing in reedmaking
 		+reedmakingPricingCard(pricing)

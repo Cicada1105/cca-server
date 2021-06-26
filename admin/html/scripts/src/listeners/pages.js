@@ -8,9 +8,9 @@ import * as PastController from "../controllers/performances/past/";
 import * as PresentController from "../controllers/performances/currentMusicController.js";
 import * as FutureController from "../controllers/performances/futureController.js";
 import * as EditingController from "../controllers/editing/";
-import * as ReedmakingController from "../controllers/reedmakingController.js";
+import * as ReedmakingController from "../controllers/reedmaking/";
 
-import * as Listeners from "./input_card/";
+import * as Callbacks from "./input_card/";
 
 const initPastPerformanceListeners = () => {
 	// Get header contaier to access add button
@@ -18,7 +18,7 @@ const initPastPerformanceListeners = () => {
 	// Access displayed cards
 	let pastCards = document.getElementsByClassName("pastCard");
 	// Set click event listener for Add button of Past Performances
-	addBtn.addEventListener("click",Listeners.addPastCard.bind(PastController.addPastPerformance));
+	addBtn.addEventListener("click",Callbacks.addPastCard.bind(PastController.addPastPerformance));
 	// Loop throuh past cards, adding event listeners to edit and delete buttons
 	for (let card of pastCards) {
 		// Get controls container 
@@ -30,7 +30,7 @@ const initPastPerformanceListeners = () => {
 		let deleteBtnCont = controlsConts[1];
 		
 		// Add event listeners to control buttons containers
-		editBtnCont.addEventListener("click", Listeners.editPastCard.bind(PastController.updatePastPerformance));
+		editBtnCont.addEventListener("click", Callbacks.editPastCard.bind(PastController.updatePastPerformance));
 		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(PastController.removePastPerformance));
 	}
 }
@@ -40,7 +40,7 @@ const initCollaboratorListeners = () => {
 	// Access display cards
 	let collaboratorCards = document.getElementsByClassName("collaboratorCard");
 	// Set click event listener for Add button of Collaborators
-	addBtn.addEventListener("click",Listeners.addCollaboratorCard.bind(PastController.addCollaborator));
+	addBtn.addEventListener("click",Callbacks.addCollaboratorCard.bind(PastController.addCollaborator));
 	// Loop through collaborator cards, adding event listeners to edit and delete buttons
 	for (let card of collaboratorCards) {
 		// Get controls container 
@@ -52,7 +52,7 @@ const initCollaboratorListeners = () => {
 		let deleteBtnCont = controlsConts[1];
 		
 		// Add event listeners to control buttons containers
-		editBtnCont.addEventListener("click", Listeners.editCollaboratorCard.bind(PastController.updateCollaborator));
+		editBtnCont.addEventListener("click", Callbacks.editCollaboratorCard.bind(PastController.updateCollaborator));
 		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(PastController.removeCollaborator));
 	}
 }
@@ -62,7 +62,7 @@ const initAnecdoteListeners = () => {
 	// Access display cards
 	let anecdoteCards = document.getElementsByClassName("anecdoteCard");
 	// Set click event listener to add button of Anecdotes
-	addBtn.addEventListener("click",Listeners.addAnecdoteCard.bind(PastController.addAnecdote));
+	addBtn.addEventListener("click",Callbacks.addAnecdoteCard.bind(PastController.addAnecdote));
 	// Loop through anecdote cards, adding event listeners to edit and delte buttons
 	for (let card of anecdoteCards) {
 		// Get controls container
@@ -74,7 +74,7 @@ const initAnecdoteListeners = () => {
 		let deleteBtnCont = controlsConts[1];
 
 		// Add event listeners to control buttons containers
-		editBtnCont.addEventListener("click",Listeners.editAnecdoteCard.bind(PastController.updateAnecdote));
+		editBtnCont.addEventListener("click",Callbacks.editAnecdoteCard.bind(PastController.updateAnecdote));
 		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(PastController.removeAnecdote));
 	}
 }
@@ -85,7 +85,7 @@ const initMusicStandListeners = () => {
 	let presentCards = document.getElementsByClassName("presentCard");
 
 	// Set click event listener for Add button of Current Music
-	addBtn.addEventListener("click", Listeners.addPresentCard.bind(PresentController.addSong));
+	addBtn.addEventListener("click", Callbacks.addPresentCard.bind(PresentController.addSong));
 	// Loop through present cards, adding event listeners to edit and delete buttons
 	for (let card of presentCards) {
 		// Get controls conntainer
@@ -97,7 +97,7 @@ const initMusicStandListeners = () => {
 		let deleteBtnCont = controlsConts[1];
 
 		// Add event listeners to control buttons containers
-		editBtnCont.addEventListener("click",Listeners.editPresentCard.bind(PresentController.updateSong));
+		editBtnCont.addEventListener("click",Callbacks.editPresentCard.bind(PresentController.updateSong));
 		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(PresentController.removeSong));
 	}
 }
@@ -108,7 +108,7 @@ const initFuturePerformancesListeners = () => {
 	let futureCards = document.getElementsByClassName("futureCard");
 
 	// Set click event listener for Add button of Future Performances
-	addBtn.addEventListener("click",Listeners.addFutureCard.bind(FutureController.addFuturePerformance));
+	addBtn.addEventListener("click",Callbacks.addFutureCard.bind(FutureController.addFuturePerformance));
 	// Loop through future cards, adding event listeners to edit and delete buttons
 	for (let card of futureCards) {
 		// Get controls conntainer
@@ -120,7 +120,7 @@ const initFuturePerformancesListeners = () => {
 		let deleteBtnCont = controlsConts[1];
 
 		// Add event listeners to control buttons containers
-		editBtnCont.addEventListener("click",Listeners.editFutureCard.bind(FutureController.updateFuturePerformance));
+		editBtnCont.addEventListener("click",Callbacks.editFutureCard.bind(FutureController.updateFuturePerformance));
 		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(FutureController.removeFuturePerformance));
 	}
 }
@@ -148,14 +148,14 @@ const initEditingListeners = () => {
 	let addLitCont = document.getElementById("addLitTypeCont");
 	let addBtn = addLitCont.lastElementChild;
 
-	addBtn.addEventListener("click",Listeners.addEditingLitTypeCard.bind(EditingController.addLiteratureType));
+	addBtn.addEventListener("click",Callbacks.addEditingLitTypeCard.bind(EditingController.addLiteratureType));
 
 	// Loop through literature cards, adding listeners to add, edit and delete buttons
 	for (let i = 0; i < litCards.length; i++) {
 		// Add listener to genres add button
 		let genresCaption = genresTables[i].firstElementChild; // caption holding table title and add button
 		let addGenreBtn = genresCaption.lastElementChild; 
-		addGenreBtn.addEventListener("click",Listeners.addEditingGenreCard.bind(EditingController.addGenre));
+		addGenreBtn.addEventListener("click",Callbacks.addEditingGenreCard.bind(EditingController.addGenre));
 
 		// Loop through genres, access edit and delete buttons
 		let genresControls = genresTables[i].getElementsByClassName("controls");
@@ -165,7 +165,7 @@ const initEditingListeners = () => {
 			// Retrieve genre to display in delete confirmation
 			let genre = genreControl.previousElementSibling.textContent;
 			// Edit button
-			controls[0].addEventListener("click",Listeners.editEditingGenreCard.bind(EditingController.updateGenre));
+			controls[0].addEventListener("click",Callbacks.editEditingGenreCard.bind(EditingController.updateGenre));
 			// Delete button
 			controls[1].addEventListener("click",(event) => confirm(`Are you sure you want to delete ${genre}?`) && EditingController.removeGenre(event));
 		}
@@ -176,7 +176,7 @@ const initEditingListeners = () => {
 		// Add listener to editing types add buttons
 		let stndrdProofRatesCaption = stndrdProofRatesTable.firstElementChild;
 		let addStandardProofRateBtn = stndrdProofRatesCaption.lastElementChild;
-		addStandardProofRateBtn.addEventListener("click",Listeners.addEditingRateCard.bind(EditingController.addRate));
+		addStandardProofRateBtn.addEventListener("click",Callbacks.addEditingRateCard.bind(EditingController.addRate));
 		/*   Edit/Delete buttons   */
 		// Access rates
 		let stndProofRates = stndrdProofRatesTable.lastElementChild.getElementsByTagName("tr");
@@ -201,7 +201,7 @@ const initEditingListeners = () => {
 			// Access controls
 			let controls = ratesRow.getElementsByTagName("i");
 			// Edit button
-			controls[0].addEventListener("click",Listeners.editEditingRateCard.bind(EditingController.updateRate));
+			controls[0].addEventListener("click",Callbacks.editEditingRateCard.bind(EditingController.updateRate));
 			// Delete button
 			controls[1].addEventListener("click",(event) => confirm(`Are you sure you want to remove the following rate: \n${formatText}`) && EditingController.removeRate(event));
 		}
@@ -211,7 +211,7 @@ const initEditingListeners = () => {
 		/*   Add button   */
 		let expEditRatesCaption = expEditRatesTable.firstElementChild;
 		let addExpEditRateBtn = expEditRatesCaption.lastElementChild;
-		addExpEditRateBtn.addEventListener("click",Listeners.addEditingRateCard.bind(EditingController.addRate));
+		addExpEditRateBtn.addEventListener("click",Callbacks.addEditingRateCard.bind(EditingController.addRate));
 		/*   Edit/Delete buttons   */
 		// Access rates
 		let expEditRates = expEditRatesTable.lastElementChild.getElementsByTagName("tr");
@@ -236,7 +236,7 @@ const initEditingListeners = () => {
 			// Access controls
 			let controls = ratesRow.getElementsByTagName("i");
 			// Edit button
-			controls[0].addEventListener("click",Listeners.editEditingRateCard.bind(EditingController.updateRate));
+			controls[0].addEventListener("click",Callbacks.editEditingRateCard.bind(EditingController.updateRate));
 			// Delete button
 			controls[1].addEventListener("click",(event) => confirm(`Are you sure you want to remove the following rate: \n${formatText}`) && EditingController.removeRate(event));
 		}
@@ -246,7 +246,7 @@ const initEditingListeners = () => {
 		/*   Add button   */
 		let bothEditingRatesCaption = bothEditingRatesTable.firstElementChild;
 		let addBothEditingRateBtn = bothEditingRatesCaption.lastElementChild;
-		addBothEditingRateBtn.addEventListener("click",Listeners.addEditingRateCard.bind(EditingController.addRate));
+		addBothEditingRateBtn.addEventListener("click",Callbacks.addEditingRateCard.bind(EditingController.addRate));
 		/*   Edit/Delete buttons   */
 		// Access rates
 		let bothEditRates = bothEditingRatesTable.lastElementChild.getElementsByTagName("tr");
@@ -271,7 +271,7 @@ const initEditingListeners = () => {
 			// Access controls
 			let controls = ratesRow.getElementsByTagName("i");
 			// Edit button
-			controls[0].addEventListener("click",Listeners.editEditingRateCard.bind(EditingController.updateRate));
+			controls[0].addEventListener("click",Callbacks.editEditingRateCard.bind(EditingController.updateRate));
 			// Delete button
 			controls[1].addEventListener("click",() => confirm(`Are you sure you want to remove the following rate: \n${formatText}`) && EditingController.removeRate);
 		}
@@ -279,25 +279,55 @@ const initEditingListeners = () => {
 }
 const initReedmakingListeners = () => {
 	// Get access to add button
-	let addBtn = document.getElementById("addBtn");
+	let addReedCont = document.getElementById("addReedCont");
+	let addReedBtn = addReedCont.lastElementChild;
 	// Access display cards
 	let reedmakingCards = document.getElementsByClassName("reedmakingCard");
 
 	// Set click event listener for Add button of Reedmaking
-	addBtn.addEventListener("click", Listeners.addReedmakingCard.bind(ReedmakingController.addReedmakingPricing));
+	addReedBtn.addEventListener("click", Callbacks.addReedCard.bind(ReedmakingController.addReed));
 	// Loop through reedmaking cards, adding event listeners to edit and delete buttons
 	for (let card of reedmakingCards) {
-		// Get controls conntainer
-		let controlsCont = card.lastElementChild;
-		// Get access to edit and delete button containers
-		let controlsConts = controlsCont.querySelectorAll("[class *= ctrlBtn]");
-		// Access each individual container
-		let editBtnCont = controlsConts[0];
-		let deleteBtnCont = controlsConts[1];
+		// Access edit button for reed name
+		let header = card.getElementsByClassName("nameHeaderCont")[0];
+		let editBtn = header.lastElementChild;
+		editBtn.addEventListener("click",Callbacks.editReedNameCard.bind(ReedmakingController.updateName));
 
-		// Add event listeners to control buttons containers
-		editBtnCont.addEventListener("click",Listeners.editReedmakingCard.bind(ReedmakingController.updateReedmakingPricing));
-		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(ReedmakingController.removeReedmakingPricing));
+		// Access edit button for reed description
+		let reedDescrription = card.getElementsByClassName("descriptionHeader")[0];
+		let editReedDescrBtn = reedDescrription.nextElementSibling;
+		editReedDescrBtn.addEventListener("click",Callbacks.editReedDescriptionCard.bind(ReedmakingController.updateDescription));
+
+		// Access table containing rates
+		let ratesTable = card.getElementsByClassName("displayRates")[0];
+
+		// Access button for adding new rat
+		let ratesTableCaption = ratesTable.firstElementChild;
+		let addRateBtn = ratesTableCaption.lastElementChild;
+		addRateBtn.addEventListener("click", Callbacks.addReedRateCard.bind(ReedmakingController.addRate));
+
+		// Retrieve and loop through rates, adding listeners accordingly
+		let ratesTableBody = ratesTable.lastElementChild;
+		let ratesRows = ratesTableBody.getElementsByTagName("tr");
+
+		for (const ratesRow of ratesRows) {
+			// Store and format data to clarify to admin
+			let rowEls = ratesRow.getElementsByTagName("td");
+			let formatText = "";
+
+			formatText += ` - Quantity: ${rowEls[0].textContent}\n`;
+			formatText += ` - Price: ${rowEls[1].textContent}`
+
+			// Access controls
+			let controls = ratesRow.getElementsByTagName("i");
+			// Access element buttons
+			let editRateBtn = controls[0];
+			let deleteRateBtn = controls[1];
+
+			// Add listeners
+			editRateBtn.addEventListener("click", Callbacks.editReedRateCard.bind(ReedmakingController.updateRate));
+			deleteRateBtn.addEventListener("click", () => confirm(`Are you sure you want to remove the following rate from ${header.firstElementChild.textContent}: \n${formatText}`) && ReedmakingController.removeRate);
+		}
 	}
 }
 
