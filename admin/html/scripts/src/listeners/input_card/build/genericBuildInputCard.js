@@ -35,6 +35,32 @@ function buildGenericServiceInputCard({ inputCardID, applyListenersFunc = "", cl
 	let callBack;
 	applyListenersFunc && (callBack = applyListenersFunc(inputCard));
 
+	// If rate card is to be displayed, add/remove flat rate input based on number of rows
+	if (inputCardID === "rateInputCard") {
+		// Access flat rate input row to handle display
+		let inputArticle = inputCard.getElementsByClassName("input")[0];
+		let form = inputArticle.firstElementChild;
+		let flatRateInputRow = form.getElementsByClassName("inputRow")[2];
+
+		// Access table rows based on button pressed
+		let table;
+		let btn = event.target;
+		if (btn.classList.contains("fa-plus-square"))
+			table = event.path[2];
+		else if (btn.classList.contains("fa-edit"))
+			table = event.path[4];
+
+		let thead = table.getElementsByTagName("thead")[0];
+		let tdsCollection = thead.getElementsByTagName("td");
+		let tdsArray = Array.from(tdsCollection);
+		let flatRateIndex = tdsArray.findIndex(td => td.textContent === "Flat Rate");
+
+		if (flatRateIndex === -1)
+			flatRateInputRow.style.display = "none";
+		else
+			flatRateInputRow.style.display = "block";
+	}
+
 	// Clear method will 
 	let controlMethods = {
 		submitMethod,

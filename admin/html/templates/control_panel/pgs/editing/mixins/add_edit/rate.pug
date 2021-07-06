@@ -6,8 +6,6 @@ include ./template.pug
 mixin addEditRate
 	+baseCard(id="rateInputCard")
 		form
-			span  Include Flat Rate?
-			input(type="checkbox" name="includeFlatRate")
 			div.inputRow
 				label(for="minInput") Minimum: &nbsp;&nbsp;
 				input(type="text" id="minInput" placeholder="00" name="min")

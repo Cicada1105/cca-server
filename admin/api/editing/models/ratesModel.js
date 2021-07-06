@@ -57,8 +57,51 @@ function add(rateData) {
 /*
 	Future update documentation
 */
-function update(rate) {
-	console.log(`Updating existing editing rate: ${rate}`)
+function update(rateData) {
+	return new Promise((resolve,reject) => {
+		// Get editing data from file
+		let editingData = getFileData(editingDataPath);
+		// Retrieve index of literature type associated with current rate
+		let litTypeIndex = editingData.findIndex(lit => lit.id === rateData.litID);
+		let litTypeData = editingData[litTypeIndex];
+		// Retrieve editing types object
+		let editingTypes = litTypeData["editing"];
+		// Get editing type data associated with current rate and retrieve rates
+		let editingType = editingTypes[rateData.editingType];
+		let editTypeRates = editingType["rates"];
+		// Retrieve index of current rate within editing type rates
+		let currentRateIndex = editTypeRates.findIndex(rate => rate.id === rateData.rateID);
+		let currentRate = editTypeRates[currentRateIndex];
+
+		/* Update data to reflect rate changes */
+		// Override previous rate, maintaining id
+		editTypeRates[currentRateIndex] = {
+			...currentRate,
+			min: rateData["min"],
+			max: rateData["max"],
+			perHour: rateData["perHour"],
+			perWord: rateData["perWord"]
+		}
+
+		// Check if flat rate is included
+		rateData["flatRate"] !== undefined && (editTypeRates[currentRateIndex]["flatRate"] = rateData["flatRate"]);
+		// Update editing type rates
+		editingType["rates"] = editTypeRates;
+		// Update editing type
+		editingTypes[rateData.editingType] = editingType;
+		// Update literature editing types
+		litTypeData["editing"] = editingTypes;
+		// Update editing data
+		editingData[litTypeIndex] = litTypeData;
+
+		// Write to file, catching any error that may occur
+		try {
+			writeToFile(editingDataPath, JSON.stringify(editingData));
+			resolve(`Successfully updated ${rateData.editingType} rate from ${editingData[litTypeIndex].type} section`)
+		} catch(e) {
+			reject("Internal Server Error. Try again later");
+		}
+	})
 }
 /*
 	Future remove documentation

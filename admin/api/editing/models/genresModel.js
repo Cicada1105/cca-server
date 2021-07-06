@@ -48,8 +48,40 @@ function add(genreData) {
 /*
 	Future update documentation
 */
-function update(genre) {
-	console.log(`Updating existing editing genre: ${genre}`)
+function update(genreData) {
+	return new Promise((resolve,reject) => {
+		// get editing data from file
+		let editingData = getFileData(editingDataPath);
+		// Retrieve literature type index associated with genre
+		let litTypeIndex = editingData.findIndex(lit => lit.id === genreData.litID);
+		let litTypeData = editingData[litTypeIndex];
+		// Retrieve genre index based on genre data id
+		let genres = litTypeData["genres"];
+		let genreIndex = genres.findIndex(genre => genre.id === genreData.genreID);
+		let genre = genres[genreIndex];
+
+		// Store old genre name to display to user showing update
+		let old_genre_name = genre.display;
+
+		// Update genre
+		genres[genreIndex] = {
+			...genre,
+			display: genreData["display"],
+			value: genreData["value"]
+		}
+		// Update literature type assocaited with current genre
+		litTypeData["genres"] = genres;
+		// Override old editing data
+		editingData[litTypeIndex] = litTypeData;
+
+		// Write to file, catching any error that may occur
+		try {
+			writeToFile(editingDataPath, JSON.stringify(editingData));
+			resolve(`Successfully updated ${litTypeData["type"]} genre from ${old_genre_name} to ${genres[genreIndex].display}`);
+		} catch(e) {
+			reject("Internal Server Error. Try again later");
+		}
+	})
 }
 /*
 	Future remove documentation

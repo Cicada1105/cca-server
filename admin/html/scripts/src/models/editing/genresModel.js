@@ -44,12 +44,32 @@ function add({ litID, display, value }) {
 /*
 	Future Edit documentation
 */
-function edit(updatedGenre) {
+function edit({ litID, genreID, display, value }) {
 	return new Promise((resolve,reject) => {
-		resolve({
-			status:200,
-			msg:`Updating the following genre: ${updatedGenre}`
-		});
+		fetch(SERVER_URL, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				litID,
+				genreID,
+				display,
+				value
+			})
+		}).then(response => {
+			response.json().then(data => {
+				resolve({
+					msg: data.msg,
+					status: response.status
+				})
+			})
+		}).catch(err => {
+			reject({
+				msg: err,
+				status: err.status
+			})
+		})
 	});
 }
 /*

@@ -45,13 +45,13 @@ function addLiteratureType(event) {
 		completedTableRows.forEach(tableRow => {
 			let tableEls = tableRow.getElementsByTagName("td");
 			let rate = {
-				min: tableEls[0].textContent,
-				max: tableEls[1].textContent,
-				perHour: tableEls[3].textContent,
-				perWord: tableEls[4].textContent
+				min: parseInt(tableEls[0].textContent),
+				max: parseInt(tableEls[1].textContent),
+				perHour: parseInt(tableEls[3].textContent),
+				perWord: parseInt(tableEls[4].textContent)
 			}
 			// Include flat rate if included
-			getComputedStyle(tableEls[2]).display === "block" && (rate["flatRate"] = tableEls[2].textContent)
+			getComputedStyle(tableEls[2]).display === "block" && (rate["flatRate"] = parseInt(tableEls[2].textContent))
 
 			// Push rate onto array of other rates
 			rates.push(rate);

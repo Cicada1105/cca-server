@@ -86,11 +86,12 @@ function applySingleInputListeners(inputCard) {
 	// Apply any listeners specific to collaborators cardd	
 }
 function applyRateCardListeners(inputCard) {
-	// Access form of inputCard
+	// Retrieve card function. If add, flat rate togg
 	let article = inputCard.getElementsByClassName("input")[0];
+	// Access form of inputCard
 	let form = article.firstElementChild;
 
-	// Add event listener to checkbox
+	/*// Add event listener to checkbox
 	let checkbox = form.querySelector("input[type='checkbox']");
 	let flatRateRow = form.getElementsByClassName("inputRow")[2];
 	const checkFunction = function() { 
@@ -100,7 +101,7 @@ function applyRateCardListeners(inputCard) {
 	checkbox.addEventListener("change",checkFunction);
 
 	// Return function that is "cleanup" for when cancel button is pressed
-	return () => checkbox.removeEventListener("change",checkFunction);
+	return () => checkbox.removeEventListener("change",checkFunction);*/
 }
 function applyAddLitTypeListeners(addCard) {
 	// Access form of addCard
@@ -126,9 +127,11 @@ function applyAddLitTypeListeners(addCard) {
 	const colStyle = `${rateTablesCssSelector} ${flatRateColsCssSelector} { display:block; }`;
 	// Toggle flaat rate column visibility
 	let checkBoxCallback = () => {
-		flatRateCols.forEach(colItem => colItem.style.display = (checkBox.checked ? "block" : "none"));
+		const COL_DISPLAY = checkBox.checked ? "block" : "none"
+		flatRateCols.forEach(colItem => colItem.style.display = COL_DISPLAY);
 		// Insert styling if checkox is checked for future added rows
-		const localStyleSheet = document.styleSheets[7];
+		const documentStyleSheets = document.styleSheets;
+		const localStyleSheet = documentStyleSheets[documentStyleSheets.length - 1];
 		const localStyleSheetLen = localStyleSheet.cssRules.length;
 		checkBox.checked ? localStyleSheet.insertRule(colStyle,localStyleSheetLen) : localStyleSheet.removeRule(localStyleSheetLen - 1);
 	}

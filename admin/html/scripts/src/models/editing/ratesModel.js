@@ -48,12 +48,36 @@ function add({ litID, editingType, min, max, perHour, perWord, flatRate }) {
 /*
 	Future Edit documentation
 */
-function edit(rate) {
+function edit({ litID, editingType, rateID, min, max, perHour, perWord, flatRate }) {
 	return new Promise((resolve,reject) => {
-		resolve({
-			status:200,
-			msg:`Updating the following rate: ${rate}`
-		});
+		fetch(SERVER_URL,{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				litID, 
+				editingType, 
+				rateID,
+				min,
+				max, 
+				perHour, 
+				perWord, 
+				flatRate
+			})
+		}).then(response => {
+			response.json().then(data => {
+				resolve({
+					msg: data.msg,
+					status: response.status
+				})
+			})
+		}).catch(err =>
+			reject({
+				msg: err,
+				status: err.status
+			})
+		);
 	});
 }
 /*

@@ -56,6 +56,9 @@ tr > td {
 	text-align: center;
 	padding:14px 10px;
 }
+tr > td.flatRate {
+	display: none;
+}
 tr > td.controls {
 	width:fit-content;
 }
@@ -102,6 +105,7 @@ header.inputCardHeader {
 /* Add/Edit action paired with title */
 header > span {
 	font-size:1.5rem;
+	padding-right: 6px;
 }
 article.input {
 	text-align:center;

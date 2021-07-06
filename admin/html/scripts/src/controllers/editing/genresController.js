@@ -29,10 +29,25 @@ function addGenre(event) {
 	Future updateGenre documentation
 */
 function updateGenre(event) {
-	// Get and store genre ID of current genre being edited
-	let genreID = event.target.dataset["id"];
+	// Get and store genre ID and literature (cardid) id of current genre being edited
+	let editBtn = event.target;
+	let genreID = editBtn.dataset["id"];
+	let litID = editBtn.dataset["cardid"];
 
-	Genre.edit(genreID).then(successCallback).catch(failedCallback);
+	// Get access to display data to be updated
+	let controlsCont = event.path[1];
+	let articleInput = controlsCont.previousElementSibling;
+	let form = articleInput.firstElementChild;
+	let elements = form.elements;
+
+	let genreData = {
+		litID,
+		genreID,
+		display: elements["single_input"].value,
+		value: elements["single_input"].value.toLowerCase().replaceAll(" ","_")
+	}
+
+	Genre.edit(genreData).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeGenre documentation

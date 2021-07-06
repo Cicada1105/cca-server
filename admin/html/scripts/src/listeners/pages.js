@@ -124,6 +124,26 @@ const initFuturePerformancesListeners = () => {
 		deleteBtnCont.addEventListener("click",handleDeleteClick.bind(FutureController.removeFuturePerformance));
 	}
 }
+function deleteRatesListener(event) {
+	const row = event[2];
+	const rowEls = row.getElementsByTagName("td");
+
+	if (rowEls.length === 5) { // Does not include flatrate
+		formatText += ` - Min: ${rowEls[0].textContent}\n`;
+		formatText += ` - Max: ${rowEls[1].textContent}\n`;
+		formatText += ` - Per Hour: ${rowEls[2].textContent}\n`;
+		formatText += ` - Per Word: ${rowEls[3].textContent}`;
+	}
+	else { // Includes flatrate
+		formatText += ` - Min: ${rowEls[0].textContent}\n`;
+		formatText += ` - Max: ${rowEls[1].textContent}\n`;
+		formatText += ` - Flat Rate: ${rowEls[2].textContent}\n`;
+		formatText += ` - Per Hour: ${rowEls[3].textContent}\n`;	
+		formatText += ` - Per Word: ${rowEls[4].textContent}`;	
+	}
+	let formatText = "";
+	confirm(`Are you sure you want to remove the following rate: \n${formatText}`) && EditingController.removeRate(event)
+}
 const initEditingListeners = () => {
 	// Get literature containers to access the add button
 	let litCards = document.getElementsByClassName("literatureCard");
@@ -180,30 +200,17 @@ const initEditingListeners = () => {
 		/*   Edit/Delete buttons   */
 		// Access rates
 		let stndProofRates = stndrdProofRatesTable.lastElementChild.getElementsByTagName("tr");
-		// Loop through standard proofreading rates, adding listeners to edit and delete buttons
-		for (const ratesRow of stndProofRates) {
-			// Store and format data to clarify to admin
-			let rowEls = ratesRow.getElementsByTagName("td");
-			let formatText = "";
-			if (rowEls.length === 5) { // Does not include flatrate
-				formatText += ` - Min: ${rowEls[0].textContent}\n`;
-				formatText += ` - Max: ${rowEls[1].textContent}\n`;
-				formatText += ` - Per Hour: ${rowEls[2].textContent}\n`;
-				formatText += ` - Per Word: ${rowEls[3].textContent}`;
-			}
-			else { // Includes flatrate
-				formatText += ` - Min: ${rowEls[0].textContent}\n`;
-				formatText += ` - Max: ${rowEls[1].textContent}\n`;
-				formatText += ` - Flat Rate: ${rowEls[2].textContent}\n`;
-				formatText += ` - Per Hour: ${rowEls[3].textContent}\n`;	
-				formatText += ` - Per Word: ${rowEls[4].textContent}`;	
-			}
-			// Access controls
-			let controls = ratesRow.getElementsByTagName("i");
-			// Edit button
-			controls[0].addEventListener("click",Callbacks.editEditingRateCard.bind(EditingController.updateRate));
-			// Delete button
-			controls[1].addEventListener("click",(event) => confirm(`Are you sure you want to remove the following rate: \n${formatText}`) && EditingController.removeRate(event));
+		const STND_PROOF_HAS_RATES = stndProofRates.length > 0;
+		if (STND_PROOF_HAS_RATES) {
+			// Loop through standard proofreading rates, adding listeners to edit and delete buttons
+			for (const ratesRow of stndProofRates) {
+				// Access controls
+				let controls = ratesRow.getElementsByTagName("i");
+				// Edit button
+				controls[0].addEventListener("click",Callbacks.editEditingRateCard.bind(EditingController.updateRate));
+				// Delete button
+				controls[1].addEventListener("click",deleteRatesListener, { once: true });
+			}	
 		}
 
 		// Access Experimental editing rates table
@@ -215,30 +222,17 @@ const initEditingListeners = () => {
 		/*   Edit/Delete buttons   */
 		// Access rates
 		let expEditRates = expEditRatesTable.lastElementChild.getElementsByTagName("tr");
-		// Loop through experimental editing rates, adding listeners to edit and delete buttons
-		for (const ratesRow of expEditRates) {
-			// Store and format data to clarify to admin
-			let rowEls = ratesRow.getElementsByTagName("td");
-			let formatText = "";
-			if (rowEls.length === 5) { // Does not include flatrate
-				formatText += ` - Min: ${rowEls[0].textContent}\n`;
-				formatText += ` - Max: ${rowEls[1].textContent}\n`;
-				formatText += ` - Per Hour: ${rowEls[2].textContent}\n`;
-				formatText += ` - Per Word: ${rowEls[3].textContent}`;
+		const EXP_EDIT_HAS_RATES = expEditRates.length > 0;
+		if (EXP_EDIT_HAS_RATES) {
+			// Loop through experimental editing rates, adding listeners to edit and delete buttons
+			for (const ratesRow of expEditRates) {
+				// Access controls
+				let controls = ratesRow.getElementsByTagName("i");
+				// Edit button
+				controls[0].addEventListener("click",Callbacks.editEditingRateCard.bind(EditingController.updateRate));
+				// Delete button
+				controls[1].addEventListener("click",deleteRatesListener, { once: true });
 			}
-			else { // Includes flatrate
-				formatText += ` - Min: ${rowEls[0].textContent}\n`;
-				formatText += ` - Max: ${rowEls[1].textContent}\n`;
-				formatText += ` - Flat Rate: ${rowEls[2].textContent}\n`;
-				formatText += ` - Per Hour: ${rowEls[3].textContent}\n`;	
-				formatText += ` - Per Word: ${rowEls[4].textContent}`;	
-			}
-			// Access controls
-			let controls = ratesRow.getElementsByTagName("i");
-			// Edit button
-			controls[0].addEventListener("click",Callbacks.editEditingRateCard.bind(EditingController.updateRate));
-			// Delete button
-			controls[1].addEventListener("click",(event) => confirm(`Are you sure you want to remove the following rate: \n${formatText}`) && EditingController.removeRate(event));
 		}
 
 		// Access Both rates table
@@ -250,30 +244,28 @@ const initEditingListeners = () => {
 		/*   Edit/Delete buttons   */
 		// Access rates
 		let bothEditRates = bothEditingRatesTable.lastElementChild.getElementsByTagName("tr");
-		// Loop through both editing rates, adding listeners to edit and delte buttons
-		for (const ratesRow of bothEditRates) {
-			// Store and format data to clarify to admin
-			let rowEls = ratesRow.getElementsByTagName("td");
-			let formatText = "";
-			if (rowEls.length === 5) { // Does not include flatrate
-				formatText += ` - Min: ${rowEls[0].textContent}\n`;
-				formatText += ` - Max: ${rowEls[1].textContent}\n`;
-				formatText += ` - Per Hour: ${rowEls[2].textContent}\n`;
-				formatText += ` - Per Word: ${rowEls[3].textContent}`;
-			}
-			else { // Includes flatrate
-				formatText += ` - Min: ${rowEls[0].textContent}\n`;
-				formatText += ` - Max: ${rowEls[1].textContent}\n`;
-				formatText += ` - Flat Rate: ${rowEls[2].textContent}\n`;
-				formatText += ` - Per Hour: ${rowEls[3].textContent}\n`;	
-				formatText += ` - Per Word: ${rowEls[4].textContent}`;	
-			}
-			// Access controls
-			let controls = ratesRow.getElementsByTagName("i");
-			// Edit button
-			controls[0].addEventListener("click",Callbacks.editEditingRateCard.bind(EditingController.updateRate));
-			// Delete button
-			controls[1].addEventListener("click",() => confirm(`Are you sure you want to remove the following rate: \n${formatText}`) && EditingController.removeRate);
+		const BOTH_EDIT_HAS_RATES = bothEditRates.length > 0;
+		if (BOTH_EDIT_HAS_RATES) {
+			// Loop through both editing rates, adding listeners to edit and delte buttons
+			for (const ratesRow of bothEditRates) {
+				// Access controls
+				let controls = ratesRow.getElementsByTagName("i");
+				// Edit button
+				controls[0].addEventListener("click",Callbacks.editEditingRateCard.bind(EditingController.updateRate));
+				// Delete button
+				controls[1].addEventListener("click",deleteRatesListener, { once: true });
+			}	
+		}
+
+		// If any of the tables contain data that includes flat rate, make sure each one contains header
+		const stndTableHasFlatRate = STND_PROOF_HAS_RATES && (stndProofRates[0].getElementsByTagName("td").length === 6);
+		const expTableHasFlatRate = EXP_EDIT_HAS_RATES && (expEditRates[0].getElementsByTagName("td").length === 6);
+		const bothTableHasFlatRate = BOTH_EDIT_HAS_RATES && (bothEditRates[0].getElementsByTagName("td").length === 6);
+
+		if (stndTableHasFlatRate || expTableHasFlatRate || bothTableHasFlatRate) {
+			stndrdProofRatesTable.getElementsByClassName("flatRate")[0].style.display = "block";
+			expEditRatesTable.getElementsByClassName("flatRate")[0].style.display = "block";
+			bothEditingRatesTable.getElementsByClassName("flatRate")[0].style.display = "block";
 		}
 	}
 }

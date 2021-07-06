@@ -33,9 +33,25 @@ async function addGenre(req, res) {
 		}));
 	});
 }
-function updateGenre(req, res) {
-	GenresModel.update("UPDATED GENRE");
-	res.end("Updated editing genre");
+async function updateGenre(req, res) {
+	await getBodyData(req).then(async (body) => {
+		let { litID, genreID, display, value } = body;
+		
+		await GenresModel.update({
+			litID,
+			genreID,
+			display,
+			value
+		}).then(msg => {
+			res.status = 200;
+			res.end(JSON.stringify({ msg }));
+		}).catch(err => {
+			res.status = 500;
+			res.end(JSON.stringify({
+				msg: err
+			}));
+		});
+	})
 }
 async function removeGenre(req, res) {
 	await getBodyData(req).then(async (body) => {

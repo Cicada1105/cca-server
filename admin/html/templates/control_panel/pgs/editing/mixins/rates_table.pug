@@ -11,33 +11,26 @@ mixin ratesTable(rates)
 			h4 Rates
 			i(class="far fa-plus-square")
 		thead
-			- var hasFlatRate = rates[0].hasOwnProperty("flatRate");
-			if hasFlatRate
-				tr
-					td Min
-					td Max
-					td Flat Rate
-					td Per Hour
-					td Per Word
-					td
-			else
-				tr
-					td Min
-					td Max
-					td Per Hour
-					td Per Word
-					td
+			tr
+				td Min
+				td Max
+				td.flatRate Flat Rate
+				td Per Hour
+				td Per Word
+				td
 		tbody
-			each rate in rates
-				tr
-					td #{rate.min}
-					td #{rate.max}
+			if rates.length > 0
+				- hasFlatRate = rates[0].hasOwnProperty("flatRate")
+				each rate in rates
+					tr
+						td #{rate.min}
+						td #{rate.max}
 
-					if hasFlatRate
-						td #{rate.flatRate}
+						if hasFlatRate
+							td #{rate.flatRate}
 
-					td #{rate.perHour}
-					td #{rate.perWord}
-					td.controls
-						i(class="far fa-edit" data-id=`${rate["id"]}`)
-						i(class="far fa-times-circle" data-id=`${rate["id"]}`)
+						td #{rate.perHour}
+						td #{rate.perWord}
+						td.controls
+							i(class="far fa-edit" data-id=`${rate["id"]}`)
+							i(class="far fa-times-circle" data-id=`${rate["id"]}`)

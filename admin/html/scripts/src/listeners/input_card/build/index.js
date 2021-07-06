@@ -142,7 +142,7 @@ function buildEditingRateCard(event) {
 }
 function buildReedCard(event) {
 	// Retrieve and store function for applying listeners to rates input card
-	let applyListenersFunc = Listeners.applyAddReedListeners;
+	//let applyListenersFunc = Listeners.applyAddReedListeners;
 	// Retrieve and store function for clearing rates input card
 	let clearMethod = Clear.clearAddReedInputForm;
 
@@ -153,7 +153,6 @@ function buildReedCard(event) {
 	*/
 	buildGenericServiceInputCard.call(this,{
 		inputCardID: "reedInputCard",
-		applyListenersFunc,
 		clearMethod
 	}, event); // First param = value of 'this', ...rest = arguments
 }
