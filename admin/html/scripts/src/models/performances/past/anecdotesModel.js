@@ -8,6 +8,8 @@
 		Note: 	GET is "handled" by compiling the PUG templates and passing in
 				the data as parameters to be rendered to the screen
 */
+// Imports
+import makeRequest from '../../request';
 
 const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/past/anecdotes";
 
@@ -15,96 +17,48 @@ const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/past/anecdot
 	Future add documentation
 */
 function add({ name, title, anecdote, img: { src, alt } }) {
-	return new Promise((resolve,reject) => {
-		fetch(SERVER_URL, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				name,
-				title,
-				anecdote,
-				img: {
-					src,
-					alt
-				}
-			})
-		}).then(response => {
-			response.json().then(data => {
-				resolve({
-					msg: data.msg,
-					status: response.status
-				});	
-			})
-		}).catch(err => {
-			reject({
-				msg: err,
-				status: err.status
-			})
-		})
-	})
+	return makeRequest(
+		SERVER_URL,
+		"POST",
+		{
+			name,
+			title,
+			anecdote,
+			img: {
+				src,
+				alt
+			}
+		}
+	)
 }
 /*
 	Future update documentation
 */
 function update({ id, name, title, anecdote, img: { src, alt }}) {
-	return new Promise((resolve,reject) => {
-		fetch(SERVER_URL, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				id,
-				name,
-				title,
-				anecdote,
-				img: {
-					src,
-					alt
-				}
-			})
-		}).then(response => {
-			response.json().then(data => {
-				resolve({
-					msg: data.msg,
-					status: response.status
-				});	
-			})
-		}).catch(err => {
-			reject({
-				msg: err,
-				status: err.status
-			})
-		})
-	})
+	return makeRequest(
+		SERVER_URL,
+		"PUT",
+		{
+			id,
+			name,
+			title,
+			anecdote,
+			img: {
+				src,
+				alt
+			}
+		}
+	)
 }
 /*
 	Future remove documentation
 */
 function remove(anecdoteID) {
-	return new Promise((resolve,reject) => {
-		fetch(SERVER_URL, {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({ id: anecdoteID })
-		}).then(response => {
-			response.json().then(data => {
-				resolve({
-					msg: data.msg,
-					status: response.status
-				})
-			})
-		}).catch(err => {
-			reject({
-				msg: err,
-				status: err.status
-			})
-		})
-	})
+	return makeRequest(
+		SERVER_URL,
+		"DELETE",
+		{ id: anecdoteID }
+	)
 }
 
 export { add, update, remove }
