@@ -88,12 +88,12 @@ function updatePastPerformance(event) {
 			updatedPerformance.img["src"] = myReader.result;
 			updatedPerformance.img["alt"] = imgAlt;
 
-			PastPerformances.edit(updatedPerformance).then(successCallback).catch(failedCallback);
+			PastPerformances.update(updatedPerformance).then(successCallback).catch(failedCallback);
 		}
 	}
 	else 
-		// No need to wait for fileread, just edit performance
-		PastPerformances.edit(updatedPerformance).then(successCallback).catch(failedCallback);
+		// No need to wait for fileread, just update performance
+		PastPerformances.update(updatedPerformance).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removePastPerformance documentation

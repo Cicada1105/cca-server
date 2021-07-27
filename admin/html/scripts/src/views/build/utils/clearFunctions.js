@@ -34,7 +34,7 @@ function clearPastForm(form) {
 function clearCollaboratorForm(form) {
 	// Reset image
 	resetImage(form);
-
+	
 	// Clear form
 	form.reset();
 }

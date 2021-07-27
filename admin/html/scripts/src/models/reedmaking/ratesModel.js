@@ -46,9 +46,9 @@ function add(rate) {
 	})
 }
 /*
-	Future Edit documentation
+	Future update documentation
 */
-function edit(rate) {
+function update(rate) {
 	return new Promise((resolve,reject) => {
 		resolve({
 			msg: `Successfully editted rate: ${rate}`,
@@ -110,4 +110,4 @@ function remove(pricingID) {
 	})
 }
 
-export { add, edit, remove }
+export { add, update, remove }

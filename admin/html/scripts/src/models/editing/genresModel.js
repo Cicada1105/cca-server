@@ -42,9 +42,9 @@ function add({ litID, display, value }) {
 	});
 }
 /*
-	Future Edit documentation
+	Future update documentation
 */
-function edit({ litID, genreID, display, value }) {
+function update({ litID, genreID, display, value }) {
 	return new Promise((resolve,reject) => {
 		fetch(SERVER_URL, {
 			method: "PUT",
@@ -102,4 +102,4 @@ function remove({litID, genreID}) {
 	});
 }
 
-export { add, edit, remove }
+export { add, update, remove }

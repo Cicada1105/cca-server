@@ -26,7 +26,6 @@ const SERVER_URL = process.env.SERVER_URL;
 
 function Router(req,res) {
 	let fn;
-
 	if (req.url.startsWith("/cca-admin-login"))
 		ADMIN_LOGIN.Router(req,res);
 	// Handle if trying to get to panel w/out logging in

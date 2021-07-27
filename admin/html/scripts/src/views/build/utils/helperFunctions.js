@@ -16,7 +16,6 @@ function fileSelect(event) {
 	let img = imgCont.lastElementChild;
 	// Get user inputted image and convert to a usable img src
 	let fileInput = event.path[0];
-	console.log(fileInput);
 	if (fileInput.files[0]) {
 		let file = fileInput.files[0];
 		// Store file name to be used as alt

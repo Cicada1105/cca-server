@@ -1,4 +1,4 @@
-import * as PageListeners from './listeners/pages.js';
+import * as PageListeners from './views/';
 
 const initListeners = () => {
 	/* Set evet listener for navigation */

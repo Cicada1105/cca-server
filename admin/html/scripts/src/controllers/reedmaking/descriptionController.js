@@ -18,7 +18,7 @@ function addDescription(event) {
 */
 function updateDescription(event) {
 	let reedDescription = "UPDATING REED DESCRIPTION";
-	Description.edit(reedDescription).then(successCallback).catch(failedCallback);
+	Description.update(reedDescription).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeDescription documentation

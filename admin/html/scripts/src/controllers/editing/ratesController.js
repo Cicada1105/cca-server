@@ -63,7 +63,7 @@ function updateRate(event) {
 	// Include flat rate if it is displayed
 	(elements["flatRate"].parentElement.style.display !== "none") && (rateData["flatRate"] = parseFloat(elements["flatRate"].value));
 	
-	Rate.edit(rateData).then(successCallback).catch(failedCallback);
+	Rate.update(rateData).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeRate documentation

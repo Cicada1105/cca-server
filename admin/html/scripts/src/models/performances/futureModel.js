@@ -49,9 +49,9 @@ function add({ name, location, instruments, date, time: { start, end }, descript
 	})
 }
 /*
-	Future edit documentation
+	Future update documentation
 */
-function edit({ id, name, location, instruments, date, time: { start, end }, description }) {
+function update({ id, name, location, instruments, date, time: { start, end }, description }) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
 		fetch(SERVER_URL, {
@@ -114,4 +114,4 @@ function remove(performanceID) {
 	})
 }
 
-export { add, edit, remove }
+export { add, update, remove }

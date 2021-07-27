@@ -46,9 +46,9 @@ function add({ litID, editingType, min, max, perHour, perWord, flatRate }) {
 	});
 }
 /*
-	Future Edit documentation
+	Future update documentation
 */
-function edit({ litID, editingType, rateID, min, max, perHour, perWord, flatRate }) {
+function update({ litID, editingType, rateID, min, max, perHour, perWord, flatRate }) {
 	return new Promise((resolve,reject) => {
 		fetch(SERVER_URL,{
 			method: "PUT",
@@ -111,4 +111,4 @@ function remove({litID, editingType, rateID}) {
 	});
 }
 
-export { add, edit, remove }
+export { add, update, remove }

@@ -4,59 +4,64 @@
 */
 
 // Util imports
-import { fileSelect, addToList, addGenreToList, addRateToList } from "../utils/helperFunctions.js";
+import { fileSelect, addToList, addGenreToList, addRateToList } from "./helperFunctions.js";
 
 /*********************************/
 /*   Apply Past Card Listeners   */
 /*********************************/
 function applyPastCardListeners(addForm) {
+	// Access parent input card to determine display
+	const inputCard = addForm.parentElement;
 	// Get access to file input button
 	let fileInputBtn = addForm.getElementsByClassName("fileCont")[0].firstElementChild;
 
 	let instrumentsCont = document.getElementById("instrumentsCont");
 	let addInstrumentBtn = instrumentsCont.querySelector("input[type='button']");
 
-	if (getComputedStyle(addForm).display === "block") {
-		console.log(fileInputBtn);
-		// Add event listener to file input
-		fileInputBtn.addEventListener("change",fileSelect, { capture: false });
-		// Add event listener to button
-		addInstrumentBtn.addEventListener("click",addToList,{ capture: false })
-	}
-	else {
+	if (inputCard.style.display === "block") {
 		// Remove event listener for file input
 		fileInputBtn.removeEventListener("change",fileSelect, { capture: false });
 		// Remove event listener from button
-		addInstrumentBtn.removeEventListener("click",addToList,{ capture: false })
+		addInstrumentBtn.removeEventListener("click",addToList, { capture: false })
+	}
+	else {
+		// Add event listener to file input
+		fileInputBtn.addEventListener("change",fileSelect, { capture: false });
+		// Add event listener to button
+		addInstrumentBtn.addEventListener("click",addToList, { capture: false })
 	}
 }
 /*************************************/
 /*	Add Collaborators Card Listener  */
 /*************************************/
 function applyCollaboratorCardListeners(addForm) {
+	// Access parent input card to determine display
+	const inputCard = addForm.parentElement;
 	// Get access to file input button
 	let fileInputBtn = addForm.getElementsByClassName("fileCont")[0].firstElementChild;
 	
-	if (getComputedStyle(addForm).display === "block")
-		// Add event listener to file input
-		fileInputBtn.addEventListener("change",fileSelect, { capture: false });
-	else
+	if (inputCard.style.display === "block")
 		// Remove event listener for file input
 		fileInputBtn.removeEventListener("change",fileSelect, { capture: false });
+	else
+		// Add event listener to file input
+		fileInputBtn.addEventListener("change",fileSelect, { capture: false });
 }
 /*********************************/
 /*	Add Anecdotes Card Listener  */
 /*********************************/
 function applyAnecdoteCardListeners(addForm) {
+	// Access parent input card to determine display
+	const inputCard = addForm.parentElement;
 	// Get access to file input button
 	let fileInputBtn = addForm.getElementsByClassName("fileCont")[0].firstElementChild;
 
-	if (getComputedStyle(addForm).display === "block")
-		// Add event listener to file input
-		fileInputBtn.addEventListener("change",fileSelect, { capture: false });
-	else
+	if (inputCard.style.display === "block")
 		// Remove event listener for file input
 		fileInputBtn.removeEventListener("change",fileSelect, { capture: false });
+	else
+		// Add event listener to file input
+		fileInputBtn.addEventListener("change",fileSelect, { capture: false });
 }
 /*********************************/
 /*   Add Present Card Listener   */
@@ -65,16 +70,18 @@ function applyPresentCardListeners(addForm) {
 	// Apply any listeners specific to collaborators cardd
 }
 function applyFutureCardListeners(addForm) {
+	// Access parent input card to determine display
+	const inputCard = addForm.parentElement;
+
 	let instrumentsCont = document.getElementById("instrumentsCont");
 	let addInstrumentBtn = instrumentsCont.querySelector("input[type='button']");
 
-	if (getComputedStyle(addForm).display === "block") {
-		// Add event listener to button
-		addInstrumentBtn.addEventListener("click",addToList,{ capture: false })
-	}
-	else
+	if (inputCard.style.display === "block")
 		// Remove event listener from button
-		addInstrumentBtn.removeEventListener("click",addToList,{ capture: false })
+		addInstrumentBtn.removeEventListener("click",addToList,{ capture: false });
+	else
+		// Add event listener to button
+		addInstrumentBtn.addEventListener("click",addToList,{ capture: false });
 }
 /********************/
 /*   Editing page   */
@@ -171,7 +178,24 @@ function applyAddLitTypeListeners(addCard) {
 /*   Reedmaking Page   */
 /***********************/
 function applyAddReedListeners(addCard) {
+	// Retrieve article containing form
+	const articleInput = addCard.getElementsByClassName("input")[0];
+	// Retrieve form
+	const form = articleInput.firstElementChild;
+	// Retrieve rates table
+	const ratesTable = form.getElementsByClassName("displayRatesInputTable")[0];
+	// Get accessto the add rate button in order to add listener
+	const ratesTableBody = ratesTable.getElementsByTagName("tbody")[0];
+	const inputRow = ratesTableBody.firstElementChild;
+	const addRateBtnTD = inputRow.lastElementChild;
+	const addRateBtn = addRateBtnTD.firstElementChild;
 
+	addRateBtn.addEventListener("click",addRateToList, { capture: false });
+
+	// Retrun function that is "cleanup" for when cancel button is pressed
+	return () => {
+		addRateBtn.removeEventListener("click", addRateToList, { capture: false });
+	}
 }
 
 export {

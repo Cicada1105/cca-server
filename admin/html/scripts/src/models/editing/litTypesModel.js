@@ -46,9 +46,9 @@ function add({ type, genres, rates: { standard_proofreading, developmental_editi
 	});
 }
 /*
-	Future Edit documentation
+	Future update documentation
 */
-function edit(updatedLitType) {
+function update(updatedLitType) {
 	return new Promise((resolve,reject) => {
 		resolve({
 			status:200,
@@ -68,4 +68,4 @@ function remove(litType) {
 	});
 }
 
-export { add, edit, remove }
+export { add, update, remove }

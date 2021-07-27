@@ -99,7 +99,7 @@ function updateFuturePerformance(event) {
 		},
 		description: formElements["description"].value
 	}
-	FuturePerformances.edit(updatedPerformanceData).then(successCallback).catch(failedCallback);
+	FuturePerformances.update(updatedPerformanceData).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeFuturePerformance documentation

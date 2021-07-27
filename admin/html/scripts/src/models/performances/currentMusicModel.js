@@ -43,9 +43,9 @@ function add({ name, by, description }) {
 	})
 }
 /*
-	Future edit documentation
+	Future update documentation
 */
-function edit({ id, name, by, description }) {
+function update({ id, name, by, description }) {
 	return new Promise((resolve, reject) => {
 		// Make request to server, passig in proper method, headers and body data
 		fetch(SERVER_URL, {
@@ -102,4 +102,4 @@ function remove(songID) {
 	})
 }
 
-export { add, edit, remove }
+export { add, update, remove }

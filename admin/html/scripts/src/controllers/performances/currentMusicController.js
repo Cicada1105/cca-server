@@ -35,7 +35,7 @@ function updateSong(event) {
 		by: formEls["composer"].value,
 		description: formEls["description"].value
 	}
-	CurrentMusic.edit(userSong).then(successCallback).catch(failedCallback);
+	CurrentMusic.update(userSong).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeSong documentation

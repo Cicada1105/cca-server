@@ -17,7 +17,7 @@ function addRate(event) {
 */
 function updateRate(event) {
 	let reedRate = "UPDATING REED RATE";
-	Rate.edit(reedRate).then(successCallback).catch(failedCallback);
+	Rate.update(reedRate).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeRate documentation

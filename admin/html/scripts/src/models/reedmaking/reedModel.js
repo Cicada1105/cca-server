@@ -46,9 +46,9 @@ function add(reed) {
 	})
 }
 /*
-	Future Edit documentation
+	Future update documentation
 */
-function edit(reed) {
+function update(reed) {
 	return new Promise((resolve,reject) => {
 		resolve({
 			msg: `Successfully updated reed: ${reed}`,
@@ -110,4 +110,4 @@ function remove(pricingID) {
 	});
 }
 
-export { add, edit, remove }
+export { add, update, remove }

@@ -17,7 +17,7 @@ function addReed(event) {
 */
 function updateReed(event) {
 	let reed = "UPDATING REED";
-	Reed.edit(reed).then(successCallback).catch(failedCallback);
+	Reed.update(reed).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeReed documentation

@@ -18,7 +18,7 @@ function addName(event) {
 */
 function updateName(event) {
 	let reedRate = "UPDATING REED RATE";
-	Name.edit(reedRate).then(successCallback).catch(failedCallback);
+	Name.update(reedRate).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeName documentation

@@ -47,7 +47,7 @@ function updateGenre(event) {
 		value: elements["single_input"].value.toLowerCase().replaceAll(" ","_")
 	}
 
-	Genre.edit(genreData).then(successCallback).catch(failedCallback);
+	Genre.update(genreData).then(successCallback).catch(failedCallback);
 }
 /*
 	Future removeGenre documentation

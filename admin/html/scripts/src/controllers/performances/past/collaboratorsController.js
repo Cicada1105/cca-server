@@ -66,7 +66,7 @@ function updateCollaborator(event) {
 			updatedCollaborator.img["src"] = myReader.result
 			updatedCollaborator.img["alt"] = imgAlt;
 
-			Collaborators.add(updatedCollaborator).then(successCallback).catch(failedCallback);
+			Collaborators.update(updatedCollaborator).then(successCallback).catch(failedCallback);
 		}
 	}
 	else

@@ -68,7 +68,7 @@ function updateAnecdote(event) {
 			updatedAnecdote.img["src"] = myReader.result;
 			updatedAnecdote.img["alt"] = imgAlt;
 
-			Anecdotes.add(updatedAnecdote).then(successCallback).catch(failedCallback);
+			Anecdotes.update(updatedAnecdote).then(successCallback).catch(failedCallback);
 		}
 	}
 	else

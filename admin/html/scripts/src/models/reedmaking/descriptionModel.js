@@ -16,9 +16,9 @@ const SERVER_URL = "http://localhost:2020/cca-admin-api/reedmaking";
 */
 
 /*
-	Future Edit documentation
+	Future update documentation
 */
-function edit(description) {
+function update(description) {
 	return new Promise((resolve,reject) => {
 		resolve({
 			msg: `Successfully editted reed description: ${description}`,
@@ -54,4 +54,4 @@ function edit(description) {
 	Future Remove documentation
 */
 
-export { edit }
+export { update }

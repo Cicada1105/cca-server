@@ -82,7 +82,6 @@ function displayInputCard(event) {
 
 	// Toggle display data only if add button is pressed again
 	displayEl.style.display = (displayEl.style.display === "block") && (cardFunction.localeCompare("Add") === 0) ? "none" : "block";
-
 	// Handle button controls
 	handleControlListeners.call(controlMethods,displayEl);
 }
