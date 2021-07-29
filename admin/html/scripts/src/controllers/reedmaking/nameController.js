@@ -17,10 +17,20 @@ function addName(event) {
 	Future updateName documentation
 */
 function updateName(event) {
+	let editBtn = event.target;
+
+	// Store reed id associated with reed name
+	let reedID = editBtn.dataset["id"];
+	// Retrieve form elements
+	let inputSection = event.path[2];
+	let addForm = inputSection.getElementsByClassName("addForm")[0];
+	let elements = addForm.elements;
+
 	let reedRate = {
-		id: "rate_id",
-		name: "UPDATING REED RATE"
+		id: reedID,
+		name: elements["name"].value
 	}
+
 	Name.update(reedRate).then(successCallback).catch(failedCallback);
 }
 /*

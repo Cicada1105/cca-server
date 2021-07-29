@@ -20,7 +20,7 @@ const { getBodyData } = require("../../../utils.js");
 async function updateReedName(req, res) {
 	await getBodyData(req).then(async (body) => {
 		let { id, name } = body;
-
+		
 		await ReedNameModel.update({
 			id,
 			name
