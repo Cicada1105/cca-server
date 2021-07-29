@@ -38,7 +38,7 @@ function update({ id, name }) {
 		// Write to file, catching any error that may occur
 		try {
 			writeToFile(reedmakingPricesPath,JSON.stringify(reedmakingData));
-			resolve(`Successfully update ${oldReedName} to ${name}`);
+			resolve(`Successfully updated ${oldReedName} to ${name}`);
 		} catch(e) {
 			reject("Internal Server Error. Try again later");
 		}

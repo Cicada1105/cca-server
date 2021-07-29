@@ -22,7 +22,24 @@ const { writeToFile } = require("../../../utils.js");
 */
 function update({ id, description }) {
 	return new Promise((resolve,reject) => {
-		resolve(`Updating existing reed description: ${description}`);
+		// Retrieve reedmaking data
+		let reedmakingData = getFileData(reedmakingPricesPath);
+		// Locate reed index associated with reed tied to passed in id
+		let reedIndex = reedmakingData.findIndex(reed => reed.id === id);
+		// Store reed to update reed name
+		let reed = reedmakingData[reedIndex];
+
+		// Update reed description
+		reed["description"] = description;
+		// Update original data
+		reedmakingData[reedIndex] = reed;
+		// Write to file, catching any error that may occur
+		try {
+			writeToFile(reedmakingPricesPath,JSON.stringify(reedmakingData));
+			resolve(`Successfully updated ${reed["name"]}'s description to \"${description}\"`);
+		} catch(e) {
+			reject("Internal Server Error. Try again later");
+		}
 	})
 }
 /*

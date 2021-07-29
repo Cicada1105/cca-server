@@ -17,9 +17,18 @@ function addDescription(event) {
 	Future updateDescription documentation
 */
 function updateDescription(event) {
+	let editBtn = event.target;
+
+	// Store reed id associated with reed name
+	let reedID = editBtn.dataset["id"];
+	// Retrieve form elements
+	let inputSection = event.path[2];
+	let addForm = inputSection.getElementsByClassName("addForm")[0];
+	let elements = addForm.elements;
+
 	let reedDescription = {
-		id: "description_id",
-		description: "reed description"
+		id: reedID,
+		description: elements["description"].value
 	}
 	Description.update(reedDescription).then(successCallback).catch(failedCallback);
 }
