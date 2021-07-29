@@ -3,13 +3,13 @@
 
 	Current router paths:
 	/cca-admin-api/reedmaking
-		/
+		/reed/
+		/rate/
 */
 
-const CONTROLLERS_PATH = "./controllers";
-
-// Imports controllers to handle requests
-const ReedmakingController = require(`${CONTROLLERS_PATH}/rootController.js`);
+// Imports rate and reed routers
+const ReedRouter = require("./reed/router.js");
+const RateRouter = require("./rate/router.js");
 
 function Router(req,res) {
 	// Store info about request
@@ -25,26 +25,10 @@ function Router(req,res) {
 		method === "GET" is "handled" by compiling the PUG templating,
 			passing in the data as parameters and then rendered to the screen
 	*/
-	if (newPath === "") {
-		switch(method) {
-			case "POST":
-				ReedmakingController.addPricing(req,res);
-			break;
-			case "PUT":
-				ReedmakingController.updatePricing(req,res);
-			break;
-			case "DELETE":
-				ReedmakingController.removePricing(req,res);
-			break;
-			default:
-				// Unable to recognize method
-				res.status = 405;
-				res.end(JSON.stringify({
-					msg: "Invalid method: " + req.method
-				}));
-			break;
-		}
-	}
+	if (newPath.startsWith("reed")) 
+		ReedRouter.Router(req,res);
+	else if (newPath.startsWith("rate"))
+		RateRouter.Router(req,res);
 	else {
 		// Unable to find path
 		res.status = 404;

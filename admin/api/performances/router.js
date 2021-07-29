@@ -8,9 +8,6 @@
 		/future/
 */
 
-// Controllers path
-const CONTROLLERS_PATH = "./controllers";
-
 // Import past, present and future performances router
 const PAST_PERFORMANCES_ROUTER = require('./past/router.js');
 const PRESENT_PERFORMANCES_ROUTER = require('./present/router.js');

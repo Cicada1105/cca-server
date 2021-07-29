@@ -9,24 +9,29 @@ import { successCallback, failedCallback } from '../utils.js';
 	Future addReed documentation
 */
 function addReed(event) {
-	let reed = "NEW REED";
+	let reed = {
+		name: "NEW REED",
+		description: "NEW REED DESCRIPTION",
+		pricing: []
+	};
 	Reed.add(reed).then(successCallback).catch(failedCallback);
 }
 /*
 	Future updateReed documentation
 */
-function updateReed(event) {
-	let reed = "UPDATING REED";
-	Reed.update(reed).then(successCallback).catch(failedCallback);
-}
+/*function updateReed(event) {
+
+}*/
 /*
 	Future removeReed documentation
 */
 function removeReed(event) {
 	// Get and store pricing ID of current reed
 	let reedID = event.target.dataset.id;
-
-	Reed.remove(reedID).then(successCallback).catch(failedCallback);
+	let reed = {
+		id: "reed_id"
+	}
+	Reed.remove(reed).then(successCallback).catch(failedCallback);
 }
 
-export { addReed, updateReed, removeReed }
+export { addReed, removeReed }

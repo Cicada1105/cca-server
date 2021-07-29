@@ -17,7 +17,10 @@ function addName(event) {
 	Future updateName documentation
 */
 function updateName(event) {
-	let reedRate = "UPDATING REED RATE";
+	let reedRate = {
+		id: "rate_id",
+		name: "UPDATING REED RATE"
+	}
 	Name.update(reedRate).then(successCallback).catch(failedCallback);
 }
 /*

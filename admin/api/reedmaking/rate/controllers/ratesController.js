@@ -5,33 +5,33 @@
 	200: Okay
 	404: Not Found (updating and deleting?)
 	500: Internal Server Error (Getting body data)
-
-	NOTE: 
-	{
-		title,
-		description,
-		id
-	}
-	is equivalent to
-	{
-		title: title,
-		description: description,
-		id: id
-	}
 */
 
 // Import models to handle actual data
-const ReedmakingModel = require("../models/rootModel.js");
+const ReedmakingModel = require("../models/ratesModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData } = require("../../utils.js");
+const { getBodyData } = require("../../../utils.js");
 
 async function addPricing(req, res) {
-	res.setHeader("Content-Type","application/json");
+	await getBodyData(req).then(async (body) => {
+		let { reedID, pricing: { quantity, cost }} = body;
 
-	await ReedmakingModel.add("NEW REEDMAKING PRICING").then((msg) => {
-		res.status = 201;
-		res.end(JSON.stringify({ msg }));
+		await ReedmakingModel.add({
+			reedID,
+			pricing: {
+				quantity,
+				cost
+			}
+		}).then((msg) => {
+			res.status = 201;
+			res.end(JSON.stringify({ msg }));
+		}).catch((err) => {
+			res.status = 500;
+			res.end(JSON.stringify({ 
+				msg: err 
+			}));
+		})
 	}).catch((err) => {
 		console.log("ERROR:");
 		console.log(err.message);
@@ -44,11 +44,25 @@ async function addPricing(req, res) {
 	})
 }
 async function updatePricing(req, res) {
-	res.setHeader("Content-Type","application/json");
+	await getBodyData(req).then(async (body) => {	
+		let { reedID, pricing: { id, quantity, cost }} = body;
 
-	await ReedmakingModel.update("UPDATED REEDMAKING PRICING").then((msg) => {
-		res.status = 200;
-		res.end(JSON.stringify({ msg }));
+		await ReedmakingModel.update({
+			reedID,
+			pricing: {
+				id,
+				quantity,
+				cost
+			}
+		}).then((msg) => {
+			res.status = 200;
+			res.end(JSON.stringify({ msg }));
+		}).catch((err) => {
+			res.status = 500;
+			res.end(JSON.stringify({ 
+				msg: err 
+			}));
+		})
 	}).catch((err) => {
 		console.log("ERROR:");
 		console.log(err.message);
@@ -61,13 +75,14 @@ async function updatePricing(req, res) {
 	})
 }
 async function removePricing(req, res) {
-	res.setHeader("Content-Type","application/json");
-	
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary attributes from body to remove pricing
-		let { id } = body;
+		let { reedID, pricingID } = body;
 
-		await ReedmakingModel.remove(id).then((msg) => {
+		await ReedmakingModel.remove({
+			reedID,
+			pricingID
+		}).then((msg) => {
 			res.status = 200;
 			res.end(JSON.stringify({ msg }));			
 		}).catch((err) => {

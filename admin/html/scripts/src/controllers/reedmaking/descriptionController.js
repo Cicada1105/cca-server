@@ -17,7 +17,10 @@ function addDescription(event) {
 	Future updateDescription documentation
 */
 function updateDescription(event) {
-	let reedDescription = "UPDATING REED DESCRIPTION";
+	let reedDescription = {
+		id: "description_id",
+		description: "reed description"
+	}
 	Description.update(reedDescription).then(successCallback).catch(failedCallback);
 }
 /*
