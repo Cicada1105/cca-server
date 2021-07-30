@@ -128,7 +128,7 @@ const initEditingListeners = () => {
 			// Edit button
 			controls[0].addEventListener("click",Build.SingleInput.bind(EditingController.updateGenre));
 			// Delete button
-			controls[1].addEventListener("click",(event) => confirm(`Are you sure you want to delete ${genre}?`) && EditingController.removeGenre(event));
+			controls[1].addEventListener("click",(event) => {confirm(`Are you sure you want to delete ${genre}?`) && EditingController.removeGenre(event)});
 		}
 
 		// Add rates listeners to standard proofreading editing rates table
@@ -213,7 +213,7 @@ const initReedmakingListeners = () => {
 
 			// Add listeners
 			editRateBtn.addEventListener("click", Build.ReedRate.bind(ReedmakingController.updateRate));
-			deleteRateBtn.addEventListener("click", () => confirm(`Are you sure you want to remove the following rate from ${header.firstElementChild.textContent}: \n${formatText}`) && ReedmakingController.removeRate);
+			deleteRateBtn.addEventListener("click", (event) => {confirm(`Are you sure you want to remove the following rate from ${header.firstElementChild.textContent}: \n${formatText}`) && ReedmakingController.removeRate(event)});
 		}
 	}
 }

@@ -37,10 +37,13 @@ function updateRate(event) {
 */
 function removeRate(event) {
 	// Get and store pricing ID of current reed
-	let reedID = event.target.dataset.id;
+	let pricingID = event.target.dataset.id;
+	// Get and store reed id of current reed pricing
+	let reedID = event.path[4].dataset["reedid"];
+
 	let rate = {
-		reedID: "reed_id",
-		pricingID: "rate_id"
+		reedID,
+		pricingID
 	}
 
 	Rate.remove(rate).then(successCallback).catch(failedCallback);

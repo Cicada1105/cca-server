@@ -28,9 +28,28 @@ function update(pricing) {
 /*
 	Future remove documentation
 */
-function remove(pricing) {
+function remove(pricingData) {
 	return new Promise((resolve,reject) => {
-		resolve(`Removing reed price: ${pricing}`);
+		// Retrieve reedmaking data
+		let reedmakingData = getFileData(reedmakingPricesPath);
+		// Retrieve index of reed id associated with current rate
+		let reedIndex = reedmakingData.findIndex(reed => reed.id === pricingData["reedID"]);
+		// Store reed at reedIndex
+		let reed = reedmakingData[reedIndex];
+		// Retrieve index of reed pricing id
+		let pricingIndex = reed["pricing"].findIndex(price => price.id === pricingData.pricingID);
+
+		// Remove specified reed, based on index, from rest of prices
+		let removedPrice = reed["pricing"].splice(pricingIndex,1);
+		// Update original reedmaking data to reflect updated prices
+		reedmakingData[reedIndex] = reed;
+		// Write to file, catching any error that may occur
+		try {
+			writeToFile(reedmakingPricesPath,JSON.stringify(reedmakingData));
+			resolve(`Successfully removed ${reed["name"]}'s price`);
+		} catch(e) {
+			reject("Internal Server Error. Try again later");
+		}
 	})
 }
 

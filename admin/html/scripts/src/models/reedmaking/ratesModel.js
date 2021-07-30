@@ -52,7 +52,7 @@ function update({ reedID, pricing: { id, quantity, cost }}) {
 function remove({ reedID, pricingID }) {
 	return makeRequest(
 		SERVER_URL,
-		"PUT",
+		"DELETE",
 		{ 
 			reedID, 
 			pricingID
