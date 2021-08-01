@@ -47,9 +47,35 @@ function add(pricingData) {
 /*
 	Future update documentation
 */
-function update(pricing) {
+function update(updatedPricing) {
 	return new Promise((resolve,reject) => {
-		resolve(`Updating existing reedmaking pricing: ${pricing}`);
+		// Retrieve reedmaking data
+		let reedmakingData = getFileData(reedmakingPricesPath);
+		// Retrieve index of reed associated with current rate
+		let reedIndex = reedmakingData.findIndex(reed => reed.id === updatedPricing["reedID"]);
+		// Retrieve reed stored at reedIndex
+		let reed = reedmakingData[reedIndex];
+		// Retrieve index of rate associated with current pricing
+		let pricingIndex = reed["pricing"].findIndex(rate => rate.id === updatedPricing["pricing"].id)
+		// Retrieve rate stored at pricingIndex
+		let pricing = reed.pricing[pricingIndex];
+
+		// Update rate
+		pricing["quantity"] = updatedPricing["pricing"].quantity;
+		pricing["cost"] = updatedPricing["pricing"].cost;
+
+		// Update reed pricing
+		reed.pricing[pricingIndex] = pricing;
+		// Update original reedmaking data
+		reedmakingData[reedIndex] = reed;
+
+		// Write to file, catching any error that may occur
+		try {
+			writeToFile(reedmakingPricesPath,JSON.stringify(reedmakingData));
+			resolve(`Successfully updated ${reed["name"]}'s rates`);
+		} catch(e) {
+			reject("Internal Server Error. Try again later");
+		}
 	})
 }
 /*
@@ -59,7 +85,7 @@ function remove(pricingData) {
 	return new Promise((resolve,reject) => {
 		// Retrieve reedmaking data
 		let reedmakingData = getFileData(reedmakingPricesPath);
-		// Retrieve index of reed id associated with current rate
+		// Retrieve index of reed associated with current rate
 		let reedIndex = reedmakingData.findIndex(reed => reed.id === pricingData["reedID"]);
 		// Store reed at reedIndex
 		let reed = reedmakingData[reedIndex];

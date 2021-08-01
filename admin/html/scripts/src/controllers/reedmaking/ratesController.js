@@ -30,14 +30,28 @@ function addRate(event) {
 	Future updateRate documentation
 */
 function updateRate(event) {
+	// Store constants
+	const el = event.target;
+	const dataset = el.dataset;
+
+	// Get and store reed id of current pricing and the pricing id to be updated
+	let pricingID = dataset["id"];
+	let reedID = dataset["cardid"];
+
+	// Access form containing inputs
+	let rateSection = event.path[2];
+	let rateForm = rateSection.getElementsByClassName("addForm")[0];
+	let elements = rateForm.elements;
+
 	let reedRate = {
-		reedID: "reed_id",
+		reedID,
 		pricing: {
-			id: "rate_id",
-			quantity: 0,
-			cost: 0
+			id: pricingID,
+			quantity: parseInt(elements["quantity"].value),
+			cost: parseInt(elements["price"].value)
 		}
 	}
+	
 	Rate.update(reedRate).then(successCallback).catch(failedCallback);
 }
 /*
