@@ -9,13 +9,21 @@ import { successCallback, failedCallback } from '../utils.js';
 	Future addRate documentation
 */
 function addRate(event) {
+	// Get and store pricing id of current reed
+	let reedID = event.target.dataset["cardid"];
+	// Access form containing inputs
+	let rateSection = event.path[2];
+	let rateForm = rateSection.getElementsByClassName("addForm")[0];
+	let elements = rateForm.elements;
+
 	let reedRate = {
-		reedID: "reed_id",
+		reedID,
 		pricing: {
-			quantity: 0,
-			cost:0
+			quantity: parseInt(elements["quantity"].value),
+			cost: parseInt(elements["price"].value)
 		}
 	}
+
 	Rate.add(reedRate).then(successCallback).catch(failedCallback);
 }
 /*

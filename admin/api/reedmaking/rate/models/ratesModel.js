@@ -8,13 +8,40 @@ const reedmakingPricesPath = "./site_data/reedmaking.json";
 const { getFileData } = require("../../../../utils.js");
 // Require method for writing to file
 const { writeToFile } = require("../../../utils.js");
+// Import uuid for adding new resource
+const { v4: uuidv4 } = require("uuid");
 
 /*
 	Future add documentation
 */
-function add(newPricing) {
+function add(pricingData) {
 	return new Promise((resolve,reject) => {
-		resolve(`Adding new reedmaking pricing: ${newPricing}`);
+		// Retrieve reedmaking data
+		let reedmakingData = getFileData(reedmakingPricesPath);
+		// Retrieve index of reed id associated with current rate
+		let reedIndex = reedmakingData.findIndex(reed => reed.id === pricingData["reedID"]);
+		// Store reed located at reedIndex
+		let reed = reedmakingData[reedIndex];
+
+		let newPricing = pricingData["pricing"];
+		// Create new pricing with unique id
+		let newRate = {
+			id: uuidv4(),
+			quantity: newPricing["quantity"],
+			cost: newPricing["cost"]
+		}
+		// Push new rate into array of rest of rates
+		reed["pricing"].push(newRate);
+		// Update original reedmaking data
+		reedmakingData[reedIndex] = reed;
+
+		// Write to file, catching any error that may occur
+		try {
+			writeToFile(reedmakingPricesPath,JSON.stringify(reedmakingData));
+			resolve(`Successfully added new pricing to ${reed["name"]}'s rates`);
+		} catch(e) {
+			reject("Internal Server Error. Try again later");
+		}
 	})
 }
 /*
