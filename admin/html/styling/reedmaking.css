@@ -42,6 +42,11 @@ tr > td {
 /*********************/
 /*   Display Cards   */
 /*********************/
+i.deleteReed {
+	float: right;
+	font-size: 1.4rem;
+	margin: 0.35rem;
+}
 section.reedmakingCard {
 	width: 480px;
 }

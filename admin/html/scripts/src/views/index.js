@@ -175,6 +175,9 @@ const initReedmakingListeners = () => {
 	addReedBtn.addEventListener("click", Build.Reed.bind(ReedmakingController.addReed));
 	// Loop through reedmaking cards, adding event listeners to edit and delete buttons
 	for (let card of reedmakingCards) {
+		// Access delete button for entire card
+		let deleteBtn = card.getElementsByClassName("deleteReed")[0];
+		deleteBtn.addEventListener("click",ReedmakingController.removeReed);
 		// Access edit button for reed name
 		let header = card.getElementsByClassName("nameHeaderCont")[0];
 		let editBtn = header.lastElementChild;

@@ -1,6 +1,7 @@
 //- This file is a template for the reedmaking info
 mixin reedmakingPricingCard(reedData)
 	section.card.reedmakingCard(data-reedtype=`${reedData.name}`)
+		i(class="far fa-trash-alt deleteReed" data-id=`${reedData["id"]}`)
 		h3.nameHeader Name
 		header.nameHeaderCont
 			p.name #{reedData.name}
