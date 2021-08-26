@@ -138,6 +138,7 @@ header.inputCardHeader {
 /* Add/Edit action paired with title */
 header > span {
 	font-size:1.5rem;
+	padding-right: 5px;
 }
 article.input {
 	text-align:center;

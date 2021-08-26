@@ -1,7 +1,7 @@
 /*
 	This file handles the listeners for specific pages
 */
-import { addControlsFunctioanlity, addEditingRatesTableFunctionality } from './generic.js';
+import { addControlsFunctioanlity, addEditingRatesTableFunctionality, addReedmakingControlsFunctionality } from './generic.js';
 import { handleDeleteClickStyle } from "./display_card/";
 
 /*   Performances Controllers   */
@@ -168,57 +168,22 @@ const initReedmakingListeners = () => {
 	// Get access to add button
 	let addReedCont = document.getElementById("addReedCont");
 	let addReedBtn = addReedCont.lastElementChild;
-	// Access display cards
-	let reedmakingCards = document.getElementsByClassName("reedmakingCard");
 
 	// Set click event listener for Add button of Reedmaking
 	addReedBtn.addEventListener("click", Build.Reed.bind(ReedmakingController.addReed));
-	// Loop through reedmaking cards, adding event listeners to edit and delete buttons
-	for (let card of reedmakingCards) {
-		// Access delete button for entire card
-		let deleteBtn = card.getElementsByClassName("deleteReed")[0];
-		deleteBtn.addEventListener("click",ReedmakingController.removeReed);
-		// Access edit button for reed name
-		let header = card.getElementsByClassName("nameHeaderCont")[0];
-		let editBtn = header.lastElementChild;
-		editBtn.addEventListener("click",Build.ReedName.bind(ReedmakingController.updateName));
 
-		// Access edit button for reed description
-		let reedDescrription = card.getElementsByClassName("descriptionHeader")[0];
-		let editReedDescrBtn = reedDescrription.nextElementSibling;
-		editReedDescrBtn.addEventListener("click",Build.ReedDescription.bind(ReedmakingController.updateDescription));
-
-		// Access table containing rates
-		let ratesTable = card.getElementsByClassName("displayRates")[0];
-
-		// Access button for adding new rat
-		let ratesTableCaption = ratesTable.firstElementChild;
-		let addRateBtn = ratesTableCaption.lastElementChild;
-		addRateBtn.addEventListener("click", Build.ReedRate.bind(ReedmakingController.addRate));
-
-		// Retrieve and loop through rates, adding listeners accordingly
-		let ratesTableBody = ratesTable.lastElementChild;
-		let ratesRows = ratesTableBody.getElementsByTagName("tr");
-
-		for (const ratesRow of ratesRows) {
-			// Store and format data to clarify to admin
-			let rowEls = ratesRow.getElementsByTagName("td");
-			let formatText = "";
-
-			formatText += ` - Quantity: ${rowEls[0].textContent}\n`;
-			formatText += ` - Price: ${rowEls[1].textContent}`
-
-			// Access controls
-			let controls = ratesRow.getElementsByTagName("i");
-			// Access element buttons
-			let editRateBtn = controls[0];
-			let deleteRateBtn = controls[1];
-
-			// Add listeners
-			editRateBtn.addEventListener("click", Build.ReedRate.bind(ReedmakingController.updateRate));
-			deleteRateBtn.addEventListener("click", (event) => {confirm(`Are you sure you want to remove the following rate from ${header.firstElementChild.textContent}: \n${formatText}`) && ReedmakingController.removeRate(event)});
+	addReedmakingControlsFunctionality({
+		Reed: {
+			remove: ReedmakingController.removeReed,
+			editName: Build.ReedName.bind(ReedmakingController.updateName),
+			editDescription: Build.ReedDescription.bind(ReedmakingController.updateDescription)
+		},
+		Rate: {
+			add: Build.ReedRate.bind(ReedmakingController.addRate),
+			edit: Build.ReedRate.bind(ReedmakingController.updateRate),
+			remove: ReedmakingController.removeRate
 		}
-	}
+	});
 }
 
 export { 

@@ -54,5 +54,56 @@ function addEditingRatesTableFunctionality({ addRateMethod, editRateMethod, dele
 	const hasFlatRate = HAS_RATES && (rates[0].getElementsByTagName("td").length === 6);
 	return hasFlatRate;
 }
+function addReedmakingControlsFunctionality({ Reed, Rate }) {
+	// Access display cards
+	let reedmakingCards = document.getElementsByClassName("reedmakingCard");
 
-export { addControlsFunctioanlity, addEditingRatesTableFunctionality }
+	// Loop through reedmaking cards, adding event listeners to edit and delete buttons
+	for (let card of reedmakingCards) {
+		// Access delete button for entire card
+		let deleteBtn = card.getElementsByClassName("deleteReed")[0];
+		deleteBtn.addEventListener("click",Reed.remove);
+		// Access edit button for reed name
+		let header = card.getElementsByClassName("nameHeaderCont")[0];
+		let editBtn = header.lastElementChild;
+		editBtn.addEventListener("click",Reed.editName);
+
+		// Access edit button for reed description
+		let reedDescrription = card.getElementsByClassName("descriptionHeader")[0];
+		let editReedDescrBtn = reedDescrription.nextElementSibling;
+		editReedDescrBtn.addEventListener("click",Reed.editDescription);
+
+		// Access table containing rates
+		let ratesTable = card.getElementsByClassName("displayRates")[0];
+
+		// Access button for adding new rat
+		let ratesTableCaption = ratesTable.firstElementChild;
+		let addRateBtn = ratesTableCaption.lastElementChild;
+		addRateBtn.addEventListener("click", Rate.add);
+
+		// Retrieve and loop through rates, adding listeners accordingly
+		let ratesTableBody = ratesTable.lastElementChild;
+		let ratesRows = ratesTableBody.getElementsByTagName("tr");
+
+		for (const ratesRow of ratesRows) {
+			// Store and format data to clarify to admin
+			let rowEls = ratesRow.getElementsByTagName("td");
+			let formatText = "";
+
+			formatText += ` - Quantity: ${rowEls[0].textContent}\n`;
+			formatText += ` - Price: ${rowEls[1].textContent}`
+
+			// Access controls
+			let controls = ratesRow.getElementsByTagName("i");
+			// Access element buttons
+			let editRateBtn = controls[0];
+			let deleteRateBtn = controls[1];
+
+			// Add listeners
+			editRateBtn.addEventListener("click", Rate.edit);
+			deleteRateBtn.addEventListener("click", (event) => {confirm(`Are you sure you want to remove the following rate from ${header.firstElementChild.textContent}: \n${formatText}`) && Rate.remove(event)});
+		}
+	}
+}
+
+export { addControlsFunctioanlity, addEditingRatesTableFunctionality, addReedmakingControlsFunctionality }

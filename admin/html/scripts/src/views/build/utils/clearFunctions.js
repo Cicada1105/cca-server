@@ -101,7 +101,13 @@ function clearAddLitTypeInputForm(el) {
 	clearBasicForm(el);
 }
 function clearAddReedInputForm(el) {
-	// Clear data specific to add reed form
+	// Access rates entered by user
+	const form = el.querySelector("article.input > form");
+	const ratesTable = form.getElementsByClassName("displayRatesInputTable")[0];
+	const ratesTableBody = ratesTable.lastElementChild;
+	const [ inputRow, ...enteredRatesRows ] = ratesTableBody.getElementsByTagName("tr");
+	// Clear rates entered by user
+	enteredRatesRows.forEach(row => row.remove());
 
 	// Clear basic form
 	clearBasicForm(el);
