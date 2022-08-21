@@ -2,13 +2,13 @@
 	Model that interfacts directly with editing data
 */
 
-// Import data
-const pricings = require('../../site_data/editing');
+const { getFileData } = require('../utils.js');
 
 function getAllPricings() {
 	// Return promise that resolves to fill data
 	return new Promise((res,rej) => {
-		res(pricings);		
+		let pricings = getFileData('./site_data/editing.json');
+		res(pricings);
 	});
 }
 

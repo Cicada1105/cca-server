@@ -2,12 +2,12 @@
 	Model that interfacts directly with reedmaking data
 */
 
-// Import data
-const pricings = require('../../site_data/reedmaking');
+const { getFileData } = require("../utils.js");
 
 function getAllPricings() {
 	// Return promise that resolves to fill data
 	return new Promise((res,rej) => {
+		let pricings = getFileData('./site_data/reedmaking.json');
 		// Remove unnecessary id from data to be returned to front end
 		let updatedPricings = [];
 		pricings.forEach(pricing => {
