@@ -11,7 +11,8 @@ import { successCallback, failedCallback } from '../../utils.js';
 	Future addPastPerformance documentation
 */
 function addPastPerformance(event) {
-	let controlsCont = event.path[2];
+	let path = event.composedPath();
+	let controlsCont = path[2];
 	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 
@@ -46,7 +47,8 @@ function addPastPerformance(event) {
 	Future updatePastPerformance documentation
 */
 function updatePastPerformance(event) {
-	let controlsCont = event.path[2];
+	let path = event.composedPath();
+	let controlsCont = path[2];
 	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 

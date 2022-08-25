@@ -8,8 +8,9 @@ function confirmBtnStyleCleanup(event) {
 	// Store function, bounded by value of this, to be called when user confirms
 	let fn = this;
 	// path[0] === icon#; path[1] === icon#Cont; path[2] === div.controlsCont;
-	let elCont = event.path[1];
-	let ctrlsCont = event.path[2];
+	let path = event.composedPath();
+	let elCont = path[1];
+	let ctrlsCont = path[2];
 	let icons = ctrlsCont.getElementsByTagName("i");
 	let icon2 = icons[1];	// Decline icon
 	// Remove event listener of other button that didn't get pressed
@@ -33,7 +34,8 @@ function declineBtnStyleCleanup(event) {
 	event.stopPropagation();
 
 	// path[0] === icon#; path[1] === icon#Cont; path[2] === div.controlsCont;
-	let ctrlsCont = event.path[2];
+	let path = event.composedPath();
+	let ctrlsCont = path[2];
 	let icons = ctrlsCont.getElementsByTagName("i");
 	let icon1 = icons[0];	// Confirm icon
 	// Remove event listeners of other button that didn't get pressed
@@ -63,10 +65,11 @@ function handleAddEditClickStyle(event) {
 		Event pathing:
 		path[0] === icon#; path[1] === icon#Cont; path[2] === divcontrolsCont
 	*/
+	let path = event.composedPath();
 	// Get container of icon that was selected
-	let selectedIconCont = event.path[1];
+	let selectedIconCont = path[1];
 	// Store parent container of individual icon containers
-	let ctrlsCont = event.path[2];
+	let ctrlsCont = path[2];
 	// Store reference to message container for deleting confirmation
 	let msgCont = ctrlsCont.firstElementChild;
 	let iconConts = ctrlsCont.querySelectorAll("[class *= ctrlBtn]");
@@ -93,10 +96,11 @@ function handleDeleteClickStyle(event) {
 		Event pathing:
 		path[0] === icon#; path[1] === icon#Cont; path[2] === divcontrolsCont
 	*/
+	let path = event.composedPath();
 	// Get container of icon that was selected
-	let selectedIconCont = event.path[1];
+	let selectedIconCont = path[1];
 	// Store parent container of individual icon containers
-	let ctrlsCont = event.path[2];
+	let ctrlsCont = path[2];
 	// Store reference to message container for deleting confirmation
 	let msgCont = ctrlsCont.firstElementChild;
 	let iconConts = ctrlsCont.querySelectorAll("[class *= ctrlBtn]");

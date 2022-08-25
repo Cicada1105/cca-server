@@ -10,12 +10,13 @@
 // Function for displaying image file selected by user
 function fileSelect(event) {
 	// Get access to form from path to get reference to image
-	let form = event.path[2];
+	let path = event.composedPath();
+	let form = path[2];
 	let imgCont = form.querySelector("#imgCont");
 	let icon = imgCont.firstElementChild;
 	let img = imgCont.lastElementChild;
 	// Get user inputted image and convert to a usable img src
-	let fileInput = event.path[0];
+	let fileInput = path[0];
 	if (fileInput.files[0]) {
 		let file = fileInput.files[0];
 		// Store file name to be used as alt
@@ -46,7 +47,8 @@ function fileSelect(event) {
 /****************************************/
 /*Function for handling adding to instrument list for add future performance card*/
 function addToList(event) {
-	let instrumentsCont = event.path[1];
+	let path = event.composedPath();
+	let instrumentsCont = path[1];
 	
 	// Get reference to user input tag
 	let instrumentsInput = instrumentsCont.firstElementChild;
@@ -93,8 +95,9 @@ function addGenreToList(event) {
 	}
 }
 function addRateToList(event) {
-	let rateInputRow = event.path[2];
-	let rateTableBody = event.path[3];
+	let path = event.composedPath();
+	let rateInputRow = path[2];
+	let rateTableBody = path[3];
 
 	// Get values from inputs
 	let inputs = Array.from(rateInputRow.getElementsByTagName("input"));

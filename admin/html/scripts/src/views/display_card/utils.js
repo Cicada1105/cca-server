@@ -1,5 +1,6 @@
 export function revertControlBtns(event) {
-	let ctrlsCont = event.path[2];	// path[0] === icon#; path[1]  === icon#Cont; path[2] === div.controlsCont
+	let path = event.composedPath();
+	let ctrlsCont = path[2];	// path[0] === icon#; path[1]  === icon#Cont; path[2] === div.controlsCont
 	// Retrieve containers holding icons
 	let iconConts = ctrlsCont.querySelectorAll("[class *= Btn]");
 	// Store individual icon containers

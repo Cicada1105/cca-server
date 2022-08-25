@@ -42,7 +42,8 @@ function formatTime(timeMS) {
 	Future addFuturePerformance documentation
 */
 function addFuturePerformance(event) {
-	let controlsCont = event.path[2];
+	let path = event.composedPath();
+	let controlsCont = path[2];
 	let form = controlsCont.previousElementSibling;
 
 	// Store instruments in array
@@ -72,7 +73,8 @@ function addFuturePerformance(event) {
 	Future updateFuturePerformance documentation
 */
 function updateFuturePerformance(event) {
-	let controlsCont = event.path[2];
+	let path = event.composedPath();
+	let controlsCont = path[2];
 	let form = controlsCont.previousElementSibling;
 
 	// Store instruments in array

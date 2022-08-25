@@ -13,7 +13,8 @@ function addRate(event) {
 	let litID = event.target.dataset["cardid"];
 	let editingType = event.target.dataset["editingtype"];
 	// Get access to form to retrieve data
-	let controlsFooter = event.path[1];
+	let path = event.composedPath();
+	let controlsFooter = path[1];
 	let articleInput = controlsFooter.previousElementSibling;
 	let form = articleInput.firstElementChild;
 	let elements = form.elements;
@@ -44,7 +45,8 @@ function updateRate(event) {
 	let litID = editBtn.dataset["cardid"];
 
 	// Retrieve rate data to be updated
-	let controlsFooter = event.path[1];
+	let path = event.composedPath();
+	let controlsFooter = path[1];
 	let articleInput = controlsFooter.previousElementSibling;
 	let form = articleInput.firstElementChild;
 	let elements = form.elements;
@@ -71,7 +73,8 @@ function updateRate(event) {
 function removeRate(event) {
 	// Get and store rate ID, editing type rate is under and literature type ID to uniquely ID rate
 	let rateID = event.target.dataset["id"];
-	let ratesTable = event.path[4]; // Contains editing type and literature ID
+	let path = event.composedPath();
+	let ratesTable = path[4]; // Contains editing type and literature ID
 	let editingType = ratesTable.dataset["editingtype"];
 	let litID = ratesTable.dataset["litid"];
 

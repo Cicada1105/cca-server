@@ -12,7 +12,8 @@ function addGenre(event) {
 	// Get literature id current added genre is associated with
 	let litID = event.target.dataset["cardid"];
 	// Get access to form to retrieve data
-	let controlsCont = event.path[1];
+	let path = event.composedPath();
+	let controlsCont = path[1];
 	let articleInput = controlsCont.previousElementSibling;
 	let form = articleInput.firstElementChild;
 	let elements = form.elements;
@@ -35,7 +36,8 @@ function updateGenre(event) {
 	let litID = editBtn.dataset["cardid"];
 
 	// Get access to display data to be updated
-	let controlsCont = event.path[1];
+	let path = event.composedPath();
+	let controlsCont = path[1];
 	let articleInput = controlsCont.previousElementSibling;
 	let form = articleInput.firstElementChild;
 	let elements = form.elements;
@@ -56,7 +58,8 @@ function removeGenre(event) {
 	// Access ID of genre that was selected to be removed
 	let genreID = event.target.dataset["id"];
 	// Access Literature ID associaated with genre
-	let genresTable = event.path[4]; // Has id of lit type storedin dataset
+	let path = event.composedPath();
+	let genresTable = path[4]; // Has id of lit type storedin dataset
 	let litID = genresTable.dataset["litid"];
 
 	let uniqueGenreData = {

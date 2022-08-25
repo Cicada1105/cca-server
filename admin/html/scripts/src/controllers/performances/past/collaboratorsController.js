@@ -9,7 +9,8 @@ import { successCallback, failedCallback } from '../../utils.js';
 	Future addCollaborator documentation
 */
 function addCollaborator(event) {
-	let controlsCont = event.path[2];
+	let path = event.composedPath();
+	let controlsCont = path[2];
 	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 
@@ -35,7 +36,8 @@ function addCollaborator(event) {
 	Future updateCollaborator documentation
 */
 function updateCollaborator(event) {
-	let controlsCont = event.path[2];
+	let path = event.composedPath();
+	let controlsCont = path[2];
 	let form = controlsCont.previousElementSibling
 	let formEls = form.elements;
 

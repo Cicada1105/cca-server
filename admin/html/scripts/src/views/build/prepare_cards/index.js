@@ -38,6 +38,7 @@ function preparePastCardData(event) {
 		removeImgBorder();
 		// Get display card to retrieve access all data of current card
 		// path[0] === icon, path[1] === edit button container, path[2] === controls cont, path[3] === displayCard
+		let path = event.composedPath();
 		let displayCard = event.path[3];
 		// Get data from current card
 		displayData = getPastPerformanceData(displayCard);
@@ -58,6 +59,7 @@ function prepareAnecdoteCardData(event) {
 		removeImgBorder();
 		// Get display card to retrieve access all data of current card
 		// path[0] === icon, path[1] === edit button container, path[2] === controls cont, path[3] === displayCard
+		let path = event.composedPath();
 		let displayCard = event.path[3];
 		// Get data from current card
 		displayData = getAnecdoteData(displayCard);
@@ -78,6 +80,7 @@ function prepareCollaboratorCardData(event) {
 		removeImgBorder();
 		// Get display card to retrieve access all data of current card
 		// path[0] === icon, path[1] === edit button container, path[2] === controls cont, path[3] === displayCard
+		let path = event.composedPath();
 		let displayCard = event.path[3];
 		// Get data from current card
 		displayData = getCollaboratorData(displayCard);
@@ -97,6 +100,7 @@ function preparePresentCardData(event) {
 	if (isEditBtn) {
 		// Get display card to retrieve access all data of current card
 		// path[0] === icon, path[1] === edit button container, path[2] === controls cont, path[3] === displayCard
+		let path = event.composedPath();
 		let displayCard = event.path[3];
 		// Get data from current card
 		displayData = getPresentPerformanceData(displayCard);
@@ -116,6 +120,7 @@ function prepareFutureCardData(event) {
 	if (isEditBtn) {
 		// Get display card to retrieve access all data of current card
 		// path[0] === icon, path[1] === edit button container, path[2] === controls cont, path[3] === displayCard
+		let path = event.composedPath();
 		let displayCard = event.path[3];
 		// Get data from current card
 		displayData = getFuturePerformanceData(displayCard);

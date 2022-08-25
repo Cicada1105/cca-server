@@ -9,7 +9,8 @@ import { successCallback, failedCallback } from '../../utils.js';
 	Future addAnecdote documentation
 */
 function addAnecdote(event) {
-	let controlsCont = event.path[2];
+	let path = event.composedPath();
+	let controlsCont = path[2];
 	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 
@@ -36,7 +37,8 @@ function addAnecdote(event) {
 	Future updateAnecdote documentation
 */
 function updateAnecdote(event) {
-	let controlsCont = event.path[2];
+	let path = event.composedPath();
+	let controlsCont = path[2];
 	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 

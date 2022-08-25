@@ -10,7 +10,8 @@ import { successCallback, failedCallback } from '../utils.js';
 */
 function addReed(event) {
 	// Store instane of add reed card
-	const card = event.path[2];
+	let path = event.composedPath();
+	const card = path[2];
 	// Retrieve form input and its elements
 	const form = card.querySelector("form.addForm");
 	const elements = form.elements;

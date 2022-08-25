@@ -22,7 +22,8 @@ function updateName(event) {
 	// Store reed id associated with reed name
 	let reedID = editBtn.dataset["id"];
 	// Retrieve form elements
-	let inputSection = event.path[2];
+	let path = event.composedPath();
+	let inputSection = path[2];
 	let addForm = inputSection.getElementsByClassName("addForm")[0];
 	let elements = addForm.elements;
 

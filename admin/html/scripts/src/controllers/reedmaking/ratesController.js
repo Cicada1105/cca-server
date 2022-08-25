@@ -12,7 +12,8 @@ function addRate(event) {
 	// Get and store pricing id of current reed
 	let reedID = event.target.dataset["cardid"];
 	// Access form containing inputs
-	let rateSection = event.path[2];
+	let path = event.composedPath();
+	let rateSection = path[2];
 	let rateForm = rateSection.getElementsByClassName("addForm")[0];
 	let elements = rateForm.elements;
 
@@ -39,6 +40,7 @@ function updateRate(event) {
 	let reedID = dataset["cardid"];
 
 	// Access form containing inputs
+	let path = event.composedPath();
 	let rateSection = event.path[2];
 	let rateForm = rateSection.getElementsByClassName("addForm")[0];
 	let elements = rateForm.elements;
@@ -61,7 +63,8 @@ function removeRate(event) {
 	// Get and store pricing ID of current reed
 	let pricingID = event.target.dataset.id;
 	// Get and store reed id of current reed pricing
-	let reedID = event.path[4].dataset["reedid"];
+	let path = event.composedPath();
+	let reedID = path[4].dataset["reedid"];
 
 	let rate = {
 		reedID,

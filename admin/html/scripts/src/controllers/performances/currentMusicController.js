@@ -9,7 +9,8 @@ import { successCallback, failedCallback } from '../utils.js';
 	Future addSong documentation
 */
 function addSong(event) {
-	let controlsCont = event.path[2];
+	let path = event.composedPath();
+	let controlsCont = path[2];
 	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 
@@ -25,7 +26,8 @@ function addSong(event) {
 	Future updateSong documentation
 */
 function updateSong(event) {
-	let controlsCont = event.path[2];
+	let path = event.composedPath();
+	let controlsCont = path[2];
 	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 

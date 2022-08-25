@@ -100,13 +100,14 @@ function buildEditingRateCard(event) {
 	let form = inputArticle.firstElementChild;
 	let flatRateInputRow = form.getElementsByClassName("inputRow")[2];
 
+	let path = event.composedPath();
 	// Access table rows based on button pressed
 	let table;
 	let btn = event.target;
 	if (btn.classList.contains("fa-plus-square"))
-		table = event.path[2];
+		table = path[2];
 	else if (btn.classList.contains("fa-edit"))
-		table = event.path[4];
+		table = path[4];
 
 	let thead = table.getElementsByTagName("thead")[0];
 	let tdsCollection = thead.getElementsByTagName("td");

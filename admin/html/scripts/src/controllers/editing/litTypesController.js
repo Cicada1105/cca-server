@@ -10,7 +10,8 @@ import { successCallback, failedCallback } from '../utils.js';
 */
 function addLiteratureType(event) {
 	// Retrieve form for adding new literature type
-	let controlsFooter = event.path[1];
+	let path = event.composedPath();
+	let controlsFooter = path[1];
 	let articleInput = controlsFooter.previousElementSibling;
 	let form = articleInput.firstElementChild;
 	let elements = form.elements;
