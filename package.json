@@ -13,15 +13,17 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "dotenv": "^10.0.0",
+    "googleapis": "^95.0.0",
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.4.11",
     "pug": "^3.0.0",
-    "uuid": "^8.3.1",
-    "dotenv": "^10.0.0"
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.9",
-    "@babel/preset-env": "^7.12.7"
+    "@babel/preset-env": "^7.12.7",
+    "browserify": "^17.0.0"
   }
 }

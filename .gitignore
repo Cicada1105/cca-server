@@ -17,4 +17,5 @@ admin/html/scripts/lib
 .env
 
 # Client info
+# Confidential
 client_info.json
