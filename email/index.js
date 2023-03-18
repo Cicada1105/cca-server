@@ -1,7 +1,5 @@
 require("dotenv").config();
 const nodemailer = require('nodemailer');
-const { google } = require("googleapis");
-const { retrieveClientInfo, updateClientInfo } = require("./utils.js");
 
 function Send(req,res) {
 	let response;
