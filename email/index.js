@@ -49,7 +49,7 @@ function sendMail(userData) {
 	}
 	const mailerOptions = {
 		from: userData.email,
-		to: 'joshicolvin@gmail.com',
+		to: 'carl.colvin92@gmail.com',
 		subject: "CarlColvinArts Website Message",
 		html: `
 			<h3 style="display:inline;">Subject:</h3> <p style="display:inline;font-size:0.9rem;">${userData.subject}</p><br />

@@ -105,7 +105,7 @@ const initListeners = () => {
 
 		// Add click event listener to navigation header to include token to header
 		nav_bar_cont.firstElementChild.addEventListener("click",() => {
-			window.location.href=`http://localhost:2020/cca-admin-control-panel/?token=${token}`;
+			window.location.href=`https://cca-server.onrender.com/cca-admin-control-panel/?token=${token}`;
 		},{once:true})
 		// Add token to navigation links
 		for (let link of nav_links)
