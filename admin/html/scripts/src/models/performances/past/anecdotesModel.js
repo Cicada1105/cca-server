@@ -11,7 +11,7 @@
 // Imports
 import makeRequest from '../../request';
 
-const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/past/anecdotes";
+const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/performance/past/anecdotes";
 
 /*
 	Future add documentation

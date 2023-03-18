@@ -10,7 +10,7 @@
 */
 import makeRequest from "../request";
 
-const SERVER_URL = "http://localhost:2020/cca-admin-api/performance/future";
+const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/performance/future";
 
 /*
 	Future add documentation
