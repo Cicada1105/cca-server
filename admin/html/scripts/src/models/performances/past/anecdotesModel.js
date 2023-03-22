@@ -11,14 +11,14 @@
 // Imports
 import makeRequest from '../../request';
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/performance/past/anecdotes";
+const ANECDOTES_PATH = "/cca-admin-api/performance/past/anecdotes";
 
 /*
 	Future add documentation
 */
 function add({ name, title, anecdote, img: { src, alt } }) {
 	return makeRequest(
-		SERVER_URL,
+		ANECDOTES_PATH,
 		"POST",
 		{
 			name,
@@ -36,7 +36,7 @@ function add({ name, title, anecdote, img: { src, alt } }) {
 */
 function update({ id, name, title, anecdote, img: { src, alt }}) {
 	return makeRequest(
-		SERVER_URL,
+		ANECDOTES_PATH,
 		"PUT",
 		{
 			id,
@@ -55,7 +55,7 @@ function update({ id, name, title, anecdote, img: { src, alt }}) {
 */
 function remove(anecdoteID) {
 	return makeRequest(
-		SERVER_URL,
+		ANECDOTES_PATH,
 		"DELETE",
 		{ id: anecdoteID }
 	)

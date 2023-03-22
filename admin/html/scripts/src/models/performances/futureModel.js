@@ -10,14 +10,14 @@
 */
 import makeRequest from "../request";
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/performance/future";
+const FUTURE_PERFORMANCES_PATH = "/cca-admin-api/performance/future";
 
 /*
 	Future add documentation
 */
 function add({ name, location, instruments, date, time: { start, end }, description }) {
 	return makeRequest(
-		SERVER_URL,
+		FUTURE_PERFORMANCES_PATH,
 		"POST",
 		{
 			name,
@@ -37,7 +37,7 @@ function add({ name, location, instruments, date, time: { start, end }, descript
 */
 function update({ id, name, location, instruments, date, time: { start, end }, description }) {
 	return makeRequest(
-		SERVER_URL,
+		FUTURE_PERFORMANCES_PATH,
 		"PUT",
 		{
 			id,
@@ -58,7 +58,7 @@ function update({ id, name, location, instruments, date, time: { start, end }, d
 */
 function remove(performanceID) {
 	return makeRequest(
-		SERVER_URL,
+		FUTURE_PERFORMANCES_PATH,
 		"DELETE",
 		{ id: performanceID }
 	)

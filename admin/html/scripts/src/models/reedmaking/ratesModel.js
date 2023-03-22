@@ -11,14 +11,14 @@
 // Imports
 import makeRequest from '../request';
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/reedmaking/rate";
+const REEDMAKING_RATES_PATH = "/cca-admin-api/reedmaking/rate";
 
 /*
 	Future Add documentation
 */
 function add({ reedID, pricing: { quantity, cost } }) {
 	return makeRequest(
-		SERVER_URL,
+		REEDMAKING_RATES_PATH,
 		"POST",
 		{
 			reedID,
@@ -34,7 +34,7 @@ function add({ reedID, pricing: { quantity, cost } }) {
 */
 function update({ reedID, pricing: { id, quantity, cost }}) {
 	return makeRequest(
-		SERVER_URL,
+		REEDMAKING_RATES_PATH,
 		"PUT",
 		{ 
 			reedID,
@@ -51,7 +51,7 @@ function update({ reedID, pricing: { id, quantity, cost }}) {
 */
 function remove({ reedID, pricingID }) {
 	return makeRequest(
-		SERVER_URL,
+		REEDMAKING_RATES_PATH,
 		"DELETE",
 		{ 
 			reedID, 

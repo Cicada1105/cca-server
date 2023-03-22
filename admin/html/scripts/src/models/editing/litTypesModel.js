@@ -11,14 +11,14 @@
 // Imports
 import makeRequest from '../request';
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/editing/literature_types";
+const LITERATURE_TYPES_PATH = "/cca-admin-api/editing/literature_types";
 
 /*
 	Fuure Add documentation
 */
 function add({ type, genres, rates: { standard_proofreading, developmental_editing, both }}) {
 	return makeRequest(
-		SERVER_URL,
+		LITERATURE_TYPES_PATH,
 		"POST",
 		{
 			type,

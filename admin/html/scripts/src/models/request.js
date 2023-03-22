@@ -4,9 +4,11 @@
 	control panel
 */
 
-export default function makeRequest(url, method, body) {
+const SERVER_URL = "http://localhost:2020";
+
+export default function makeRequest(path, method, body) {
 	return new Promise((resolve,reject) => {
-		fetch(url,{
+		fetch(`${SERVER_URL}${path}`,{
 			method,
 			headers: {
 				"Content-Type": "application/json"

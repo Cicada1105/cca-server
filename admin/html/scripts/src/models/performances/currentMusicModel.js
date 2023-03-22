@@ -10,14 +10,14 @@
 */
 import makeRequest from '../request';
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/performance/present";
+const CURRENT_MUSIC_PATH = "/cca-admin-api/performance/present";
 
 /*
 	Future add documentation
 */
 function add({ name, by, description }) {
 	return makeRequest(
-		SERVER_URL,
+		CURRENT_MUSIC_PATH,
 		"POST",
 		{
 			name,
@@ -31,7 +31,7 @@ function add({ name, by, description }) {
 */
 function update({ id, name, by, description }) {
 	return makeRequest(
-		SERVER_URL,
+		CURRENT_MUSIC_PATH,
 		"PUT",
 		{
 			id,
@@ -46,7 +46,7 @@ function update({ id, name, by, description }) {
 */
 function remove(songID) {
 	return makeRequest(
-		SERVER_URL,
+		CURRENT_MUSIC_PATH,
 		"DELETE",
 		{ id: songID }
 	)

@@ -11,7 +11,7 @@
 // Imports
 import makeRequest from '../request';
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/reedmaking/reed/description";
+const REEDMAKING_DESCRIPTION_PATH = "/cca-admin-api/reedmaking/reed/description";
 
 /*
 	Future Add documentation
@@ -22,7 +22,7 @@ const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/reedmaking/ree
 */
 function update({ id, description }) {
 	return makeRequest(
-		SERVER_URL,
+		REEDMAKING_DESCRIPTION_PATH,
 		"PUT",
 		{
 			id,

@@ -11,14 +11,14 @@
 // Imports
 import makeRequest from '../../request';
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/performance/past";
+const PAST_PERFORMANCES_PATH = "/cca-admin-api/performance/past";
 
 /*
 	Future add documentation
 */
 function add({ name, description, location, instruments, date, img:{ src, alt }}) {
 	return makeRequest(
-		SERVER_URL,
+		PAST_PERFORMANCES_PATH,
 		"POST",
 		{
 			name,
@@ -38,7 +38,7 @@ function add({ name, description, location, instruments, date, img:{ src, alt }}
 */
 function update({ id, name, description, location, instruments, date, img:{ src, alt }}) {
 	return makeRequest(
-		SERVER_URL,
+		PAST_PERFORMANCES_PATH,
 		"PUT",
 		{
 			id,
@@ -57,7 +57,7 @@ function update({ id, name, description, location, instruments, date, img:{ src,
 */
 function remove(performanceID) {
 	return makeRequest(
-		SERVER_URL,
+		PAST_PERFORMANCES_PATH,
 		"DELETE",
 		{ id: performanceID }
 	)

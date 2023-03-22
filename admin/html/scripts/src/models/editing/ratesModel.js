@@ -10,14 +10,14 @@
 */
 import makeRequest from '../request';
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/editing/rates";
+const EDITING_RATES_PATH = "/cca-admin-api/editing/rates";
 
 /*
 	Fuure Add documentation
 */
 function add({ litID, editingType, min, max, perHour, perWord, flatRate }) {
 	return makeRequest(
-		SERVER_URL,
+		EDITING_RATES_PATH,
 		"POST",
 		{
 			litID,
@@ -35,7 +35,7 @@ function add({ litID, editingType, min, max, perHour, perWord, flatRate }) {
 */
 function update({ litID, editingType, rateID, min, max, perHour, perWord, flatRate }) {
 	return makeRequest(
-		SERVER_URL,
+		EDITING_RATES_PATH,
 		"PUT",
 		{
 			litID, 
@@ -54,7 +54,7 @@ function update({ litID, editingType, rateID, min, max, perHour, perWord, flatRa
 */
 function remove({litID, editingType, rateID}) {
 	return makeRequest(
-		SERVER_URL,
+		EDITING_RATES_PATH,
 		"DELETE",
 		{
 			litID,

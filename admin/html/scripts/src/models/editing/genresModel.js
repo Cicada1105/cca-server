@@ -11,14 +11,14 @@
 // Imports
 import makeRequest from '../request';
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/editing/genres";
+const GENRES_PATH = "/cca-admin-api/editing/genres";
 
 /*
 	Fuure Add documentation
 */
 function add({ litID, display, value }) {
 	return makeRequest(
-		SERVER_URL,
+		GENRES_PATH,
 		"POST",
 		{
 			litID,
@@ -32,7 +32,7 @@ function add({ litID, display, value }) {
 */
 function update({ litID, genreID, display, value }) {
 	return makeRequest(
-		SERVER_URL,
+		GENRES_PATH,
 		"PUT",
 		{
 			litID,
@@ -47,7 +47,7 @@ function update({ litID, genreID, display, value }) {
 */
 function remove({litID, genreID}) {
 	return makeRequest(
-		SERVER_URL,
+		GENRES_PATH,
 		"DELETE",
 		{
 			litID,

@@ -11,14 +11,14 @@
 // Imports
 import makeRequest from '../request';
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/reedmaking/reed/";
+const REEDMAKING_PATH = "/cca-admin-api/reedmaking/reed/";
 
 /*
 	Future Add documentation
 */
 function add({ name, description, pricing }) {
 	return makeRequest(
-		SERVER_URL,
+		REEDMAKING_PATH,
 		"POST",
 		{
 			name,
@@ -38,7 +38,7 @@ function add({ name, description, pricing }) {
 */
 function remove({ id }) {
 	return makeRequest(
-		SERVER_URL,
+		REEDMAKING_PATH,
 		"DELETE",
 		{ id }
 	)

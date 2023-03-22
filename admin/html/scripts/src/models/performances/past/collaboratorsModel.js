@@ -11,14 +11,14 @@
 // Imports
 import makeRequest from '../../request';
 
-const SERVER_URL = "https://cca-server.onrender.com/cca-admin-api/performance/past/collaborators";
+const COLLABORATORS_PATH = "/cca-admin-api/performance/past/collaborators";
 
 /*
 	Future add documentation
 */
 function add({ name, title, img: { src, alt }}) {
 	return makeRequest(
-		SERVER_URL,
+		COLLABORATORS_PATH,
 		"POST",
 		{
 			name,
@@ -35,7 +35,7 @@ function add({ name, title, img: { src, alt }}) {
 */
 function update({ id, name, title, img: { src, alt }}) {
 	return makeRequest(
-		SERVER_URL,
+		COLLABORATORS_PATH,
 		"PUT",
 		{
 			id,
@@ -53,7 +53,7 @@ function update({ id, name, title, img: { src, alt }}) {
 */
 function remove(collaboratorID) {
 	return makeRequest(
-		SERVER_URL,
+		COLLABORATORS_PATH,
 		"DELETE",
 		{ id: collaboratorID }
 	)
