@@ -36,7 +36,7 @@ function verifyToken(req) {
 
 function getCertificate() {
 	// Retrieve file containing public key
-	const fileBuffer = fs.readFileSync("./admin/login/public.pem");
+	const fileBuffer = fs.readFileSync("/etc/secrets/public.pem");
 	// Convert array buffer to a readable stream of text
 	const fileData = fileBuffer.toString();
 	// Split up file into an array by delimiting newlines
