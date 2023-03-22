@@ -56,8 +56,12 @@ function addToList(event) {
 	let item = instrumentsInput.value;
 	// get referece to ul container
 	let ulEl = instrumentsCont.lastElementChild;
-
+	// Add instrument item to the list
 	ulEl.appendChild(createListItem(item));
+	// Clear original user input
+	instrumentsInput.value = "";
+	// Place focus back on input container
+	instrumentsInput.focus();
 }
 function createListItem(item) {
 	let li = document.createElement("li");

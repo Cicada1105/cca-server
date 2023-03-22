@@ -6,11 +6,14 @@ mixin pastPerformanceCard(performance)
 		article.subHeaderCont
 			h4.location #{performance.location}
 			div.instrumentsCont
-				- for (let i = 0; i < performance.instruments.length; i++)
-					if i===0
-						h4 #{performance.instruments[i]}
-					else
-						h4!= `,&nbsp;&nbsp;&nbsp;${performance.instruments[i]}`
+				if (performance.instruments.length === 1)
+					h4 #{performance.instruments[i]}
+				else
+					- for (let i = 0; i < performance.instruments.length; i++)
+						if i === (performance.instruments.length - 1)
+							h4 #{performance.instruments[i]}
+						else
+							h4!= `${performance.instruments[i]},&nbsp;&nbsp;&nbsp;`
 		p.date #{performance.date}
 		p.description #{performance.description}
 		aside.controlsCont

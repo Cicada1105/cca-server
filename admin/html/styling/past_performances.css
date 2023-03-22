@@ -4,17 +4,26 @@ section.pastCard > img {
 }
 article.subHeaderCont {
 	display:flex;
-	flex-direction:row;
-	flex-wrap:wrap;
+	flex-flow: row wrap;
 	justify-content: space-between;
-	width:55%;
+	margin-bottom:1rem;
+	margin: 1rem auto 1.5rem 0rem;
+	width:32rem;
 }
-div.instrumentsCont, div#instrumentsCont {
+div#instrumentsCont {
 	display: inline;
 	margin-left:7.25rem;
 }
+article.subHeaderCont > h4 {
+	margin-top:0.25rem;
+}
+div.instrumentsCont {
+	display: inline;
+	width: 50%;
+}
 div.instrumentsCont > h4 {
 	display:inline-block;
+	margin:0.25rem auto;
 }
 section.pastCard > p.date {
 	font-style:italic;
