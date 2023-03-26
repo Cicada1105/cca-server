@@ -44,9 +44,31 @@ function add(newPerformance) {
 /*
 	Future update documentation
 */
-function update(performance) {
+function update(updatedPerformance) {
 	return new Promise((resolve,reject) => {
-		resolve(`Updating existing future performance: ${performance}`);
+		// Get performances from file
+		let parsedPerformances = getFileData(performancesPath);
+		// // Pull out future performances
+		let futurePerformances = parsedPerformances["future"];
+		// Find index of performance to be updated
+		let index = futurePerformances.findIndex((performance) => performance.id === updatedPerformance.id);
+
+		if (index === -1)
+			reject(`Unable to find future performance with id of: ${performanceID['id']}`)
+		else {
+			// Overwrite the info at that position
+			Object.assign(futurePerformances[index], updatedPerformance);
+			// Update the future performances with the rest of the data
+			let updatedPerformances = { ...parsedPerformances, "future": futurePerformances };
+			// Update file, reflecting the updated performance
+			try {
+				writeToFile(performancesPath, JSON.stringify(updatedPerformances));
+				resolve(`Successfully updated the ${updatedPerformance['name']} performance`);
+			} catch(e) {
+				console.log(e);
+				reject("Internal Server Error. Try again later");
+			}
+		}
 	})
 }
 /*

@@ -7,7 +7,7 @@ mixin pastPerformanceCard(performance)
 			h4.location #{performance.location}
 			div.instrumentsCont
 				if (performance.instruments.length === 1)
-					h4 #{performance.instruments[i]}
+					h4 #{performance.instruments[0]}
 				else
 					- for (let i = 0; i < performance.instruments.length; i++)
 						if i === (performance.instruments.length - 1)

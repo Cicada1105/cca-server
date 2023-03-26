@@ -9,7 +9,6 @@ const FuturePerformancesModel = require("../models/rootModel.js");
 const { getBodyData } = require("../../../utils.js");
 
 async function addPerformance(req, res) {
-	res.setHeader("Content-Type","application/json");
 	// Get song data from body
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary info for adding 
@@ -44,14 +43,33 @@ async function addPerformance(req, res) {
 		res.end(JSON.stringify({
 			msg: "Problem getting body data"
 		}));
-	})
+	});
 }
 async function updatePerformance(req, res) {
-	res.setHeader("Content-Type","application/json");
-	
-	await FuturePerformancesModel.update("UPDATED FUTURE PERFORMANCE").then((msg) => {
-		res.status = 200;
-		res.end(JSON.stringify({ msg }));
+	// Get performace data from body
+	await getBodyData(req).then(async (body) => {
+		let { id, name, location, instruments, date, time: { start, end }, description } = body;
+
+		await FuturePerformancesModel.update({
+			id,
+			name,
+			location,
+			instruments,
+			date,
+			time: {
+				start,
+				end
+			},
+			description
+		}).then((msg) => {
+			res.status = 200;
+			res.end(JSON.stringify({ msg }));
+		}).catch((err) => {
+			res.status = 500;
+			res.end(JSON.stringify({
+				msg: err
+			}));
+		})
 	}).catch((err) => {
 		console.log("Error:")
 		console.log(err.message);
@@ -60,11 +78,10 @@ async function updatePerformance(req, res) {
 		res.status = 500;
 		res.end(JSON.stringify({
 			msg: "Problem getting body data"
-		}));	
-	})
+		}));
+	});
 }
 async function removePerformance(req, res) {
-	res.setHeader("Content-Type","application/json");
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary attributes from body to remove future performance
 		let { id } = body;
