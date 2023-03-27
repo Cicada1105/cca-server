@@ -31,11 +31,8 @@ function sendMail(userData) {
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
-				type:"OAuth2",
-				user:'carlcolvinarts@gmail.com',
-				clientId: process.env.CLIENT_ID,
-				clientSecret: process.env.CLIENT_SECRET,
-				refreshToken: process.env.REFRESH_TOKEN
+				user: process.env.EMAIL_USER,
+				pass: process.env.EMAIL_PASSWORD
 			}
 		});
 		transporter.verify((err, success) => {
