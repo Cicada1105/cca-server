@@ -2,31 +2,44 @@
 	Model that interfacts directly with performance data
 */
 
-const { getFileData } = require("../../utils.js");
+const { getDatabaseCollection } = require('../../../utils/mongodb.js');
 
 function filterBy(performanceFilter) {
 	// Return promise that resolves to fill data
 	return new Promise((resolve,reject) => {
-		// Get performances from file
-		const performances = getFileData('./site_data/performance.json');
-		// Filter out by type of performance sent in as an argument
-		let isValidFilter = Object.keys(performances).includes(performanceFilter);
+		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			// Resulting array will be in the form of [ { performanceType : []} ] where "performanceType" may not exist
+			const resultArray = await collection.aggregate([
+				{ 
+					$project: { 
+						_id: 0,
+						[performanceFilter]: 1
+					}
+				}
+			]).toArray();
+			// Now that the collection has been queried, close the database connection
+			closeConnection();
 
-		if (isValidFilter) {
-			// Remove unnecessary id from data to be returned to front end
-			let updatedPerformances = [];
-			performances[performanceFilter].forEach(performance => {
-				// Extract out current id from rest of info
-				let { id, ...rest } = performance;
-				// Store rest of performance info without id
-				updatedPerformances.push(rest);
-			})
-			resolve(updatedPerformances);
-		}
-		else
-			reject({
-				msg: `Unable to retrieve data for: ${performanceFilter}`
-			});
+			const performances = resultArray[0]; // Results as { performanceType : [] }
+			// Check if the resulting object contains respective performance type
+			let isValidFilter = performanceFilter in performances;
+
+			if (isValidFilter) {
+				// Remove unnecessary id from data to be returned to front end
+				let updatedPerformances = [];
+				performances[performanceFilter].forEach(performance => {
+					// Extract out current id from rest of info
+					let { id, ...rest } = performance;
+					// Store rest of performance info without id
+					updatedPerformances.push(rest);
+				})
+				resolve(updatedPerformances);
+			}
+			else
+				reject({
+					msg: `Unable to retrieve data for: ${performanceFilter}`
+				});
+		});
 	});
 }
 
