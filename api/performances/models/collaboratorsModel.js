@@ -2,7 +2,6 @@
 	Model that directly interfaces with the collaborators data
 */
 
-const { getFileData } = require("../../utils.js");
 const { getDatabaseCollection } = require('../../../utils/mongodb.js');
 
 function getAllCollaborators() {
