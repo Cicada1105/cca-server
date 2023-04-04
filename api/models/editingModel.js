@@ -2,13 +2,16 @@
 	Model that interfacts directly with editing data
 */
 
-const { getFileData } = require('../utils.js');
+const { getDatabaseCollection } = require('../../utils/mongodb.js');
 
 function getAllPricings() {
 	// Return promise that resolves to fill data
-	return new Promise((res,rej) => {
-		let pricings = getFileData('./site_data/editing.json');
-		res(pricings);
+	return new Promise((resolve,reject) => {
+		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+			const pricings = await collection.find({}).toArray();
+
+			resolve(pricings);
+		});
 	});
 }
 

@@ -2,12 +2,11 @@
 	Model that interfacts directly with reedmaking data
 */
 
-const { getFileData } = require("../utils.js");
 const { getDatabaseCollection } = require('../../utils/mongodb.js');
 
 function getAllPricings() {
 	// Return promise that resolves to fill data
-	return new Promise((res,rej) => {
+	return new Promise((resolve,reject) => {
 		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
 			const pricings = await collection.find({}).toArray();
 			// Remove unnecessary id from data to be returned to front end
@@ -18,7 +17,7 @@ function getAllPricings() {
 				// Store rest of pricing info without id
 				updatedPricings.push(rest);
 			})
-			res(updatedPricings);
+			resolve(updatedPricings);
 		});
 	});
 }
