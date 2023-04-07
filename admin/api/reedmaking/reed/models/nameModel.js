@@ -2,12 +2,8 @@
 	File contains request methods for dealing directly with the corresponding data
 */
 
-// Import reedmaking data to be used by the model
-const reedmakingPricesPath = "./site_data/reedmaking.json";
-// Require method to retrieve file data
-const { getFileData } = require("../../../../utils.js");
-// Require method for writing to file
-const { writeToFile } = require("../../../utils.js");
+// Imports
+const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
 /*
 	Future add documentation
@@ -22,26 +18,21 @@ const { writeToFile } = require("../../../utils.js");
 */
 function update({ id, name }) {
 	return new Promise((resolve,reject) => {
-		// Retrieve reedmaking data
-		let reedmakingData = getFileData(reedmakingPricesPath);
-		// Locate reed index associated with reed tied to passed in id
-		let reedIndex = reedmakingData.findIndex(reed => reed.id === id);
-		// Store reed to update reed name
-		let reed = reedmakingData[reedIndex];
-		// Store old reed name to show update
-		let oldReedName = reed["name"];
+		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+			const result = await collection.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: { name } });
 
-		// Update reed name
-		reed["name"] = name;
-		// Update original data
-		reedmakingData[reedIndex] = reed;
-		// Write to file, catching any error that may occur
-		try {
-			writeToFile(reedmakingPricesPath,JSON.stringify(reedmakingData));
-			resolve(`Successfully updated \"${oldReedName}\" to \"${name}\"`);
-		} catch(e) {
-			reject("Internal Server Error. Try again later");
-		}
+			// Close connection now that database operations are done
+			closeConnection();
+
+			if (result.ok) {
+				// Retrieve old name of reed to show update
+				let { value } = result;
+				resolve(`Successfully updated \"${value.name}\" to \"${name}\"`);
+			}
+			else {
+				reject("Internal Server Error. Try again later");
+			}
+		});
 	})
 }
 /*

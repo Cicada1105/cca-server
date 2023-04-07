@@ -2,46 +2,38 @@
 	File contains request methods for dealing directly with the corresponding data
 */
 
-// Import reedmaking data to be used by the model
-const reedmakingPricesPath = "./site_data/reedmaking.json";
-// Require method to retrieve file data
-const { getFileData } = require("../../../../utils.js");
-// Require method for writing to file
-const { writeToFile } = require("../../../utils.js");
-// Import uuid for adding new resource
-const { v4: uuidv4 } = require("uuid");
+const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
 /*
 	Future add documentation
 */
 function add(pricingData) {
 	return new Promise((resolve,reject) => {
-		// Retrieve reedmaking data
-		let reedmakingData = getFileData(reedmakingPricesPath);
-		// Retrieve index of reed id associated with current rate
-		let reedIndex = reedmakingData.findIndex(reed => reed.id === pricingData["reedID"]);
-		// Store reed located at reedIndex
-		let reed = reedmakingData[reedIndex];
+		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+			let { reedID, pricing } = pricingData;
 
-		let newPricing = pricingData["pricing"];
-		// Create new pricing with unique id
-		let newRate = {
-			id: uuidv4(),
-			quantity: newPricing["quantity"],
-			cost: newPricing["cost"]
-		}
-		// Push new rate into array of rest of rates
-		reed["pricing"].push(newRate);
-		// Update original reedmaking data
-		reedmakingData[reedIndex] = reed;
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(reedID)
+			}, {
+				$push: {
+					pricing: {
+						id: new ObjectId(),
+						quantity: pricing['quantity'],
+						cost: pricing['cost']
+					}
+				}
+			});
 
-		// Write to file, catching any error that may occur
-		try {
-			writeToFile(reedmakingPricesPath,JSON.stringify(reedmakingData));
-			resolve(`Successfully added new pricing to ${reed["name"]}'s rates`);
-		} catch(e) {
-			reject("Internal Server Error. Try again later");
-		}
+			// Close connection now that database operations are done
+			closeConnection();
+
+			if (result.ok) {
+				resolve(`Successfully added new rate to \"${result['value'].name}\"`);
+			}
+			else {
+				reject("Internal Server Error. Try again later");
+			}
+		});
 	})
 }
 /*
@@ -49,33 +41,31 @@ function add(pricingData) {
 */
 function update(updatedPricing) {
 	return new Promise((resolve,reject) => {
-		// Retrieve reedmaking data
-		let reedmakingData = getFileData(reedmakingPricesPath);
-		// Retrieve index of reed associated with current rate
-		let reedIndex = reedmakingData.findIndex(reed => reed.id === updatedPricing["reedID"]);
-		// Retrieve reed stored at reedIndex
-		let reed = reedmakingData[reedIndex];
-		// Retrieve index of rate associated with current pricing
-		let pricingIndex = reed["pricing"].findIndex(rate => rate.id === updatedPricing["pricing"].id)
-		// Retrieve rate stored at pricingIndex
-		let pricing = reed.pricing[pricingIndex];
+		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+			let { reedID, pricing } = updatedPricing;
 
-		// Update rate
-		pricing["quantity"] = updatedPricing["pricing"].quantity;
-		pricing["cost"] = updatedPricing["pricing"].cost;
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(reedID)
+			}, {
+				$set: {
+					'pricing.$[el].id': new ObjectId(pricing['id']),
+					'pricing.$[el].quantity': pricing['quantity'],
+					'pricing.$[el].cost': pricing['cost']
+				}
+			}, {
+				arrayFilters: [{ 'el.id': new ObjectId(pricing['id']) }]
+			});
 
-		// Update reed pricing
-		reed.pricing[pricingIndex] = pricing;
-		// Update original reedmaking data
-		reedmakingData[reedIndex] = reed;
+			// Close connection now that database operations are complete
+			closeConnection();
 
-		// Write to file, catching any error that may occur
-		try {
-			writeToFile(reedmakingPricesPath,JSON.stringify(reedmakingData));
-			resolve(`Successfully updated ${reed["name"]}'s rates`);
-		} catch(e) {
-			reject("Internal Server Error. Try again later");
-		}
+			if (result.ok) {
+				resolve(`Successfully updated \"${result['value'].name}\'s\" pricing`)
+			}
+			else {
+				reject("Internal Server Error. Try again later");
+			}
+		});
 	})
 }
 /*
@@ -83,26 +73,24 @@ function update(updatedPricing) {
 */
 function remove(pricingData) {
 	return new Promise((resolve,reject) => {
-		// Retrieve reedmaking data
-		let reedmakingData = getFileData(reedmakingPricesPath);
-		// Retrieve index of reed associated with current rate
-		let reedIndex = reedmakingData.findIndex(reed => reed.id === pricingData["reedID"]);
-		// Store reed at reedIndex
-		let reed = reedmakingData[reedIndex];
-		// Retrieve index of reed pricing id
-		let pricingIndex = reed["pricing"].findIndex(price => price.id === pricingData.pricingID);
+		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(pricingData['reedID'])
+			}, {
+				$pull: {
+					pricing: {
+						id: new ObjectId(pricingData['pricingID'])
+					}
+				}
+			})
 
-		// Remove specified reed, based on index, from rest of prices
-		let removedPrice = reed["pricing"].splice(pricingIndex,1);
-		// Update original reedmaking data to reflect updated prices
-		reedmakingData[reedIndex] = reed;
-		// Write to file, catching any error that may occur
-		try {
-			writeToFile(reedmakingPricesPath,JSON.stringify(reedmakingData));
-			resolve(`Successfully removed ${reed["name"]}'s price`);
-		} catch(e) {
-			reject("Internal Server Error. Try again later");
-		}
+			// Close connection now that database operations are complete
+			closeConnection();
+
+			if (result.ok) {
+				resolve(`Successfully removed rate from ${result['value'].name}\'s pricing`);	
+			}
+		});
 	})
 }
 

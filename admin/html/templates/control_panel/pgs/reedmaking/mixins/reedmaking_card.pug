@@ -1,16 +1,16 @@
 //- This file is a template for the reedmaking info
 mixin reedmakingPricingCard(reedData)
 	section.card.reedmakingCard(data-reedtype=`${reedData.name}`)
-		i(class="far fa-trash-alt deleteReed" data-id=`${reedData["id"]}`)
+		i(class="far fa-trash-alt deleteReed" data-id=`${reedData["_id"]}`)
 		h3.nameHeader Name
 		header.nameHeaderCont
 			p.name #{reedData.name}
-			i(class="far fa-edit editNameBtn" data-id=`${reedData["id"]}`)
+			i(class="far fa-edit editNameBtn" data-id=`${reedData["_id"]}`)
 		h3.descriptionHeader Description
-		i(class="far fa-edit editDescriptionBtn" data-id=`${reedData["id"]}`)
+		i(class="far fa-edit editDescriptionBtn" data-id=`${reedData["_id"]}`)
 		p.description #{reedData.description}
 
-		table.displayRates(data-reedtype=`${reedData.name}` data-reedid=`${reedData["id"]}`)
+		table.displayRates(data-reedtype=`${reedData.name}` data-reedid=`${reedData["_id"]}`)
 			caption
 				h4 Rates
 				i(class="far fa-plus-square")

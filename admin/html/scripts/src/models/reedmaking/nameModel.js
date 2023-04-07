@@ -11,7 +11,7 @@
 // Imports
 import makeRequest from '../request';
 
-const REEDMAKING_NAME_PATH = "https://cca-server.onrender.com/cca-admin-api/reedmaking/reed/name";
+const REEDMAKING_NAME_PATH = "/cca-admin-api/reedmaking/reed/name";
 
 /*
 	Future Add documentation

@@ -52,7 +52,7 @@ function removeReed(event) {
 	// Get and store pricing ID of current reed
 	let reedID = event.target.dataset.id;
 	let reed = {
-		id: "reed_id"
+		id: reedID
 	}
 	Reed.remove(reed).then(successCallback).catch(failedCallback);
 }

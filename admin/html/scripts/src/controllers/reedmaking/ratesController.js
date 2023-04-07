@@ -41,7 +41,7 @@ function updateRate(event) {
 
 	// Access form containing inputs
 	let path = event.composedPath();
-	let rateSection = event.path[2];
+	let rateSection = path[2];
 	let rateForm = rateSection.getElementsByClassName("addForm")[0];
 	let elements = rateForm.elements;
 
