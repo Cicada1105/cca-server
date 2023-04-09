@@ -30,7 +30,7 @@ function Router(req,res) {
 
 	const CTRL_PANEL_BASE = `${__dirname}/pgs`;
 	let fn;
-	let buffer, dataJSON, data;
+	let data;
 
 	if (ctrl_panel_url.startsWith("performance/"))
 		PERFORMANCES.Router(req,res);

@@ -7,10 +7,10 @@ const pug = require('pug');
 
 // Import method for retrieving token from url and file data
 const { getTokenFromURL, getFileData } = require("../../../../../utils.js");
+const { getDatabaseCollection } = require('../../../../../../utils/mongodb.js');
 
 // Data file paths to be read sent to control panel template to be updated
 const performancesPath = './site_data/performance.json';
-const collaboratorsPath = './site_data/collaborators.json';
 const anecdotesPath = './site_data/anecdotes.json';
 
 /*
@@ -29,7 +29,7 @@ function Router(req,res) {
 	let performances_url = performances_paths.join("/");; // "rest/of/path"
 
 	let fn;
-	let buffer, dataJSON, data;
+	let data;
 	
 	let token = null;
 	if (performances_url.startsWith("past")) {
@@ -53,20 +53,25 @@ function Router(req,res) {
 				}));
 			break;
 			case "/collaborators":
-				data = getFileData(collaboratorsPath);
+				getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
+					data = await collection.find({}).toArray();
 
-				fn = pug.compileFile(`${__dirname}/past/collaborators/index.pug`);
+					// Close connection now that database operations are done
+					closeConnection();
+					
+					fn = pug.compileFile(`${__dirname}/past/collaborators/index.pug`);
 
-				// Retrieve token from url
-				token = getTokenFromURL(req);
+					// Retrieve token from url
+					token = getTokenFromURL(req);
 
-				res.writeHead(200, {
-					"Content-Type":"text/html"
+					res.writeHead(200, {
+						"Content-Type":"text/html"
+					});
+					res.end(fn({
+						"collaborators": data,
+						"token": token
+					}))
 				});
-				res.end(fn({
-					"collaborators": data,
-					"token": token
-				}))
 			break;
 			case "/anecdotes":
 				data = getFileData(anecdotesPath);
