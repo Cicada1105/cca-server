@@ -2,43 +2,45 @@
 	File contains request methods for dealing directly with the corresponding data
 */
 
-// Import performance data to be used by the model
-const performancesPath = "./site_data/performance.json";
+const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
-// Require method to retrieve file data
-const { getFileData } = require("../../../../utils.js");
-// Require method for writing to file
-const { writeToFile } = require("../../../utils.js");
-// Import uuid for adding new resource
-const { v4: uuidv4 } = require("uuid");
+const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
 
 /*
 	Future add documentation
 */
 function add(newPerformance) {
 	return new Promise((resolve,reject) => {
-		// Get performances from file
-		let parsedPerformances = getFileData(performancesPath);
-		// Pull out future music
-		let currentMusic = parsedPerformances["future"];
-		// Add unique id to new song
-		let newPerformanceWithID = {
-			id:uuidv4(),
-			...newPerformance
-		}
-		
-		// Push new song into future performances array
-		currentMusic.push(newPerformanceWithID);
-		// Update performances data to reflect resent future performances change
-		parsedPerformances["future"] = currentMusic;
+		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(PERFORMANCES_ID)
+			}, {
+				$push: {
+					future: {
+						id: new ObjectId(),
+						name: newPerformance['name'],
+						location: newPerformance['location'],
+						instruments: newPerformance['instruments'],
+						date: newPerformance['date'],
+						time: {
+							start: newPerformance['time']['start'],
+							end: newPerformance['time']['end']
+						},
+						description: newPerformance['description']
+					}
+				}
+			});
 
-		// Write to file, catching any error that may occur
-		try {
-			writeToFile(performancesPath,JSON.stringify(parsedPerformances));
-			resolve("Successfully added new future performance");
-		} catch(e) {
-			reject("Internal Server Error. Try again later");
-		}
+			// Close connection now that database operations are done
+			closeConnection();
+
+			if (result.ok) {
+				resolve(`Successfully added new future performance: ${newPerformance['name']}`);
+			}
+			else {
+				reject("Internal Server Error. Try again later");
+			}
+		});
 	})
 }
 /*
@@ -46,29 +48,34 @@ function add(newPerformance) {
 */
 function update(updatedPerformance) {
 	return new Promise((resolve,reject) => {
-		// Get performances from file
-		let parsedPerformances = getFileData(performancesPath);
-		// // Pull out future performances
-		let futurePerformances = parsedPerformances["future"];
-		// Find index of performance to be updated
-		let index = futurePerformances.findIndex((performance) => performance.id === updatedPerformance.id);
+		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			let { id, name, location, instruments, date, time, description } = updatedPerformance;
 
-		if (index === -1)
-			reject(`Unable to find future performance with id of: ${performanceID['id']}`)
-		else {
-			// Overwrite the info at that position
-			Object.assign(futurePerformances[index], updatedPerformance);
-			// Update the future performances with the rest of the data
-			let updatedPerformances = { ...parsedPerformances, "future": futurePerformances };
-			// Update file, reflecting the updated performance
-			try {
-				writeToFile(performancesPath, JSON.stringify(updatedPerformances));
-				resolve(`Successfully updated the ${updatedPerformance['name']} performance`);
-			} catch(e) {
-				console.log(e);
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(PERFORMANCES_ID)
+			}, {
+				$set: {
+					'future.$[el].name': name,
+					'future.$[el].location': location,
+					'future.$[el].instruments': instruments,
+					'future.$[el].date': date,
+					'future.$[el].time': time,
+					'future.$[el].description': description
+				}
+			}, {
+				arrayFilters: [{ 'el.id': new ObjectId(id) }]
+			});
+
+			// Close connection now that database operations are done
+			closeConnection();
+
+			if (result.ok) {
+				resolve(`Successfully updated the ${name} performance`);
+			}
+			else {
 				reject("Internal Server Error. Try again later");
 			}
-		}
+		});
 	})
 }
 /*
@@ -76,26 +83,27 @@ function update(updatedPerformance) {
 */
 function remove(performanceID) {
 	return new Promise((resolve,reject) => {
-		// Get performances from file
-		const performances = getFileData(performancesPath);
-		
-		let index = performances["future"].findIndex((performance) => performance.id === performanceID);
-		if (index === -1)
-			reject(`Unable to find future performance with id of: ${performanceID}`);
-		else {
-			// Filter out future performance who's ID matches that of performanceID
-			let updatedFuturePerformances = performances["future"].filter((performance) => performance.id !== performanceID );
-			// Update future performances with rest of data
-			let updatedPerformances = {...performances,"future":updatedFuturePerformances};
-			// Update file, reflectting new performances
-			try {
-				writeToFile(performancesPath,JSON.stringify(updatedPerformances));
+		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(PERFORMANCES_ID)
+			}, {
+				$pull: {
+					future: {
+						id: new ObjectId(performanceID)
+					}
+				}
+			});
+
+			// Close connection now that database operations are done
+			closeConnection();
+
+			if (result.ok) {
 				resolve("Successfully removed future performance!");
-			} catch(e) {
-				console.log(e);
+			}
+			else {
 				reject("Internal Server Error. Try again later");
 			}
-		}
+		});
 	})
 }
 
