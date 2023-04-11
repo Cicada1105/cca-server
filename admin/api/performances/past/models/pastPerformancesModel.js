@@ -2,43 +2,42 @@
 	File contains request methods for dealing directly with the corresponding data
 */
 
-// Import performance data to be used by the model
-const performancesPath = "./site_data/performance.json";
-// Require method to retrieve file data
-const { getFileData } = require("../../../../utils.js");
-// Require method for writing to file
-const { writeToFile } = require("../../../utils.js");
-// Import uuid for adding new resource
-const { v4: uuidv4 } = require("uuid");
+const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
+
+const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
 
 /*
 	Future add documentation
 */
 function add(newPerformance) {
 	return new Promise((resolve,reject) => {
-		// Get performances from file
-		let parsedPerformances = getFileData(performancesPath);
-		// Pull out past music
-		let pastPerformances = parsedPerformances["past"];
-		// Add unique id to new past performance
-		let newPerformanceWithID = { 
-			id:uuidv4(),
-			...newPerformance
-		}
+		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(PERFORMANCES_ID)
+			}, {
+				$push: {
+					past: {
+						id: new ObjectId(),
+						name: newPerformance['name'],
+						description: newPerformance['description'], 
+						location: newPerformance['location'], 
+						date: newPerformance['date'], 
+						instruments: newPerformance['instruments'], 
+						img: newPerformance['img']
+					}
+				}
+			});
 
-		// Push new song into past performances array
-		pastPerformances.push(newPerformanceWithID);
-		// Update performances data to reflect resent past performances change
-		parsedPerformances["past"] = pastPerformances;
+			// Close connection now that database operations are done
+			closeConnection();
 
-		// Write data to file, catching any error that may occur
-		try {
-			writeToFile(performancesPath,JSON.stringify(parsedPerformances));
-			resolve("Successfully added new past performance");
-		} catch(e) {
-			console.log(err);
-			reject("Internal Server Error. Try again later");
-		}
+			if (result.ok) {
+				resolve(`Successfully added new past performance: ${newPerformance['name']}`);
+			}
+			else {
+				reject("Internal Server Error. Try again later");
+			}
+		});
 	})
 }
 /*
@@ -46,34 +45,41 @@ function add(newPerformance) {
 */
 function update(editedPerformance) {
 	return new Promise((resolve,reject) => {
-		// Get performances from file
-		let parsedPerformances = getFileData(performancesPath);
-		// Pull out past performance
-		let pastPerformances = parsedPerformances["past"];
+		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			let { id, name, description, location, date, instruments, img } = editedPerformance;
+			let updatedPerformance = {
+				'past.$[el].name':  name,
+				'past.$[el].description': description,
+				'past.$[el].location': location,
+				'past.$[el].date': date,
+				'past.$[el].instruments': instruments
+			};
 
-		// Find index of performance in storage that matches id of updated performance
-		let index = pastPerformances.findIndex((performance) => performance.id === editedPerformance.id);
-		if (index === -1)
-			reject(`Unable to find past performance with id of: ${editedPerformance.id}`);
-		else {
-			// If edited image was left alone, don't update image
-			if (editedPerformance.img["src"] === undefined) {
-				let { img, ...editedPerformanceWithoutImg } = editedPerformance;
-				// Update stored performance
-				Object.assign(pastPerformances[index],editedPerformanceWithoutImg);
+			if (img.src) {
+				updatedPerformance = { 
+					...updatedPerformance, 
+					'past.$[el].img': { 
+						src: img.src, 
+						alt: img.alt 
+					}
+				}
 			}
-			else 
-				Object.assign(pastPerformances[index],editedPerformance)
-			// Update past performances with rest of data
-			let updatedPerformances = { ...parsedPerformances, "past": pastPerformances }
-			// Update file, reflecting updated performance
-			try {
-				writeToFile(performancesPath,JSON.stringify(updatedPerformances));
-				resolve(`Successfully updated ${pastPerformances[index].name}`);
-			} catch(e) {
+
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(PERFORMANCES_ID)
+			}, {
+				$set: updatedPerformance
+			}, {
+				arrayFilters: [{ 'el.id': new ObjectId(id) }]
+			});
+
+			if (result.ok) {
+				resolve(`Successfully updated ${editedPerformance['name']}`);
+			}
+			else {
 				reject("Internal Server Error. Try again later");
 			}
-		}
+		});
 	})
 }
 /*
@@ -81,28 +87,27 @@ function update(editedPerformance) {
 */
 function remove(performanceID) {
 	return new Promise((resolve,reject) => {
-		// Get performances from file
-		const performances = getFileData(performancesPath);
-		// Pull out past performance
-		let pastPerformances = performances["past"];
+		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(PERFORMANCES_ID)
+			}, {
+				$pull: {
+					past: {
+						id: new ObjectId(performanceID)
+					}
+				}
+			});
 
-		let index = pastPerformances.findIndex((performance) => performance.id === performanceID);
-		if (index === -1)
-			reject(`Unable to find past performance with id of: ${performanceID}`);
-		else {
-			// Filter out past performance who's ID matches that of performanceID
-			let updatedPastPerformances = pastPerformances.filter((performance) => performance.id !== performanceID );
-			// Update past performances with rest of data
-			let updatedPerformances = {...performances,"past":updatedPastPerformances};
-			// Update file, reflectting new performances
-			try {
-				writeToFile(performancesPath,JSON.stringify(updatedPerformances));
+			// Close connection now that database operations are done
+			closeConnection();
+
+			if (result.ok) {
 				resolve("Successfully removed past performance!");
-
-			} catch(e) {
+			}
+			else {
 				reject("Internal Server Error. Try again later");
 			}
-		}
+		});
 	})
 }
 
