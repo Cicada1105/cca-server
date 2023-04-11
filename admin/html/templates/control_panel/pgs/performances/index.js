@@ -6,12 +6,8 @@
 const pug = require('pug');
 
 // Import method for retrieving token from url and file data
-const { getTokenFromURL, getFileData } = require("../../../../../utils.js");
+const { getTokenFromURL } = require("../../../../../utils.js");
 const { getDatabaseCollection } = require('../../../../../../utils/mongodb.js');
-
-// Data file paths to be read sent to control panel template to be updated
-const performancesPath = './site_data/performance.json';
-const anecdotesPath = './site_data/anecdotes.json';
 
 /*
 	Routes
@@ -37,20 +33,25 @@ function Router(req,res) {
 		
 		switch(past_url) {
 			case "":
-				data = getFileData(performancesPath);
+				getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+					data = await collection.find({}).toArray();
 
-				fn = pug.compileFile(`${__dirname}/past/root/index.pug`);
+					// Close connection now that database operations are done
+					closeConnection();
 
-				// Retrieve token from url
-				token = getTokenFromURL(req);
+					fn = pug.compileFile(`${__dirname}/past/root/index.pug`);
 
-				res.writeHead(200, {
-					"Content-Type":"text/html"
+					// Retrieve token from url
+					token = getTokenFromURL(req);
+
+					res.writeHead(200, {
+						"Content-Type":"text/html"
+					});
+					res.end(fn({
+						"past": data[0]["past"],
+						"token": token
+					}));
 				});
-				res.end(fn({
-					"past": data["past"],
-					"token": token
-				}));
 			break;
 			case "/collaborators":
 				getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
@@ -74,20 +75,25 @@ function Router(req,res) {
 				});
 			break;
 			case "/anecdotes":
-				data = getFileData(anecdotesPath);
+				getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
+					data = await collection.find({}).toArray();
 
-				fn = pug.compileFile(`${__dirname}/past/anecdotes/index.pug`);
+					// Close connection now that database operatiosn are done
+					closeConnection();
 
-				// Retrieve token from url
-				token = getTokenFromURL(req);
+					fn = pug.compileFile(`${__dirname}/past/anecdotes/index.pug`);
 
-				res.writeHead(200, {
-					"Content-Type":"text/html"
+					// Retrieve token from url
+					token = getTokenFromURL(req);
+
+					res.writeHead(200, {
+						"Content-Type":"text/html"
+					});
+					res.end(fn({
+						"anecdotes": data,
+						"token": token
+					}))
 				});
-				res.end(fn({
-					"anecdotes": data,
-					"token": token
-				}))
 			break;
 			default:
 				res.writeHead(404, {
@@ -97,35 +103,46 @@ function Router(req,res) {
 		}
 	}
 	else if (performances_url === "present") {
-		data = getFileData(performancesPath);
+		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			data = await collection.find({}).toArray();
 
-		fn = pug.compileFile(`${__dirname}/music_stand/index.pug`);
+			// Close connection now that database operations are done
+			closeConnection();
 
-		// Retrieve token from url
-		token = getTokenFromURL(req);
+			fn = pug.compileFile(`${__dirname}/music_stand/index.pug`);
 
-		res.writeHead(200, {
-			"Content-Type": "text/html"
+			// Retrieve token from url
+			token = getTokenFromURL(req);
+
+			res.writeHead(200, {
+				"Content-Type": "text/html"
+			});
+			res.end(fn({
+				"present": data[0]["present"],
+				"token": token
+			}));
 		});
-		res.end(fn({
-			"present": data["present"],
-			"token": token
-		}));
 	}
 	else if (performances_url === "future") {
-		data = getFileData(performancesPath);
-		fn = pug.compileFile(`${__dirname}/future/index.pug`);
+		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			data = await collection.find({}).toArray();
+			
+			// Close connection now that database operations are done
+			closeConnection();
 
-		// Retrieve token from url
-		token = getTokenFromURL(req);
+			fn = pug.compileFile(`${__dirname}/future/index.pug`);
 
-		res.writeHead(200, {
-			"Content-Type": "text/html"
+			// Retrieve token from url
+			token = getTokenFromURL(req);
+
+			res.writeHead(200, {
+				"Content-Type": "text/html"
+			});
+			res.end(fn({
+				"future": data[0]["future"],
+				"token": token
+			}))
 		});
-		res.end(fn({
-			"future": data["future"],
-			"token": token
-		}))
 	}
 	else {
 		res.writeHead(404,{
