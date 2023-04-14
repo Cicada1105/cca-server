@@ -28,6 +28,7 @@ function update({ id, description }) {
 			closeConnection();
 
 			if (result.ok) {
+				let { value } = result;
 				resolve(`Successfully updated ${value['name']}'s description to \"${description}\"`);
 			}
 			else {

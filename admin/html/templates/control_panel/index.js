@@ -6,7 +6,7 @@
 const pug = require('pug');
 
 // Import methods for retrieving token from url and file data
-const { getTokenFromURL, getFileData } = require("../../../utils.js");
+const { getTokenFromURL } = require("../../../utils.js");
 const { getDatabaseCollection } = require('../../../../utils/mongodb.js');
 
 // Import performance router
@@ -37,20 +37,26 @@ function Router(req,res) {
 	else if (ctrl_panel_url === "editing") {
 		// Define path to editing pug template
 		fn = pug.compileFile(`${CTRL_PANEL_BASE}/editing/index.pug`);
-		// Retrieve editing data to pass to pug template
-		data = getFileData(editingPath);
-		// Retrieve token from url
-		const token = getTokenFromURL(req);
 
-		res.writeHead(200, {
-			"Content-Type":"text/html"
+		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+			data = await collection.find({}).toArray();
+
+			// Close connection now that operations are done
+			closeConnection();
+
+			// Retrieve token from url
+			const token = getTokenFromURL(req);
+
+			res.writeHead(200, {
+				"Content-Type":"text/html"
+			});
+			res.end(
+				fn({
+					"editing": data,
+					"token": token
+				})
+			);
 		});
-		res.end(
-			fn({
-				"editing": data,
-				"token": token
-			})
-		);
 	}
 	else if (ctrl_panel_url === "reedmaking") {
 		// Define path to reedmaking pug template

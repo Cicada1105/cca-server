@@ -66,7 +66,8 @@ const initFuturePerformancesListeners = () => {
 }
 
 function deleteRatesListener(event) {
-	const row = event.path[2];
+	const path = event.composedPath();
+	const row = path[2];
 	const rowEls = row.getElementsByTagName("td");
 
 	let formatText = "";

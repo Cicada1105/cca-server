@@ -7,7 +7,7 @@ mixin literaturePricingCard(pricing)
 	section.card.literatureCard
 		header.literatureType
 			h1 #{pricing.type}
-		table.displayGenres(data-litid=`${pricing.id}`)
+		table.displayGenres(data-litid=`${pricing['_id']}`)
 			caption
 				h4 Genres
 				i(class="far fa-plus-square")
@@ -27,8 +27,8 @@ mixin literaturePricingCard(pricing)
 			Rates need access to current literature id and type of editing 
 			to be quickly identified in data storage
 		h4.editingTypeHeader Standard Proofreading
-		+ratesTable(pricing.editing["Standard Proofreading"].rates)(data-editingtype="Standard Proofreading" data-littype=pricing["type"] data-litid=pricing["id"])
+		+ratesTable(pricing.editing["Standard Proofreading"].rates)(data-editingtype="Standard Proofreading" data-littype=pricing["type"] data-litid=pricing["_id"])
 		h4.editingTypeHeader Developmental Editing
-		+ratesTable(pricing.editing["Developmental Editing"].rates)(data-editingtype="Developmental Editing" data-littype=pricing["type"] data-litid=pricing["id"])
+		+ratesTable(pricing.editing["Developmental Editing"].rates)(data-editingtype="Developmental Editing" data-littype=pricing["type"] data-litid=pricing["_id"])
 		h4.editingTypeHeader Both
-		+ratesTable(pricing.editing["Both"].rates)(data-editingtype="Both" data-littype=pricing["type"] data-litid=pricing["id"])
+		+ratesTable(pricing.editing["Both"].rates)(data-editingtype="Both" data-littype=pricing["type"] data-litid=pricing["_id"])

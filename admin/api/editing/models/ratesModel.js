@@ -2,56 +2,39 @@
 	File contains request methods for dealing directly with the corresponding data
 */
 
-// Import editing data to be used by the model
-const editingDataPath = "./site_data/editing.json";
-// Require method to retrieve file data
-const { getFileData } = require("../../../utils.js");
-// Require method for writing to file
-const { writeToFile } = require("../../utils.js");
-// Import uuid for adding new resource
-const { v4: uuidv4 } = require("uuid");
+const { getDatabaseCollection, ObjectId } = require('../../../../utils/mongodb.js');
+
 /*
 	Future add documentation
 */
 function add(rateData) {
 	return new Promise((resolve,reject) => {
-		// Get rates data from file
-		let editingData = getFileData(editingDataPath);
-		// Retrieve literature type associated with current rate
-		let litTypeIndex = editingData.findIndex(lit => lit.id === rateData.litID);
-		let litTypeData = editingData[litTypeIndex];
-		// Retrieve editing type and its rates associated with current rate
-		let editingTypes = litTypeData["editing"];
-		let editType = editingTypes[rateData.editingType];
-		let editTypeRates = editType["rates"];
+		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+			let { litID, editingType, ...rest } = rateData;
+			let updatedObj = {};
+			updatedObj[`editing.${editingType}.rates`] = {
+				id: new ObjectId(),
+				...rest
+			};
 
-		// Create unique id for new rate
-		let rateWithID = {
-			id: uuidv4(),
-			min: rateData["min"],
-			max: rateData["max"],
-			flatRate: rateData["flatRate"],
-			perHour: rateData["perHour"],
-			perWord: rateData["perWord"]
-		}
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(rateData['litID'])
+			}, {
+				$push: updatedObj
+			});
 
-		// Push new rate into array with other rates
-		editTypeRates.push(rateWithID);
-		// Update rates
-		editType["rates"] = editTypeRates
-		// Update editing type
-		editingTypes[rateData.editingType] = editType;
-		// Update editing
-		litTypeData.editing = editingTypes;
-		editingData[litTypeIndex] = litTypeData;
+			// Close connection now that database operations are done
+			closeConnection();
 
-		// Write to file, catching any error that may occur
-		try {
-			writeToFile(editingDataPath,JSON.stringify(editingData));
-			resolve(`Successfully added new rate to the ${editingData[litTypeIndex].type} editing type of ${rateData.editingType}`);
-		} catch(e) {
-			reject("Internal Server Error. Try again later");
-		}
+			if (result.ok) {
+				let { value: { type } } = result;
+
+				resolve(`Successfully added new rate to the ${type} editing type of ${editingType}`);
+			}
+			else {
+				reject("Internal Server Error. Try again later");
+			}
+		});
 	})
 }
 /*
@@ -59,48 +42,38 @@ function add(rateData) {
 */
 function update(rateData) {
 	return new Promise((resolve,reject) => {
-		// Get editing data from file
-		let editingData = getFileData(editingDataPath);
-		// Retrieve index of literature type associated with current rate
-		let litTypeIndex = editingData.findIndex(lit => lit.id === rateData.litID);
-		let litTypeData = editingData[litTypeIndex];
-		// Retrieve editing types object
-		let editingTypes = litTypeData["editing"];
-		// Get editing type data associated with current rate and retrieve rates
-		let editingType = editingTypes[rateData.editingType];
-		let editTypeRates = editingType["rates"];
-		// Retrieve index of current rate within editing type rates
-		let currentRateIndex = editTypeRates.findIndex(rate => rate.id === rateData.rateID);
-		let currentRate = editTypeRates[currentRateIndex];
+		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+			let { litID, editingType, rateID, ...rate } = rateData;
 
-		/* Update data to reflect rate changes */
-		// Override previous rate, maintaining id
-		editTypeRates[currentRateIndex] = {
-			...currentRate,
-			min: rateData["min"],
-			max: rateData["max"],
-			perHour: rateData["perHour"],
-			perWord: rateData["perWord"]
-		}
+			let updatedObj = {};
+			updatedObj[`editing.${editingType}.rates.$[rate].min`] = rate['min'];
+			updatedObj[`editing.${editingType}.rates.$[rate].max`] = rate['max'];
+			updatedObj[`editing.${editingType}.rates.$[rate].perHour`] = rate['perHour'];
+			updatedObj[`editing.${editingType}.rates.$[rate].perWord`] = rate['perWord'];
 
-		// Check if flat rate is included
-		rateData["flatRate"] !== undefined && (editTypeRates[currentRateIndex]["flatRate"] = rateData["flatRate"]);
-		// Update editing type rates
-		editingType["rates"] = editTypeRates;
-		// Update editing type
-		editingTypes[rateData.editingType] = editingType;
-		// Update literature editing types
-		litTypeData["editing"] = editingTypes;
-		// Update editing data
-		editingData[litTypeIndex] = litTypeData;
+			if (rate["flatRate"])
+				updatedObj[`editing.${editingType}.rates.$[rate].flatRate`] = rate['flatRate'];
 
-		// Write to file, catching any error that may occur
-		try {
-			writeToFile(editingDataPath, JSON.stringify(editingData));
-			resolve(`Successfully updated ${rateData.editingType} rate from ${editingData[litTypeIndex].type} section`)
-		} catch(e) {
-			reject("Internal Server Error. Try again later");
-		}
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(litID)
+			}, {
+				$set: updatedObj
+			}, {
+				arrayFilters: [{ 'rate.id': new ObjectId(rateID) }]
+			});
+
+			// Close connection now that database operations are done
+			closeConnection();
+
+			if (result.ok) {
+				let { value: { type } } = result;
+
+				resolve(`Successfully updated ${editingType} rate from ${type} section`);
+			}
+			else {
+				reject("Internal Server Error. Try again later");
+			}
+		});
 	})
 }
 /*
@@ -108,32 +81,32 @@ function update(rateData) {
 */
 function remove(uniqueRateData) {
 	return new Promise((resolve,reject) => {
-		// Get editing data from file
-		let editingData = getFileData(editingDataPath); 
-		// Retrieve index of literature type associatd with rate
-		let litTypeIndex = editingData.findIndex(lit => lit.id === uniqueRateData.litID);
-		let litData = editingData[litTypeIndex];
-		// Select editing type associated with rate
-		let litEditingTypes = litData["editing"];
-		let litEditingType = litEditingTypes[uniqueRateData["editingType"]];
-		let editingTypeRates = litEditingType.rates;
+		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+			let { litID, editingType, rateID } = uniqueRateData;
 
-		// Filter out rate based on id to remove it from the rest
-		let filteredRates = editingTypeRates.filter(rate => rate.id !== uniqueRateData.rateID);
+			let updatedObj = {};
+			updatedObj[`editing.${editingType}.rates`] = {
+				id: new ObjectId(rateID)
+			}
 
-		// Update data to reflect changes
-		litEditingType["rates"] = filteredRates;
-		litEditingTypes[uniqueRateData["editingType"]] = litEditingType;
-		litData["editing"] = litEditingTypes;
-		editingData[litTypeIndex] = litData;
+			let result = await collection.findOneAndUpdate({
+				_id: new ObjectId(litID)
+			}, {
+				$pull: updatedObj
+			});
 
-		// Write to file, catching any error that may occur
-		try {
-			writeToFile(editingDataPath,JSON.stringify(editingData));
-			resolve(`Successfully removed ${uniqueRateData["editingType"]} rate from ${editingData[litTypeIndex].type} section`);
-		} catch(e) {
-			reject("Internal Server Error. Try again later");
-		}
+			// Close connection now that database operations are done
+			closeConnection();
+
+			if (result.ok) {
+				let { value: { type } } = result;
+
+				resolve(`Successfully removed ${editingType} rate from ${type} section`);
+			}
+			else {
+				reject("Internal Server Error. Try again later");
+			}
+		})
 	})
 }
 
