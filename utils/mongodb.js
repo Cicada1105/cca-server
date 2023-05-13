@@ -12,7 +12,7 @@ const mongoConnectionOptions = {
 		strict: true,
 		deprecationErrors: true
 	},
-	maxPoolSize: 10
+	maxConnecting: 3
 }
 
 const mongoClient = new MongoClient(mongoURI, mongoConnectionOptions);
@@ -30,7 +30,6 @@ async function getDatabaseCollection(collectionName) {
 			}
 		}
 	} catch(e) {
-		reject("Error connecting to the database");
 		console.log(e);
 	}
 }
