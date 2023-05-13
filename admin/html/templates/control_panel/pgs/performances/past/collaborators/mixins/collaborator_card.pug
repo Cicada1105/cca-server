@@ -4,6 +4,7 @@ mixin collaboratorCard(collaborator)
 		img(src=`${collaborator.img.src}` alt=`${collaborator.img.alt}`)
 		h2.name #{collaborator.name}
 		<span style="font-size:0.9rem">Title:</span> <h4 class="title" style="display:inline-block">#{collaborator.title}</h4>
+		p.description #{collaborator.description}
 		aside.controlsCont
 			span.msg
 			div.ctrlBtnEdit

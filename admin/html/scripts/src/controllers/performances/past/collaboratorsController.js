@@ -23,6 +23,7 @@ function addCollaborator(event) {
 		let newCollaborator = {
 			name: formEls["name"].value,
 			title: formEls["title"].value,
+			description: formEls["description"].value,
 			img: {
 				src: myReader.result,
 				alt: imgAlt
@@ -49,6 +50,7 @@ function updateCollaborator(event) {
 		id,
 		name: formEls["name"].value,
 		title: formEls["title"].value,
+		description: formEls["description"].value,
 		img: {
 			src: undefined,
 			alt: undefined

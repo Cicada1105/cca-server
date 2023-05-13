@@ -52,6 +52,9 @@ function getCollaboratorData(displayCard) {
 	// Collaborator professional title
 	let title = displayCard.getElementsByClassName("title")[0].textContent;
 	collaboratorData.set("title",title);
+	// Collaborator's description
+	let description = displayCard.getElementsByClassName("description")[0].textContent;
+	collaboratorData.set("description", description);
 
 	// Image does not have a value property which is used in generic card
 	let img = displayCard.getElementsByTagName("img")[0].src;

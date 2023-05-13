@@ -16,13 +16,14 @@ const COLLABORATORS_PATH = "/cca-admin-api/performance/past/collaborators";
 /*
 	Future add documentation
 */
-function add({ name, title, img: { src, alt }}) {
+function add({ name, title, description, img: { src, alt }}) {
 	return makeRequest(
 		COLLABORATORS_PATH,
 		"POST",
 		{
 			name,
 			title,
+			description,
 			img: {
 				src,
 				alt
@@ -33,7 +34,7 @@ function add({ name, title, img: { src, alt }}) {
 /*
 	Future update documentation
 */
-function update({ id, name, title, img: { src, alt }}) {
+function update({ id, name, title, description, img: { src, alt }}) {
 	return makeRequest(
 		COLLABORATORS_PATH,
 		"PUT",
@@ -41,6 +42,7 @@ function update({ id, name, title, img: { src, alt }}) {
 			id,
 			name,
 			title,
+			description,
 			img: {
 				src,
 				alt

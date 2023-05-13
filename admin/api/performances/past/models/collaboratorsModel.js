@@ -29,9 +29,9 @@ function add(collaborator) {
 function update(editedCollaborator) {
 	return new Promise((resolve,reject) => {
 		getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
-			let { id, name, title, img } = editedCollaborator;
+			let { id, name, title, description, img } = editedCollaborator;
 			// Define the base attributes for the collaborator to be updated
-			let updatedCollaborator = { name, title };
+			let updatedCollaborator = { name, title, description };
 			// If a new image has been sent, update collaborator accordingly
 			if (img.src) {
 				updatedCollaborator = { ...updatedCollaborator, img: { src: img.src, alt: img.alt } };

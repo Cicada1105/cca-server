@@ -10,11 +10,12 @@ const { getBodyData } = require("../../../utils.js");
 
 async function addCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { name, title, img: { src, alt }} = body;
+		let { name, title, description, img: { src, alt }} = body;
 
 		await CollaboratorsModel.add({
 			name,
 			title,
+			description,
 			img: {
 				src,
 				alt
@@ -36,12 +37,13 @@ async function addCollaborator(req,res) {
 }
 async function updateCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { id, name, title, img: { src, alt }} = body;
+		let { id, name, title, description, img: { src, alt }} = body;
 
 		await CollaboratorsModel.update({
 			id, 
 			name, 
 			title, 
+			description,
 			img: { 
 				src, 
 				alt
