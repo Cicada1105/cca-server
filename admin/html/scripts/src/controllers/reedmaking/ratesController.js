@@ -21,7 +21,7 @@ function addRate(event) {
 		reedID,
 		pricing: {
 			quantity: parseInt(elements["quantity"].value),
-			cost: parseInt(elements["price"].value)
+			cost: parseFloat(elements["price"].value)
 		}
 	}
 
@@ -50,7 +50,7 @@ function updateRate(event) {
 		pricing: {
 			id: pricingID,
 			quantity: parseInt(elements["quantity"].value),
-			cost: parseInt(elements["price"].value)
+			cost: parseFloat(elements["price"].value)
 		}
 	}
 	
