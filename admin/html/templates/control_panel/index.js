@@ -12,9 +12,6 @@ const { getDatabaseCollection } = require('../../../../utils/mongodb.js');
 // Import performance router
 const PERFORMANCES = require("./pgs/performances/")
 
-// Data file paths to be read sent to control panel template to be updated
-const editingPath = './site_data/editing.json';
-
 /*
 	Routes
 	/performance/*
