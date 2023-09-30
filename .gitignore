@@ -5,7 +5,7 @@
 /package-lock.json
 
 # Compiled files
-#/admin/html/scripts/index.js
+admin/html/scripts/index.js
 admin/html/scripts/lib
 
 # User data

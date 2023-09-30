@@ -5,9 +5,9 @@
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
 // Local
-//const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
+const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
 // Remote
-const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
+//const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
 
 /*
 	Future add documentation
@@ -19,7 +19,7 @@ function add(newPerformance) {
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
 				$push: {
-					past: {
+					"past.performances": {
 						id: new ObjectId(),
 						name: newPerformance['name'],
 						description: newPerformance['description'], 
@@ -51,17 +51,17 @@ function update(editedPerformance) {
 		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
 			let { id, name, description, location, date, instruments, img } = editedPerformance;
 			let updatedPerformance = {
-				'past.$[el].name':  name,
-				'past.$[el].description': description,
-				'past.$[el].location': location,
-				'past.$[el].date': date,
-				'past.$[el].instruments': instruments
+				'past.performances.$[el].name':  name,
+				'past.performances.$[el].description': description,
+				'past.performances.$[el].location': location,
+				'past.performances.$[el].date': date,
+				'past.performances.$[el].instruments': instruments
 			};
 
 			if (img.src) {
 				updatedPerformance = { 
 					...updatedPerformance, 
-					'past.$[el].img': { 
+					'past.performances.$[el].img': { 
 						src: img.src, 
 						alt: img.alt 
 					}
@@ -95,7 +95,7 @@ function remove(performanceID) {
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
 				$pull: {
-					past: {
+					'past.performances': {
 						id: new ObjectId(performanceID)
 					}
 				}

@@ -5,9 +5,9 @@
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
 // Local
-//const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
+const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
 // Remote
-const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
+//const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
 
 /*
 	Future add documentation
@@ -19,7 +19,7 @@ function add(newPerformance) {
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
 				$push: {
-					future: {
+					"future.performances": {
 						id: new ObjectId(),
 						name: newPerformance['name'],
 						location: newPerformance['location'],
@@ -58,12 +58,12 @@ function update(updatedPerformance) {
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
 				$set: {
-					'future.$[el].name': name,
-					'future.$[el].location': location,
-					'future.$[el].instruments': instruments,
-					'future.$[el].date': date,
-					'future.$[el].time': time,
-					'future.$[el].description': description
+					'future.performances.$[el].name': name,
+					'future.performances.$[el].location': location,
+					'future.performances.$[el].instruments': instruments,
+					'future.performances.$[el].date': date,
+					'future.performances.$[el].time': time,
+					'future.performances.$[el].description': description
 				}
 			}, {
 				arrayFilters: [{ 'el.id': new ObjectId(id) }]
@@ -91,7 +91,7 @@ function remove(performanceID) {
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
 				$pull: {
-					future: {
+					'future.performances': {
 						id: new ObjectId(performanceID)
 					}
 				}

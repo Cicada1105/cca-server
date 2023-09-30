@@ -5,9 +5,9 @@
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
 // Local
-//const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
+const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
 // Remote
-const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
+//const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
 /*
 	Future add documentation
 */
@@ -18,7 +18,7 @@ function add(newSong) {
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
 				$push: {
-					present: {
+					"present.performances": {
 						id: new ObjectId(),
 						name: newSong['name'],
 						by: newSong['by'],
@@ -49,9 +49,9 @@ function update(editedSong) {
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
 				$set: {
-					'present.$[el].name': editedSong['name'],
-					'present.$[el].by': editedSong['by'],
-					'present.$[el].description': editedSong['description']
+					'present.performances.$[el].name': editedSong['name'],
+					'present.performances.$[el].by': editedSong['by'],
+					'present.performances.$[el].description': editedSong['description']
 				}
 			}, {
 				arrayFilters: [{ 'el.id': new ObjectId(editedSong['id']) }]
@@ -79,7 +79,7 @@ function remove(songID) {
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
 				$pull: {
-					present: {
+					'present.performances': {
 						id: new ObjectId(songID)
 					}
 				}

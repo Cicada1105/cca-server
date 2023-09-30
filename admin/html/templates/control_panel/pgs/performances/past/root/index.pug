@@ -26,5 +26,5 @@ block location
 block page_content
 	+pastAddCard
 	//- Loop through data passed to pug template
-	each performance in past
+	each performance in past['performances']
 		+pastPerformanceCard(performance)
