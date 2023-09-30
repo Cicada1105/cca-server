@@ -10,6 +10,7 @@ admin/html/scripts/lib
 
 # User data
 /admin/login/public.pem
+/admin/login/private.key
 /admin/login/user.json
 
 # Global variables
