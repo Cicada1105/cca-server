@@ -13,6 +13,9 @@ admin/html/scripts/lib
 /admin/login/private.key
 /admin/login/user.json
 
+# Assets
+/assets
+
 # Global variables
 .env
 
