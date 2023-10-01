@@ -2,9 +2,10 @@ require("dotenv").config();
 
 const http = require('http');
 
-const ADMIN = require('./admin/index.js');
-const API = require('./api/index.js');
-const EMAIL = require('./email/index.js');
+const ADMIN = require('./admin');
+const API = require('./api');
+const EMAIL = require('./email');
+const IMAGES = require('./images');
 
 const SERVER_URL = process.env.SERVER_URL;
 const PORT = process.env.PORT || 2020;
@@ -23,6 +24,8 @@ const server = http.createServer((req,res) => {
 			ADMIN.Router(req,res);
 		else if (req.url.startsWith("/api"))
 			API.Router(req,res);
+		else if (req.url.startsWith("/imgs"))
+			IMAGES.Router(req,res);
 		else {
 			res.writeHead(301,{"Location":`${SERVER_URL}/cca-admin-login`});
 			res.end();
