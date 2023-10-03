@@ -27,9 +27,9 @@ function writeToFile(file,data) {
 	});
 }
 
-function convertToImage({ type, data }) {
+function convertToImage({ fileType, data }) {
 	let imgSouceAsBuffer = Buffer.from(data, 'base64');
-	let newFileName = `${uuid()}.${type}`;
+	let newFileName = `${uuid()}.${fileType}`;
 	let fileNamePath = `${process.cwd()}/assets/imgs`;
 
 	fs.writeFileSync( `${fileNamePath}/${newFileName}`, imgSouceAsBuffer );
