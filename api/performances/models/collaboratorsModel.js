@@ -17,6 +17,9 @@ function getAllCollaborators() {
 			collaborators.forEach(collaborator => {
 				// Extract out current id from rest of info
 				let { _id, ...rest } = collaborator
+				// Add server url to image if it is a url string
+				if (typeof rest['img'] === "string")
+					rest['img'] = process.env.SERVER_URL + `imgs/${rest['img']}`;
 				// Store rest of collaborator info without id
 				updatedCollaborators.push(rest);
 			})

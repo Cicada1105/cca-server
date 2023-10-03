@@ -18,6 +18,9 @@ function getAllAnecdotes() {
 			anecdotes.forEach(anecdote => {
 				// Extract out current id from rest of info
 				let { id, ...rest } = anecdote;
+				// Add server url to image if it is a url string
+				if (typeof rest['img'] === "string")
+					rest['img'] = process.env.SERVER_URL + `imgs/${rest['img']}`;
 				// Store rest of anecdote info without id
 				updatedAnecdotes.push(rest);
 			})
