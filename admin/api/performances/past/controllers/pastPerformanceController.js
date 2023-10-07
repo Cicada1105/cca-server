@@ -6,13 +6,16 @@
 const PastPerformancesModel = require("../models/pastPerformancesModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData } = require("../../../utils.js");
+const { getBodyData, convertToImage } = require("../../../utils.js");
 
 async function addPerformance(req, res) {
 	// Get performance data from body
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary info for adding performance
-		let { name, description, location, instruments, date, img: { src, alt } } = body;
+		let { name, description, location, instruments, date, img: { fileName, fileType, data } } = body;
+
+		// Convert image data to image
+		let newFileName = convertToImage({ fileType, data });
 
 		// Add new performance
 		await PastPerformancesModel.add({
@@ -22,8 +25,8 @@ async function addPerformance(req, res) {
 			instruments,
 			date,
 			img: {
-				src, 
-				alt
+				fileName: newFileName,
+				alt: `${fileName} image`
 			}
 		}).then((msg) => {
 			res.status = 201;	

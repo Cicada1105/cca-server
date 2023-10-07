@@ -26,7 +26,10 @@ function add(newPerformance) {
 						location: newPerformance['location'], 
 						date: newPerformance['date'], 
 						instruments: newPerformance['instruments'], 
-						img: newPerformance['img']
+						img: {
+							src: newPerformance['img']['fileName'],
+							alt: newPerformance['img']['alt']
+						}
 					}
 				}
 			});

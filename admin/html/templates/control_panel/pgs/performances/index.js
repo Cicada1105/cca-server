@@ -7,7 +7,7 @@ const pug = require('pug');
 
 // Import method for retrieving token from url and file data
 const { getTokenFromURL } = require("../../../../../utils.js");
-const { getDatabaseCollection } = require('../../../../../../utils/mongodb.js');
+const { getDatabaseCollection, ObjectId } = require('../../../../../../utils/mongodb.js');
 
 /*
 	Routes
@@ -43,6 +43,13 @@ function Router(req,res) {
 
 					// Retrieve token from url
 					token = getTokenFromURL(req);
+
+					// Format performnce images to include server url
+					let imgFileName;
+					data[0]['past'].performances.forEach( performance => {
+						imgFileName = performance['img'].src;
+						performance['img'].src = `${process.env.SERVER_URL}/imgs/${imgFileName}`;
+					});
 
 					res.writeHead(200, {
 						"Content-Type":"text/html"

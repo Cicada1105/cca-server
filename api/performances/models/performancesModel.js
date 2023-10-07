@@ -37,8 +37,9 @@ function filterBy(performanceFilter) {
 				performances.forEach(performance => {
 					// Extract out current id from rest of info
 					let { id, ...rest } = performance;
-					if (typeof rest['img'] == "string")
-						rest['img'] = process.env.SERVER_URL + `/imgs/${rest['img']}`;
+					let imageSrc = rest['img'].src;
+					// Update image URLs to include the server url
+					rest['img'].src = process.env.SERVER_URL + `/imgs/${imageSrc}`;
 					// Store rest of performance info without id
 					updatedPerformances['performances'].push(rest);
 				});
