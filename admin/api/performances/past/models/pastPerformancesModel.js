@@ -89,6 +89,9 @@ function update(editedPerformance) {
 				removeImage(oldPerformance['img'].src);	
 			}
 
+			// Close connection now that database operations are done
+			closeConnection();
+
 			if (result.ok) {
 				resolve(`Successfully updated ${editedPerformance['name']}`);
 			}
@@ -116,6 +119,13 @@ function remove(performanceID) {
 
 			// Close connection now that database operations are done
 			closeConnection();
+
+			// Retrieve original performance updated to get the old file name in order to delete it from the server
+			let oldPerformance = result['value']['past']['performances'].find( performance => {
+				return performance.id == performanceID;
+			});
+
+			removeImage(oldPerformance['img'].src);
 
 			if (result.ok) {
 				resolve("Successfully removed past performance!");
