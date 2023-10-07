@@ -35,7 +35,7 @@ function add({ name, title, anecdote, img: { fileName, fileType, data } }) {
 /*
 	Future update documentation
 */
-function update({ id, name, title, anecdote, img: { src, alt }}) {
+function update({ id, name, title, anecdote, img: { fileName, fileType, data }}) {
 	return makeRequest(
 		ANECDOTES_PATH,
 		"PUT",
@@ -45,8 +45,9 @@ function update({ id, name, title, anecdote, img: { src, alt }}) {
 			title,
 			anecdote,
 			img: {
-				src,
-				alt
+				fileName,
+				fileType,
+				data
 			}
 		}
 	)

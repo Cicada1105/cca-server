@@ -4,6 +4,8 @@
 
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
+// Import utility function for removing an image
+const { removeImage } = require('../../../utils');
 /*
 	Futture add documentation
 */
@@ -33,8 +35,14 @@ function update(editedAnecdote) {
 
 			let updatedAnecdote = { name, title, anecdote };
 
-			if (img.src) {
-				updatedAnecdote = { ...updatedAnecdote, img: { src: img.src, alt: img.alt } }
+			if (img.fileName) {
+				updatedAnecdote = { 
+					...updatedAnecdote, 
+					img: { 
+						src: img.fileName, 
+						alt: img.alt
+					} 
+				}
 			}
 
 			let result = await collection.findOneAndUpdate({
@@ -45,6 +53,9 @@ function update(editedAnecdote) {
 
 			// Close connection now that database operations are done
 			closeConnection();
+
+			if (img.fileName)
+				removeImage(result['value']['img'].src);
 
 			if (result.ok) {
 				let { value: { name }} = result;

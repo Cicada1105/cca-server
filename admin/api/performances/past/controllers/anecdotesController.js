@@ -40,7 +40,11 @@ async function addAnecdote(req,res) {
 }
 async function updateAnecdote(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { id, name, title, anecdote, img: { src, alt }} = body;
+		let { id, name, title, anecdote, img: { fileName, fileType, data }} = body;
+
+		// Convert image data to image if one is present
+		let newFileName = fileName && convertToImage({ fileType, data });
+		let newFileAlt = fileName && `${fileName} image`;
 
 		await AnecdotesModel.update({ 
 			id, 
@@ -48,8 +52,8 @@ async function updateAnecdote(req,res) {
 			title, 
 			anecdote, 
 			img: { 
-				src, 
-				alt 
+				fileName: newFileName,
+				alt: newFileAlt
 			}
 		}).then((msg) => {
 			res.status = 200;
