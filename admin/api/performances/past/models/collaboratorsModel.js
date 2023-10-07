@@ -80,6 +80,9 @@ function remove(collaboratorID) {
 			// Close connection now that database operations are done
 			closeConnection();
 
+			// Remove server image associated with database stored anecdote
+			removeImage(result['value']['img'].src);
+			
 			if (result.ok) {
 				// Retrieve affected document to notify user of changes
 				let { value: { name } } = result;
