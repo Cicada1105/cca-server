@@ -80,6 +80,9 @@ function remove(anecdoteID) {
 			// Close connection now that database operations are done
 			closeConnection();
 
+			// Remove server image associated with database stored anecdote
+			removeImage(result['value']['img'].src);
+
 			if (result.ok) {
 				let { value: { name } } = result;
 				resolve(`Successfully removed anecdote by ${name}`);
