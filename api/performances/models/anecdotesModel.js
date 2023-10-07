@@ -21,7 +21,7 @@ function getAllAnecdotes() {
 				// Add server url to image if it is a url string
 				let imgSrc = rest['img'].src;
 				if (!imgSrc.includes("data:image"))
-					rest['img'].src = process.env.SERVER_URL + `imgs/${rest['img']}`;
+					rest['img'].src = process.env.SERVER_URL + `/imgs/${rest['img'].src}`;
 				// Store rest of anecdote info without id
 				updatedAnecdotes.push(rest);
 			})
