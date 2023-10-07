@@ -40,7 +40,11 @@ async function addCollaborator(req,res) {
 }
 async function updateCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { id, name, title, description, img: { src, alt }} = body;
+		let { id, name, title, description, img: { fileName, fileType, data }} = body;
+
+		// Convert image data to image if file name is provided
+		let newFileName = fileName && convertToImage({ fileType, data });
+		let newFileAlt = fileName && `${fileName} image`;
 
 		await CollaboratorsModel.update({
 			id, 
@@ -48,8 +52,8 @@ async function updateCollaborator(req,res) {
 			title, 
 			description,
 			img: { 
-				src, 
-				alt
+				fileName: newFileName, 
+				alt: newFileAlt
 			}
 		}).then((msg) => {
 			res.status = 200;

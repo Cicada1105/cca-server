@@ -3,6 +3,8 @@
 */
 
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
+// Import utility function for removing image from server
+const { removeImage } = require('../../../utils.js');
 
 /*
 	Futture add documentation
@@ -33,8 +35,14 @@ function update(editedCollaborator) {
 			// Define the base attributes for the collaborator to be updated
 			let updatedCollaborator = { name, title, description };
 			// If a new image has been sent, update collaborator accordingly
-			if (img.src) {
-				updatedCollaborator = { ...updatedCollaborator, img: { src: img.src, alt: img.alt } };
+			if (img.fileName) {
+				updatedCollaborator = { 
+					...updatedCollaborator, 
+					img: { 
+						src: img.fileName, 
+						alt: img.alt 
+					} 
+				};
 			}
 
 			let result = await collection.findOneAndUpdate({
@@ -46,6 +54,10 @@ function update(editedCollaborator) {
 			// Close connection now that database operations are done
 			closeConnection();
 			
+			// Remove old image if new one was uploaded
+			if (img.fileName)
+				removeImage(result['value']['img'].src);
+
 			if (result.ok) {
 				resolve(`Successfully updated ${name}'s info`);
 			}

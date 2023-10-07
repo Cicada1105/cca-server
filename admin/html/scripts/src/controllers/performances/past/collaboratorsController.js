@@ -54,10 +54,7 @@ function updateCollaborator(event) {
 		name: formEls["name"].value,
 		title: formEls["title"].value,
 		description: formEls["description"].value,
-		img: {
-			src: undefined,
-			alt: undefined
-		}
+		img: { }
 	}
 
 	// Retrieve image files
@@ -65,13 +62,16 @@ function updateCollaborator(event) {
 	// Check if new image was chosen
 	if (files.length === 1) { // Create file reader to retrieve file
 		let file = files[0];
-		let imgAlt = file.name;
+		let fileName = removeFileExtension(file.name);
 		// Convert file to array buffer to be sent and stored in request
 		let myReader = new FileReader();
-		myReader.readAsDataURL(file);
+		myReader.readAsBinaryString(file);
 		myReader.onloadend = function() {
-			updatedCollaborator.img["src"] = myReader.result
-			updatedCollaborator.img["alt"] = imgAlt;
+			updatedCollaborator.img = {
+				fileName,
+				fileType: file.type.split("/")[1],
+				data: btoa(myReader.result)
+			}
 
 			Collaborators.update(updatedCollaborator).then(successCallback).catch(failedCallback);
 		}
