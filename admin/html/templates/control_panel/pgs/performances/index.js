@@ -72,6 +72,16 @@ function Router(req,res) {
 					// Retrieve token from url
 					token = getTokenFromURL(req);
 
+					// Format performnce images to include server url
+					let imgFileName;
+
+					data.forEach( collaborator => {
+						if (!collaborator['img'].src.includes("data:image")) {
+							imgFileName = collaborator['img'].src;
+							collaborator['img'].src = `${process.env.SERVER_URL}/imgs/${imgFileName}`;	
+						}
+					});
+
 					res.writeHead(200, {
 						"Content-Type":"text/html"
 					});

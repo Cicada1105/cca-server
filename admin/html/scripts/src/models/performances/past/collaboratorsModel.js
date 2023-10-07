@@ -16,7 +16,7 @@ const COLLABORATORS_PATH = "/cca-admin-api/performance/past/collaborators";
 /*
 	Future add documentation
 */
-function add({ name, title, description, img: { src, alt }}) {
+function add({ name, title, description, img: { fileName, fileType, data }}) {
 	return makeRequest(
 		COLLABORATORS_PATH,
 		"POST",
@@ -25,8 +25,9 @@ function add({ name, title, description, img: { src, alt }}) {
 			title,
 			description,
 			img: {
-				src,
-				alt
+				fileName,
+				fileType,
+				data
 			}
 		}
 	)
