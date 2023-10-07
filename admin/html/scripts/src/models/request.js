@@ -4,7 +4,7 @@
 	control panel
 */
 
-const SERVER_URL = "http://localhost:2020";
+const SERVER_URL = "https://cca-server.onrender.com";
 
 export default function makeRequest(path, method, body) {
 	return new Promise((resolve,reject) => {

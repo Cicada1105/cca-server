@@ -3,6 +3,8 @@
 // Require anecdote model
 import * as Anecdotes from '../../../models/performances/past/anecdotesModel.js';
 
+// Import utility functions
+import { removeFileExtension } from '../../utils.js';
 // Require callback functions shared by all controllers
 import { successCallback, failedCallback } from '../../utils.js';
 /*
@@ -15,18 +17,19 @@ function addAnecdote(event) {
 	let formEls = form.elements;
 
 	let file = formEls["imgFile"].files[0];
-	let imgAlt = file.name;
+	let fileName = removeFileExtension(file.name);
 	// Convert file to array buffer to be sent and stored in request
 	let myReader = new FileReader();
-	myReader.readAsDataURL(file);
+	myReader.readAsBinaryString(file);
 	myReader.onloadend = function() {
 		let newAnecdote = {
 			name: formEls["name"].value,
 			title: formEls["title"].value,
 			anecdote: formEls["anecdote"].value,
 			img: {
-				src: myReader.result,
-				alt: imgAlt
+				fileName,
+				fileType: file.type.split("/")[1],
+				data: btoa(myReader.result)
 			}
 		}
 

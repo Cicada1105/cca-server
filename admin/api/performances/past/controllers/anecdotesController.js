@@ -6,19 +6,22 @@
 const AnecdotesModel = require("../models/anecdotesModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData } = require("../../../utils.js");
+const { getBodyData, convertToImage } = require("../../../utils.js");
 
 async function addAnecdote(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { name, title, anecdote, img: { src, alt }} = body;
+		let { name, title, anecdote, img: { fileName, fileType, data }} = body;
 
+		// Convert image data to image
+		let newFileName = convertToImage({ fileType, data });
+		
 		await AnecdotesModel.add({
 			name,
 			title,
 			anecdote,
 			img: {
-				src,
-				alt
+				src: newFileName,
+				alt: `${fileName} image`
 			}
 		}).then((msg) => {
 			res.status = 201;
