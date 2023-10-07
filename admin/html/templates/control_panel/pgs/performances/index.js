@@ -93,6 +93,15 @@ function Router(req,res) {
 					// Retrieve token from url
 					token = getTokenFromURL(req);
 
+					// Format performnce images to include server url
+					let imgFileName;
+					data.forEach( anecdote => {
+						if (!anecdote['img'].src.includes("data:image")) {
+							imgFileName = anecdote['img'].src;
+							anecdote['img'].src = `${process.env.SERVER_URL}/imgs/${imgFileName}`;	
+						}
+					});
+
 					res.writeHead(200, {
 						"Content-Type":"text/html"
 					});
