@@ -51,7 +51,11 @@ async function addPerformance(req, res) {
 async function updatePerformance(req, res) {
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary info for editing performance
-		let { id, name, description, location, instruments, date, img:{ src, alt }} = body;
+		let { id, name, description, location, instruments, date, img:{ fileName, fileType, data }} = body;
+
+		// Convert image data to image
+		let newFileName = fileName && convertToImage({ fileType, data });
+		let newFileAlt = fileName && `${fileName} image`;
 
 		// Update performance
 		await PastPerformancesModel.update({ 
@@ -59,8 +63,8 @@ async function updatePerformance(req, res) {
 			location, date, 
 			instruments, 
 			img:{ 
-				src, 
-				alt 
+				fileName: newFileName,
+				alt: newFileAlt
 			}
 		}).then((msg) => {
 			res.status = 200;
@@ -70,7 +74,7 @@ async function updatePerformance(req, res) {
 			res.end(JSON.stringify({
 				msg: "Problem getting body data"
 			}));
-		})	
+		});
 	})
 }
 async function removePerformance(req, res) {

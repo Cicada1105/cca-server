@@ -3,6 +3,7 @@
 */
 
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
+const { removeImage } = require("../../../utils.js");
 
 // Local
 const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
@@ -61,11 +62,11 @@ function update(editedPerformance) {
 				'past.performances.$[el].instruments': instruments
 			};
 
-			if (img.src) {
+			if (img.fileName) {
 				updatedPerformance = { 
 					...updatedPerformance, 
 					'past.performances.$[el].img': { 
-						src: img.src, 
+						src: img.fileName,
 						alt: img.alt 
 					}
 				}
@@ -78,6 +79,15 @@ function update(editedPerformance) {
 			}, {
 				arrayFilters: [{ 'el.id': new ObjectId(id) }]
 			});
+
+			if (img.fileName) {
+				// Retrieve original performance updated to get the old file name in order to delete it from the server
+				let oldPerformance = result['value']['past']['performances'].find( performance => {
+					return performance.id == id;
+				});
+
+				removeImage(oldPerformance['img'].src);	
+			}
 
 			if (result.ok) {
 				resolve(`Successfully updated ${editedPerformance['name']}`);

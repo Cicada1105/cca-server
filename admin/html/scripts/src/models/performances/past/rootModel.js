@@ -37,7 +37,7 @@ function add({ name, description, location, instruments, date, img:{ fileName, f
 /*
 	Future update documentation
 */
-function update({ id, name, description, location, instruments, date, img:{ src, alt }}) {
+function update({ id, name, description, location, instruments, date, img:{ fileName, fileType, data }}) {
 	return makeRequest(
 		PAST_PERFORMANCES_PATH,
 		"PUT",
@@ -47,8 +47,9 @@ function update({ id, name, description, location, instruments, date, img:{ src,
 			instruments,
 			date,
 			img: {
-				src,
-				alt
+				fileName,
+				fileType,
+				data
 			}
 		}
 	)

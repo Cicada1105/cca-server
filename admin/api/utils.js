@@ -36,7 +36,21 @@ function convertToImage({ fileType, data }) {
 
 	return newFileName;
 }
+function removeImage(imgFileName) {
+	let fileName = imgFileName.split(".")[0];
+	let fileType = imgFileName.split(".")[1];
+
+	let assetImgsDir = `${process.cwd()}/assets/imgs`;
+	let imgFiles = fs.readdirSync( assetImgsDir, { withFileTypes: true });
+
+	imgFiles.forEach( file => {
+		let currFileName = file.name.split(".")[0];
+		if (currFileName === fileName)
+			fs.unlinkSync( assetImgsDir + `/${fileName}.${fileType}`);
+	});
+}
 
 module.exports = {
-	getBodyData, writeToFile, convertToImage
+	getBodyData, writeToFile, 
+	convertToImage, removeImage
 }
