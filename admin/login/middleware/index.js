@@ -13,7 +13,7 @@ const { getTokenFromURL } = require("../../utils.js");
 function createToken(payload) {
 	return new Promise(async (resolve, reject) => {
 		// Retrieve certificate
-		const cert = fs.readFileSync("./admin/login/private.key");
+		const cert = fs.readFileSync("/etc/secrets/private.key");
 
 		await jwt.sign(payload, cert, { algorithm: 'RS256' }, (err,token) => {
 			err ? reject(err) : resolve(token); // Toekn specific to user defined in "payload"
@@ -26,7 +26,7 @@ function verifyToken(req) {
 		// Get token from url
 		const token = getTokenFromURL(req);
 		// Retrieve certificate
-		const cert = fs.readFileSync('./admin/login/public.pem');
+		const cert = fs.readFileSync('/etc/secrets/public.pem');
 
 		jwt.verify(token, cert, { algorithm: 'RS256' }, (err, decode) => {
 			err ? reject(err) : resolve(decode); // Verified token
