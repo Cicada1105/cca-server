@@ -24,24 +24,39 @@ function filterBy(performanceFilter) {
 			let isValidFilter = performanceFilter in performanceTypes;
 
 			if (isValidFilter) {
-				// Remove unnecessary id from data to be returned to front end
-				let updatedPerformances = { };
-				// Pull out performances from data to remove ids
-				let { performances, ...performancesTypeData } = performanceTypes[performanceFilter];
-				// Assign performances type data to the updated performances object
-				Object.assign( updatedPerformances, performancesTypeData );
+				/*
+					The following is done for backwards compatibility:
+						performancesTypes[performanceFilter] can be:
+						[ ...performances ] (old version) -or-
+						{ performances: [], ...miscData } (new version)
+				*/
+				let updatedPerformances, performancesArray;
 
-				// Initialize the updated performances array
-				updatedPerformances['performances'] = [];
-				
-				performances.forEach(performance => {
+				// Assign performances type data to the updated performances object
+				//Object.assign( updatedPerformances, performancesTypeData );
+				if ( Array.isArray(performanceTypes[performanceFilter] ) ) {
+					resolve("Array");
+					updatedPerformances = [];
+					performancesArray = performanceTypes[performanceFilter];
+				}
+				else {
+					let { performances, ...performancesTypeData } = performanceTypes[performanceFilter];
+
+					updatedPerformances = {
+						...performancesTypeData,
+						'performances': []
+					};
+					performancesArray = performances;
+				}
+
+				performancesArray.forEach(performance => {
 					// Extract out current id from rest of info
 					let { id, ...rest } = performance;
 					let imageSrc = rest['img'].src;
 					// Update image URLs to include the server url
-					rest['img'].src = process.env.SERVER_URL + `/imgs/${imageSrc}`;
+					rest['img'].src = imageSrc.startsWith('data:image/') ? imageSrc : process.env.SERVER_URL + `/imgs/${imageSrc}`;
 					// Store rest of performance info without id
-					updatedPerformances['performances'].push(rest);
+					'performances' in updatedPerformances ? updatedPerformances['performances'].push(rest) : updatedPerformances.push(rest);
 				});
 
 				resolve(updatedPerformances);
