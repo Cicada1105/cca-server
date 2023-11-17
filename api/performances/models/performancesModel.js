@@ -52,9 +52,13 @@ function filterBy(performanceFilter) {
 				performancesArray.forEach(performance => {
 					// Extract out current id from rest of info
 					let { id, ...rest } = performance;
-					let imageSrc = rest['img'].src;
-					// Update image URLs to include the server url
-					rest['img'].src = imageSrc.startsWith('data:image/') ? imageSrc : process.env.SERVER_URL + `/imgs/${imageSrc}`;
+					
+					if ( 'img' in rest ) {
+						let imageSrc = rest['img'].src;
+						// Update image URLs to include the server url
+						rest['img'].src = imageSrc.startsWith('data:image/') ? imageSrc : process.env.SERVER_URL + `/imgs/${imageSrc}`;
+					}
+
 					// Store rest of performance info without id
 					'performances' in updatedPerformances ? updatedPerformances['performances'].push(rest) : updatedPerformances.push(rest);
 				});
