@@ -16,7 +16,7 @@ const ANECDOTES_PATH = "/cca-admin-api/performance/past/anecdotes";
 /*
 	Future add documentation
 */
-function add({ name, title, anecdote, img: { fileName, fileType, data } }) {
+function add({ name, title, anecdote, img: { fileName, fileExtension, data } }) {
 	return makeRequest(
 		ANECDOTES_PATH,
 		"POST",
@@ -26,7 +26,7 @@ function add({ name, title, anecdote, img: { fileName, fileType, data } }) {
 			anecdote,
 			img: {
 				fileName,
-				fileType,
+				fileExtension,
 				data
 			}
 		}

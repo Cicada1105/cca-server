@@ -2,6 +2,7 @@
 	Utility file for handling Dropbox operations
 */
 const https = require('https');
+const { v4: uuid } = require('uuid');
 
 function stringToOctetStream( str ) {
 	var buf = new ArrayBuffer(str.length);
@@ -13,7 +14,7 @@ function stringToOctetStream( str ) {
 
     return bufView;
 }
-async function uploadDropboxImage(imageDataStream) {
+async function uploadDropboxImage( imageDataStream, fileExtension ) {
 	return await makeDropboxRequest({
 		hostname: 'content.dropboxapi.com',
 		path: 'files/upload',
@@ -23,7 +24,7 @@ async function uploadDropboxImage(imageDataStream) {
 				autorename: false,
 				mode: 'add',
 				mute: false,
-				path: '/Uploads/test.jpeg'
+				path: `/Uploads/${uuid()}.${fileExtension}`
 			}),
 			'Content-Type': 'application/octet-stream'
 		},

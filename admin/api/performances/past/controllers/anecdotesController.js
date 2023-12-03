@@ -10,17 +10,15 @@ const { getBodyData, convertToImage } = require("../../../utils");
 
 async function addAnecdote(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { name, title, anecdote, img: { fileName, fileType, data }} = body;
-
-		// Convert image data to image
-		let newFileName = convertToImage({ fileType, data });
+		let { name, title, anecdote, img: { fileName, fileExtension, data }} = body;
 		
 		await AnecdotesModel.add({
 			name,
 			title,
 			anecdote,
 			img: {
-				src: newFileName,
+				fileExtension,
+				src: data,
 				alt: `${fileName} image`
 			}
 		}).then((msg) => {

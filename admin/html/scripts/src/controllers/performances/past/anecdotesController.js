@@ -17,10 +17,10 @@ function addAnecdote(event) {
 	let formEls = form.elements;
 
 	let file = formEls["imgFile"].files[0];
-	let fileName = removeFileExtension(file.name);
+	let { fileName, fileExtension } = removeFileExtension(file.name);
 	// Convert file to array buffer to be sent and stored in request
 	let myReader = new FileReader();
-	myReader.readAsBinaryString(file);
+	myReader.readAsArrayBuffer(file);
 	myReader.onloadend = function() {
 		let newAnecdote = {
 			name: formEls["name"].value,
@@ -28,8 +28,8 @@ function addAnecdote(event) {
 			anecdote: formEls["anecdote"].value,
 			img: {
 				fileName,
-				fileType: file.type.split("/")[1],
-				data: btoa(myReader.result)
+				fileExtension,
+				data: String.fromCharCode.apply(null, new Uint8Array(myReader.result))
 			}
 		}
 
