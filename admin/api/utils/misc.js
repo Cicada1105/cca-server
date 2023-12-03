@@ -1,5 +1,5 @@
 /*
-	Utility file for handling miscelaneous helper functions
+	Utility file for miscelaneous helper functions
 */
 
 function getBodyData(req) {

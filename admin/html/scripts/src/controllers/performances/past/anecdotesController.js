@@ -62,7 +62,7 @@ function updateAnecdote(event) {
 	// Check if new image was selected
 	if (files.length === 1) {
 		let file = files[0];
-		let fileName = removeFileExtension(file.name);
+		let { fileName, fileExtension } = removeFileExtension(file.name);
 		// Convert file to array buffer to be sent and stored in request
 		let myReader = new FileReader();
 		myReader.readAsBinaryString(file);

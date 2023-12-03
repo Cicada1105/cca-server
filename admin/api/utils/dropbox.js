@@ -3,6 +3,7 @@
 */
 const https = require('https');
 const { v4: uuid } = require('uuid');
+const { getBodyData } = require('./misc.js');
 
 function stringToOctetStream( str ) {
 	var buf = new ArrayBuffer(str.length);
