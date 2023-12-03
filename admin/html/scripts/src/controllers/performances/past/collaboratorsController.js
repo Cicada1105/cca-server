@@ -20,7 +20,7 @@ function addCollaborator(event) {
 	let { fileName, fileExtension } = removeFileExtension(file.name);
 	// Convert file to array buffer to be sent and stored in request
 	let myReader = new FileReader();
-	myReader.readAsBinaryString(file);
+	myReader.readAsArrayBuffer(file);
 	myReader.onloadend = function() {
 		let newCollaborator = {
 			name: formEls["name"].value,
@@ -28,8 +28,8 @@ function addCollaborator(event) {
 			description: formEls["description"].value,
 			img: {
 				fileName,
-				fileType: file.type.split('/')[1],
-				data: btoa(myReader.result)
+				fileExtension,
+				data: String.fromCharCode.apply(null, new Uint8Array(myReader.result))
 			}
 		}
 

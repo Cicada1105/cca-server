@@ -10,17 +10,15 @@ const { getBodyData, convertToImage } = require("../../../utils");
 
 async function addCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { name, title, description, img: { fileName, fileType, data }} = body;
-
-		// Convert image data into an image
-		let newFileName = convertToImage({ fileType, data });
+		let { name, title, description, img: { fileName, fileExtension, data }} = body;
 
 		await CollaboratorsModel.add({
 			name,
 			title,
 			description,
 			img: {
-				src: newFileName,
+				fileExtension,
+				src: data,
 				alt: `${fileName} image`
 			}
 		}).then((msg) => {

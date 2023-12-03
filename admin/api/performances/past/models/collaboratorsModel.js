@@ -4,14 +4,39 @@
 
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
-// Import utility function for removing image from server
-const { removeImage } = require('../../../utils');
+// Dropbox and image handling utility functions
+const { 
+	stringToOctetStream, uploadDropboxImage, 
+	createSharedLink, removeImage 
+} = require('../../../utils');
 
 /*
 	Futture add documentation
 */
 function add(collaborator) {
-	return new Promise((resolve,reject) => {
+	return new Promise(async (resolve,reject) => {
+		let imgStr = collaborator['img'].src;
+		let imgFileType = collaborator['img'].fileExtension;
+
+		// Convert the Octet String to a usable Octet Array Buffer
+		let imgOctetStream = stringToOctetStream( imgStr );
+		// Upload the image to Dropbox
+		let { name, path_display } = await uploadDropboxImage( imgOctetStream, imgFileType );
+		// Create a shared link to be used to access the image
+		let { url } = await createSharedLink( name ) ;
+		// Convert the URL to a Node URL object to update parameters
+		let newURL = new URL( url );
+		newURL.searchParams.set( 'dl', 1 );
+
+		let dropboxImageURL = newURL.href;
+
+		// Overwrite existing Anecdote image values
+		collaborator['img'] = {
+			...collaborator['img'],
+			src: dropboxImageURL,
+			dropbox_path: path_display
+		}
+		
 		getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
 			try {
 				await collection.insertOne(collaborator);
