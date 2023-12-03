@@ -2,14 +2,6 @@
 	File contains request methods for dealing directly with the corresponding data
 */
 
-// Import editing data to be used by the model
-const editingDataPath = "./site_data/editing.json";
-// Require method to retrieve file data
-const { getFileData } = require("../../../utils.js");
-// Require method for writing to file
-const { writeToFile } = require("../../utils.js");
-// Import uuid for adding new resource
-const { v4: uuidv4 } = require("uuid");
 const { getDatabaseCollection, ObjectId } = require('../../../../utils/mongodb.js');
 
 /*

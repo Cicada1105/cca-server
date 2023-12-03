@@ -3,7 +3,7 @@
 */
 
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
-const { removeImage } = require("../../../utils.js");
+const { removeImage } = require("../../../utils");
 
 // Local
 const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';

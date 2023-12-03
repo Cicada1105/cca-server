@@ -6,6 +6,7 @@ const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongod
 
 // Import utility function for removing an image
 const { removeImage } = require('../../../utils');
+
 /*
 	Futture add documentation
 */

@@ -6,7 +6,7 @@
 const FuturePerformancesModel = require("../models/rootModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData } = require("../../../utils.js");
+const { getBodyData } = require("../../../utils");
 
 async function addPerformance(req, res) {
 	// Get song data from body

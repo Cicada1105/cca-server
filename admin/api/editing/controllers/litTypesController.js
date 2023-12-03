@@ -6,7 +6,7 @@
 const LiteratureTypeModel = require("../models/litTypesModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData } = require("../../utils.js");
+const { getBodyData } = require("../../utils");
 
 async function addLiteratureType(req, res) {
 	await getBodyData(req).then(async (body) => {

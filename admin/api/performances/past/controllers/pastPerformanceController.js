@@ -6,7 +6,7 @@
 const PastPerformancesModel = require("../models/pastPerformancesModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData, convertToImage } = require("../../../utils.js");
+const { getBodyData, convertToImage } = require("../../../utils");
 
 async function addPerformance(req, res) {
 	// Get performance data from body

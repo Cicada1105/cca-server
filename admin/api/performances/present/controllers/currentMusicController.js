@@ -23,7 +23,7 @@
 const MusicModel = require("../models/currentMusicModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData } = require("../../../utils.js");
+const { getBodyData } = require("../../../utils");
 
 async function addSong(req, res) {
 	// Get song data from body

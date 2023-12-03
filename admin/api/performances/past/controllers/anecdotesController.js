@@ -6,7 +6,7 @@
 const AnecdotesModel = require("../models/anecdotesModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData, convertToImage } = require("../../../utils.js");
+const { getBodyData, convertToImage } = require("../../../utils");
 
 async function addAnecdote(req,res) {
 	await getBodyData(req).then(async (body) => {

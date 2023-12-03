@@ -6,7 +6,7 @@
 const GenresModel = require("../models/genresModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData } = require("../../utils.js");
+const { getBodyData } = require("../../utils");
 
 async function addGenre(req, res) {
 	await getBodyData(req).then(async (body) => {
