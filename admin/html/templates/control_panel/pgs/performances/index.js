@@ -45,10 +45,10 @@ function Router(req,res) {
 					token = getTokenFromURL(req);
 
 					// Format performnce images to include server url
-					let imgFileName;
+					let imgSrc;
 					data[0]['past'].performances.forEach( performance => {
-						imgFileName = performance['img'].src;
-						performance['img'].src = `${process.env.SERVER_URL}/imgs/${imgFileName}`;
+						imgSrc = performance['img'].src;
+						performance['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${process.env.SERVER_URL}/imgs/${imgSrc}`;
 					});
 
 					res.writeHead(200, {
@@ -73,13 +73,10 @@ function Router(req,res) {
 					token = getTokenFromURL(req);
 
 					// Format performnce images to include server url
-					let imgFileName;
-
+					let imgSrc;
 					data.forEach( collaborator => {
-						if (!collaborator['img'].src.includes("data:image")) {
-							imgFileName = collaborator['img'].src;
-							collaborator['img'].src = `${process.env.SERVER_URL}/imgs/${imgFileName}`;	
-						}
+						imgSrc = collaborator['img'].src;
+						collaborator['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${process.env.SERVER_URL}/imgs/${imgSrc}`;	
 					});
 
 					res.writeHead(200, {
@@ -104,12 +101,10 @@ function Router(req,res) {
 					token = getTokenFromURL(req);
 
 					// Format performnce images to include server url
-					let imgFileName;
+					let imgSrc;
 					data.forEach( anecdote => {
-						if (!anecdote['img'].src.includes("data:image")) {
-							imgFileName = anecdote['img'].src;
-							anecdote['img'].src = `${process.env.SERVER_URL}/imgs/${imgFileName}`;	
-						}
+						imgSrc = anecdote['img'].src;
+						anecdote['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${process.env.SERVER_URL}/imgs/${imgSrc}`;	
 					});
 
 					res.writeHead(200, {

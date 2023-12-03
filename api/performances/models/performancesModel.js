@@ -56,7 +56,7 @@ function filterBy(performanceFilter) {
 					if ( 'img' in rest ) {
 						let imageSrc = rest['img'].src;
 						// Update image URLs to include the server url
-						rest['img'].src = imageSrc.startsWith('data:image/') ? imageSrc : process.env.SERVER_URL + `/imgs/${imageSrc}`;
+						rest['img'].src = (imageSrc.startsWith('data:image') || imageSrc.startsWith('http')) ? imageSrc : `${process.env.SERVER_URL}/imgs/${imageSrc}`;
 					}
 
 					// Store rest of performance info without id
