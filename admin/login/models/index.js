@@ -10,8 +10,7 @@ const bcrypt = require("bcrypt");
 function isValidUser({ username, password }) {
 	return new Promise(async (resolve,reject) => {
 		// Get uses
-		const user = getFileData('/etc/secrets/user.json');
-		//const user = getFileData('./admin/login/user.json');
+		const user = getFileData(process.env.LOGIN_INFO_PATH);
 
 		// Check if user name matches
 		if (user["username"] === username) {

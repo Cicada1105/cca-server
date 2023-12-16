@@ -26,8 +26,12 @@ function addPastPerformance(event) {
 	let formattedDate = formatDate(form.elements["date"].valueAsDate);
 	// Convert file to array buffer to be sent and stored in request
 	let myReader = new FileReader();
-	myReader.readAsBinaryString(file);
+	myReader.readAsArrayBuffer(file);
 	myReader.onloadend = function() {
+		let buffer = myReader.result;
+		let uint8ArrayBuffer = new Uint8Array( buffer );
+		let bufferValues = Object.values(uint8ArrayBuffer);
+
 		let testData = {
 			name: formEls["title"].value,
 			description: formEls['description'].value,
@@ -36,8 +40,8 @@ function addPastPerformance(event) {
 			date:formattedDate,
 			img: {
 				fileName,
-				fileType: file.type.split("/")[1],
-				data: btoa(myReader.result)
+				fileExtension,
+				data: bufferValues
 			}
 		}
 

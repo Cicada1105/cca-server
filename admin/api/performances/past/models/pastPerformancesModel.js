@@ -1,9 +1,12 @@
 /*
 	File contains request methods for dealing directly with the corresponding data
 */
-
+const utils = require('util');
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
-const { removeImage } = require("../../../utils");
+const {                                                                                                                          
+	stringToOctetStream, uploadDropboxImage, 
+	createSharedLink, removeImage 
+} = require('../../../utils');
 
 // Local
 const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
@@ -14,7 +17,29 @@ const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
 	Future add documentation
 */
 function add(newPerformance) {
-	return new Promise((resolve,reject) => {
+	return new Promise(async (resolve,reject) => {
+		let imgData = newPerformance['img'].src;
+		let imgFileType = newPerformance['img'].fileExtension;
+		// Create Uint8Array with the array passed in
+		let buffer = new Uint8Array(imgData);
+		// Upload the image to Dropbox
+		let { name, path_display } = await uploadDropboxImage( buffer, imgFileType );
+		// Create a shared link to be used to access the image
+		let { url } = await createSharedLink( name ) ;
+
+		// Convert the URL to a Node URL object to update parameters
+		let newURL = new URL( url );
+		newURL.searchParams.set( 'dl', 1 );
+
+		let dropboxImageURL = newURL.href;
+
+		// Overwrite existing Anecdote image values
+		newPerformance['img'] = {
+			...newPerformance['img'],
+			src: dropboxImageURL,
+			dropboxPath: path_display
+		}
+
 		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(PERFORMANCES_ID)
@@ -28,8 +53,9 @@ function add(newPerformance) {
 						date: newPerformance['date'], 
 						instruments: newPerformance['instruments'], 
 						img: {
-							src: newPerformance['img']['fileName'],
-							alt: newPerformance['img']['alt']
+							src: newPerformance['img']['src'],
+							alt: newPerformance['img']['alt'],
+							dropboxPath: newPerformance['img']['dropboxPath']
 						}
 					}
 				}

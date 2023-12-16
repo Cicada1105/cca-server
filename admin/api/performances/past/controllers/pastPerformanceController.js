@@ -12,10 +12,7 @@ async function addPerformance(req, res) {
 	// Get performance data from body
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary info for adding performance
-		let { name, description, location, instruments, date, img: { fileName, fileType, data } } = body;
-
-		// Convert image data to image
-		let newFileName = convertToImage({ fileType, data });
+		let { name, description, location, instruments, date, img: { fileName, fileExtension, data } } = body;
 
 		// Add new performance
 		await PastPerformancesModel.add({
@@ -25,7 +22,8 @@ async function addPerformance(req, res) {
 			instruments,
 			date,
 			img: {
-				fileName: newFileName,
+				fileExtension,
+				src: data,
 				alt: `${fileName} image`
 			}
 		}).then((msg) => {
