@@ -18,7 +18,7 @@ function add(anecdote) {
 		// Create Uint8Array with the array passed in
 		let buffer = new Uint8Array(imgData);
 		// Upload the image to Dropbox
-		let { name, path_display } = await uploadDropboxImage( buffer, imgFileType );
+		let { name, rev } = await uploadDropboxImage( buffer, imgFileType );
 		// Create a shared link to be used to access the image
 		let { url } = await createSharedLink( name ) ;
 
@@ -32,7 +32,7 @@ function add(anecdote) {
 		anecdote['img'] = {
 			...anecdote['img'],
 			src: dropboxImageURL,
-			dropbox_path: path_display
+			dropboxRevision: rev
 		}
 		// File extension is not needed to be stored in the database
 		delete anecdote['img']['fileExtension'];
