@@ -8,6 +8,6 @@ mixin anecdoteCard(anecdote)
 		aside.controlsCont
 			span.msg
 			div.ctrlBtnEdit
-				i(class="far fa-edit" data-id=`${anecdote['_id']}`)
+				i(class="far fa-edit" data-id=`${anecdote['_id']}` data-rev=`${collaborator['dropboxRevision']}`)
 			div.ctrlBtnDelete
-				i(class="far fa-times-circle" data-id=`${anecdote['_id']}`)
+				i(class="far fa-times-circle" data-id=`${anecdote['_id']}` data-rev=`${collaborator['dropboxRevision']}`)
