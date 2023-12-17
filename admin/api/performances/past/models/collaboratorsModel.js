@@ -15,15 +15,16 @@ const {
 */
 function add(collaborator) {
 	return new Promise(async (resolve,reject) => {
-		let imgStr = collaborator['img'].src;
+		let imgData = collaborator['img'].src;
 		let imgFileType = collaborator['img'].fileExtension;
 
-		// Convert the Octet String to a usable Octet Array Buffer
-		let imgOctetStream = stringToOctetStream( imgStr );
+		// Create Uint8Array with the array passed in
+		let buffer = new Uint8Array(imgData);
 		// Upload the image to Dropbox
-		let { name, path_display } = await uploadDropboxImage( imgOctetStream, imgFileType );
+		let { name, path_display } = await uploadDropboxImage( buffer, imgFileType );
 		// Create a shared link to be used to access the image
 		let { url } = await createSharedLink( name ) ;
+
 		// Convert the URL to a Node URL object to update parameters
 		let newURL = new URL( url );
 		newURL.searchParams.set( 'dl', 1 );
@@ -34,9 +35,11 @@ function add(collaborator) {
 		collaborator['img'] = {
 			...collaborator['img'],
 			src: dropboxImageURL,
-			dropbox_path: path_display
+			dropboxPath: path_display
 		}
-		
+		// File extension is not needed to be stored in the database
+		delete collaborator['img']['fileExtension'];
+
 		getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
 			try {
 				await collection.insertOne(collaborator);

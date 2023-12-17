@@ -22,6 +22,10 @@ function addCollaborator(event) {
 	let myReader = new FileReader();
 	myReader.readAsArrayBuffer(file);
 	myReader.onloadend = function() {
+		let buffer = myReader.result;
+		let uInt8ArrayBuffer = new Uint8Array( buffer );
+		let bufferValues = Object.values(uInt8ArrayBuffer);
+
 		let newCollaborator = {
 			name: formEls["name"].value,
 			title: formEls["title"].value,
@@ -29,7 +33,7 @@ function addCollaborator(event) {
 			img: {
 				fileName,
 				fileExtension,
-				data: String.fromCharCode.apply(null, new Uint8Array(myReader.result))
+				data: bufferValues
 			}
 		}
 
