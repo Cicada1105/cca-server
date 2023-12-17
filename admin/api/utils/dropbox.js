@@ -5,16 +5,6 @@ const https = require('https');
 const { v4: uuid } = require('uuid');
 const { getBodyData } = require('./misc.js');
 
-function stringToOctetStream( str ) {
-	var buf = new ArrayBuffer(str.length);
-    var bufView = new Uint8Array(buf);
-
-    for (let i=0, strLen=str.length; i < strLen; i++) {
-    	bufView[i] = str.charCodeAt(i);
-    }
-
-    return bufView;
-}
 async function uploadDropboxImage( imageDataStream, fileExtension ) {
 	return await makeDropboxRequest({
 		hostname: 'content.dropboxapi.com',
@@ -74,5 +64,5 @@ function makeDropboxRequest({ hostname, path, method, headers, body }) {
 
 module.exports = {
 	uploadDropboxImage, createSharedLink, 
-	stringToOctetStream, makeDropboxRequest
+	makeDropboxRequest
 }
