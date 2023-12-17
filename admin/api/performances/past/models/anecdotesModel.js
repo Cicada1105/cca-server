@@ -15,13 +15,13 @@ const {
 */
 function add(anecdote) {
 	return new Promise(async (resolve,reject) => {
-		let imgStr = anecdote['img'].src;
+		let imgData = anecdote['img'].src;
 		let imgFileType = anecdote['img'].fileExtension;
 
-		// Convert the Octet String to a usable Octet Array Buffer
-		let imgOctetStream = stringToOctetStream( imgStr );
+		// Create Uint8Array with the array passed in
+		let buffer = new Uint8Array(imgData);
 		// Upload the image to Dropbox
-		let { name, path_display } = await uploadDropboxImage( imgOctetStream, imgFileType );
+		let { name, path_display } = await uploadDropboxImage( buffer, imgFileType );
 		// Create a shared link to be used to access the image
 		let { url } = await createSharedLink( name ) ;
 
@@ -37,7 +37,9 @@ function add(anecdote) {
 			src: dropboxImageURL,
 			dropbox_path: path_display
 		}
-
+		// File extension is not needed to be stored in the database
+		delete anecdote['img']['fileExtension'];
+		
 		getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
 			try {
 				await collection.insertOne(anecdote);
