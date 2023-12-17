@@ -24,8 +24,6 @@ const server = http.createServer((req,res) => {
 			ADMIN.Router(req,res);
 		else if (req.url.startsWith("/api"))
 			API.Router(req,res);
-		else if (req.url.startsWith("/imgs"))
-			IMAGES.Router(req,res);
 		else {
 			res.writeHead(301,{"Location":`${SERVER_URL}/cca-admin-login`});
 			res.end();
