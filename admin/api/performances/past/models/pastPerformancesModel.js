@@ -3,10 +3,7 @@
 */
 const utils = require('util');
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
-const {                                                                                                                          
-	stringToOctetStream, uploadDropboxImage, 
-	createSharedLink, removeImage 
-} = require('../../../utils');
+const { uploadDropboxImage, createSharedLink, removeImage } = require('../../../utils');
 
 // Local
 const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';

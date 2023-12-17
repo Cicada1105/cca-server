@@ -5,10 +5,7 @@
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
 // Import utility function for removing an image
-const { 
-	stringToOctetStream, uploadDropboxImage, 
-	createSharedLink, removeImage 
-} = require('../../../utils');
+const { uploadDropboxImage, createSharedLink, removeImage } = require('../../../utils');
 
 /*
 	Futture add documentation

@@ -5,10 +5,7 @@
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
 // Dropbox and image handling utility functions
-const { 
-	stringToOctetStream, uploadDropboxImage, 
-	createSharedLink, removeImage 
-} = require('../../../utils');
+const { uploadDropboxImage, createSharedLink, removeImage } = require('../../../utils');
 
 /*
 	Futture add documentation
