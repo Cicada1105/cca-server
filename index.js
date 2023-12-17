@@ -5,7 +5,6 @@ const http = require('http');
 const ADMIN = require('./admin');
 const API = require('./api');
 const EMAIL = require('./email');
-const IMAGES = require('./images');
 
 const SERVER_URL = process.env.SERVER_URL;
 const PORT = process.env.PORT || 2020;
