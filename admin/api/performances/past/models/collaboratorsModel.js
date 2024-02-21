@@ -5,7 +5,10 @@
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
 // Dropbox and image handling utility functions
-const { uploadDropboxImage, createSharedLink, removeImage } = require('../../../utils');
+const { 
+	uploadDropboxImage, updateDropboxImage, 
+	createSharedLink, removeImage 
+} = require('../../../utils');
 
 /*
 	Futture add documentation
@@ -18,21 +21,12 @@ function add(collaborator) {
 		// Create Uint8Array with the array passed in
 		let buffer = new Uint8Array(imgData);
 		// Upload the image to Dropbox
-		let { name, rev } = await uploadDropboxImage( buffer, imgFileType );
-		// Create a shared link to be used to access the image
-		let { url } = await createSharedLink( name ) ;
-
-		// Convert the URL to a Node URL object to update parameters
-		let newURL = new URL( url );
-		newURL.searchParams.set( 'dl', 1 );
-
-		let dropboxImageURL = newURL.href;
+		let dropboxImageURL = await uploadDropboxImage( buffer, imgFileType );
 
 		// Overwrite existing Anecdote image values
 		collaborator['img'] = {
 			...collaborator['img'],
-			src: dropboxImageURL,
-			dropboxRevision: rev
+			src: dropboxImageURL
 		}
 		// File extension is not needed to be stored in the database
 		delete collaborator['img']['fileExtension'];
@@ -61,16 +55,17 @@ function update(editedCollaborator) {
 			// Define the base attributes for the collaborator to be updated
 			let updatedCollaborator = { name, title, description };
 			// If a new image has been sent, update collaborator accordingly
-			if (img.fileName) {
-				updatedCollaborator = { 
-					...updatedCollaborator, 
-					img: { 
-						src: img.fileName, 
-						alt: img.alt 
-					} 
+			if (img.data) {
+				let { oldFileName, newFileName, data } = img;
+				// Create Uint8Array with the array passed in
+				let buffer = new Uint8Array(data);
+				// Upload the image to Dropbox
+				let dropboxImageURL = await updateDropboxImage( oldFileName, newFileName, buffer );
+
+				updatedCollaborator['img'] = {
+					src: dropboxImageURL
 				};
 			}
-
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(id)
 			}, {
@@ -79,10 +74,6 @@ function update(editedCollaborator) {
 
 			// Close connection now that database operations are done
 			closeConnection();
-			
-			// Remove old image if new one was uploaded
-			if (img.fileName)
-				removeImage(result['value']['img'].src);
 
 			if (result.ok) {
 				resolve(`Successfully updated ${name}'s info`);

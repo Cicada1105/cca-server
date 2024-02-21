@@ -13,8 +13,8 @@ function handleControlListeners(displayEl) {
 	// Access individual tags
 	let icons = controlsCont.getElementsByTagName("i");
 	// If icon has ID (added as ID for editting), store and add to new icon
-	let id = undefined;
-	icons[0].hasAttribute("data-id") && (id = icons[0].dataset["id"]);
+	let dataset = undefined;
+	Object.entries(icons[0].dataset).length !== 0 && (dataset = icons[0].dataset);
 	// Remove icons to remove previous event listeners
 	icons[0].remove();
 	icons[0].remove();
@@ -34,7 +34,11 @@ function handleControlListeners(displayEl) {
 	let icon2 = icons[1];
 
 	// Re-add ID if not undefined
-	id && icon1.setAttribute("data-id",id);
+	if ( dataset ) {
+		for ( let key in dataset ) {
+			icon1.setAttribute(`data-${key}`,dataset[key]);
+		}
+	}
 	if (getComputedStyle(displayEl).display === "block") {
 		// Add event listeners to icons
 		icon1.addEventListener("click",controlMethods.submitMethod, { capture: false, once:true });
@@ -59,11 +63,13 @@ function displayInputCard(event) {
 		// Loop through displayData Map, accessing corresponding input field with mapped item
 		displayData.forEach((val,key) => elements[key].value = val);
 
-		const id = targetEl.dataset["id"];
 		// Get access to edit button control and add unique ID
 		const editBtnConfirm = document.getElementById("ctrlBtnAdd");
 		const editBtnConfirmIcon = editBtnConfirm.firstElementChild;
-		editBtnConfirm.firstElementChild.setAttribute("data-id",targetEl.dataset["id"]);
+		// Loop through dataset, adding unique info needed to update card
+		for ( let key in targetEl.dataset ) {
+			editBtnConfirmIcon.dataset[key] = targetEl.dataset[key];
+		}
 
 		// Scroll to top for user to view edit data
 		window.scrollTo({top:0,behavior:"smooth"});

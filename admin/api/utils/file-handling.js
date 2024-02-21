@@ -20,6 +20,16 @@ function convertToImage({ fileType, data }) {
 
 	return newFileName;
 }
+function removeFileExtension( file ) {
+	// Split file name by '.' to locate extension
+	let fileNameComponents = file.split('.');
+	// Remove only the extension (Account for names possibly with additionl periods)
+	let fileExtension = fileNameComponents.splice(-1)[0];
+	// Join remaining name of file by understcore
+	let fileName = fileNameComponents.join('.');
+
+	return { fileName, fileExtension };
+}
 function removeImage(imgFileName) {
 	let assetImgsDir = `${process.cwd()}/assets/imgs`;
 
@@ -31,4 +41,7 @@ function removeImage(imgFileName) {
 	});
 }
 
-module.exports = { writeToFile, convertToImage, removeImage }
+module.exports = { 
+	writeToFile, removeFileExtension, 
+	convertToImage, removeImage 
+}

@@ -35,7 +35,7 @@ function add({ name, title, description, img: { fileName, fileExtension, data }}
 /*
 	Future update documentation
 */
-function update({ id, name, title, description, img: { fileName, fileType, data }}) {
+function update({ id, name, title, description, img: { oldFileName, newFileName, data }}) {
 	return makeRequest(
 		COLLABORATORS_PATH,
 		"PUT",
@@ -45,8 +45,8 @@ function update({ id, name, title, description, img: { fileName, fileType, data 
 			title,
 			description,
 			img: {
-				fileName,
-				fileType,
+				oldFileName,
+				newFileName,
 				data
 			}
 		}

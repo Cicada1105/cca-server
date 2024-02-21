@@ -38,20 +38,16 @@ async function addCollaborator(req,res) {
 }
 async function updateCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { id, name, title, description, img: { fileName, fileType, data }} = body;
-
-		// Convert image data to image if file name is provided
-		let newFileName = fileName && convertToImage({ fileType, data });
-		let newFileAlt = fileName && `${fileName} image`;
-
+		let { id, name, title, description, img: { oldFileName, newFileName, data }} = body;
 		await CollaboratorsModel.update({
 			id, 
 			name, 
 			title, 
 			description,
 			img: { 
-				fileName: newFileName, 
-				alt: newFileAlt
+				oldFileName,
+				newFileName,
+				data,
 			}
 		}).then((msg) => {
 			res.status = 200;
@@ -65,8 +61,8 @@ async function updateCollaborator(req,res) {
 			res.end(JSON.stringify({
 				msg: "Problem getting body data"
 			}));
-		})	
-	})
+		});
+	});
 }
 async function removeCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {

@@ -1,13 +1,17 @@
 //- This file is a template for the collaborators info
 mixin collaboratorCard(collaborator)
 	section.card.collaboratorCard
-		img(src=`${collaborator.img.src}` alt=`${collaborator.img.alt}`)
+		img(src=`${collaborator.img.src}` alt=`${collaborator.name} image`)
 		h2.name #{collaborator.name}
 		<span style="font-size:0.9rem">Title:</span> <h4 class="title" style="display:inline-block">#{collaborator.title}</h4>
 		p.description #{collaborator.description}
 		aside.controlsCont
 			span.msg
 			div.ctrlBtnEdit
-				i(class="far fa-edit" data-id=`${collaborator['_id']}` data-rev=`${collaborator['dropboxRevision']}`)
+				-
+					let imgURL = new URL(collaborator['img']['src']);
+					let paths = imgURL['pathname'].split('/');
+					let imgName = paths[paths.length - 1];
+				i(class="far fa-edit" data-id=`${collaborator['_id']}` data-image=`${imgName}`)
 			div.ctrlBtnDelete
-				i(class="far fa-times-circle" data-id=`${collaborator['_id']}` data-rev=`${collaborator['dropboxRevision']}`)
+				i(class="far fa-times-circle" data-id=`${collaborator['_id']}` data-image=`${imgName}`)
