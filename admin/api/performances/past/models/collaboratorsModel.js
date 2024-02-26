@@ -6,8 +6,7 @@ const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongod
 
 // Dropbox and image handling utility functions
 const { 
-	uploadDropboxImage, updateDropboxImage, 
-	createSharedLink, removeImage 
+	uploadDropboxImage, updateDropboxImage, removeFileExtension
 } = require('../../../utils');
 
 /*
@@ -15,25 +14,27 @@ const {
 */
 function add(collaborator) {
 	return new Promise(async (resolve,reject) => {
-		let imgData = collaborator['img'].src;
-		let imgFileType = collaborator['img'].fileExtension;
+		let { name, title, description, img } = collaborator;
+		let { newFileName, data } = img;
+
+		// Define base attributes for the new collaborator to be added
+		let newCollaborator = { name, title, description };
 
 		// Create Uint8Array with the array passed in
-		let buffer = new Uint8Array(imgData);
+		let buffer = new Uint8Array(data);
+		// Retrieve the new image file extension to ensure newly created Dropbox image has proper extension
+		let { fileExtension } = removeFileExtension( newFileName );
 		// Upload the image to Dropbox
-		let dropboxImageURL = await uploadDropboxImage( buffer, imgFileType );
+		let dropboxImageURL = await uploadDropboxImage( buffer, fileExtension );
 
-		// Overwrite existing Anecdote image values
-		collaborator['img'] = {
-			...collaborator['img'],
+		// Add image src as the new Dropbox URL
+		newCollaborator['img'] = {
 			src: dropboxImageURL
 		}
-		// File extension is not needed to be stored in the database
-		delete collaborator['img']['fileExtension'];
 
 		getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
 			try {
-				await collection.insertOne(collaborator);
+				await collection.insertOne(newCollaborator);
 
 				resolve(`Successfully added new collaborator: ${collaborator.name}`);				
 			} catch(e) {
@@ -97,9 +98,6 @@ function remove(collaboratorID) {
 			// Close connection now that database operations are done
 			closeConnection();
 
-			// Remove server image associated with database stored anecdote
-			removeImage(result['value']['img'].src);
-			
 			if (result.ok) {
 				// Retrieve affected document to notify user of changes
 				let { value: { name } } = result;

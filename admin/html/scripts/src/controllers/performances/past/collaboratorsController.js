@@ -3,8 +3,6 @@
 // Require collaborator model
 import * as Collaborators from '../../../models/performances/past/collaboratorsModel.js';
 
-// Require utility function for removing file extensions
-import { removeFileExtension } from '../../utils.js';
 // Require callback functions shared by all controllers
 import { successCallback, failedCallback } from '../../utils.js';
 /*
@@ -16,8 +14,7 @@ function addCollaborator(event) {
 	let form = controlsCont.previousElementSibling;
 	let formEls = form.elements;
 
-	let file = formEls["imgFile"].files[0]
-	let { fileName, fileExtension } = removeFileExtension(file.name);
+	let file = formEls["imgFile"].files[0];
 	// Convert file to array buffer to be sent and stored in request
 	let myReader = new FileReader();
 	myReader.readAsArrayBuffer(file);
@@ -31,8 +28,7 @@ function addCollaborator(event) {
 			title: formEls["title"].value,
 			description: formEls["description"].value,
 			img: {
-				fileName,
-				fileExtension,
+				newFileName: file.name,
 				data: bufferValues
 			}
 		}

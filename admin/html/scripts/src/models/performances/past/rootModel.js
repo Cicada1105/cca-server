@@ -16,7 +16,7 @@ const PAST_PERFORMANCES_PATH = "/cca-admin-api/performance/past";
 /*
 	Future add documentation
 */
-function add({ name, description, location, instruments, date, img:{ fileName, fileExtension, data }}) {
+function add({ name, description, location, instruments, date, img:{ newFileName, data }}) {
 	return makeRequest(
 		PAST_PERFORMANCES_PATH,
 		"POST",
@@ -27,8 +27,7 @@ function add({ name, description, location, instruments, date, img:{ fileName, f
 			instruments,
 			date,
 			img: {
-				fileName,
-				fileExtension,
+				newFileName,
 				data
 			}
 		}
@@ -37,7 +36,7 @@ function add({ name, description, location, instruments, date, img:{ fileName, f
 /*
 	Future update documentation
 */
-function update({ id, name, description, location, instruments, date, img:{ fileName, fileType, data }}) {
+function update({ id, name, description, location, instruments, date, img:{ oldFileName, newFileName, data }}) {
 	return makeRequest(
 		PAST_PERFORMANCES_PATH,
 		"PUT",
@@ -47,8 +46,8 @@ function update({ id, name, description, location, instruments, date, img:{ file
 			instruments,
 			date,
 			img: {
-				fileName,
-				fileType,
+				oldFileName,
+				newFileName,
 				data
 			}
 		}

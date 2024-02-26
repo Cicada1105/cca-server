@@ -3,19 +3,17 @@
 */
 // Require utiltiy functions from other files
 // 	File handling 
-const { writeToFile, convertToImage, removeImage } = require('./file-handling.js');
+const { writeToFile, removeFileExtension, removeImage } = require('./file-handling.js');
 //	Dropbox
 const {
-	uploadDropboxImage, updateDropboxImage,
-	createSharedLink, makeDropboxRequest
+	uploadDropboxImage, updateDropboxImage, makeDropboxRequest
 } = require('./dropbox.js');
 //	Miscelaneous
 const { getBodyData } = require('./misc.js');
 
 
 module.exports = {
-	writeToFile, convertToImage, removeImage,
+	writeToFile, removeFileExtension, removeImage,
 	uploadDropboxImage, updateDropboxImage, 
-	createSharedLink, makeDropboxRequest,
-	getBodyData
+	makeDropboxRequest, getBodyData
 }

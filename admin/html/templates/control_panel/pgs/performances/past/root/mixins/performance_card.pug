@@ -1,7 +1,7 @@
 //- This file is a template for the past performance info
 mixin pastPerformanceCard(performance)
 	section.card.pastCard
-		img(src=`${performance.img.src}` alt=`${performance.img.alt}`)
+		img(src=`${performance.img.src}` alt=`${imgName} image`)
 		h2.title #{performance.name}
 		article.subHeaderCont
 			h4.location #{performance.location}
@@ -17,8 +17,12 @@ mixin pastPerformanceCard(performance)
 		p.date #{performance.date}
 		p.description #{performance.description}
 		aside.controlsCont
+			-
+				let imgURL = new URL(performance['img']['src']);
+				let paths = imgURL['pathname'].split('/');
+				let imgName = paths[paths.length - 1];
 			span.msg
 			div.ctrlBtnEdit
-				i(class="far fa-edit" data-id=`${performance.id}` data-rev=`${collaborator['dropboxRevision']}`)
+				i(class="far fa-edit" data-id=`${performance.id}` data-iamge=`${imgName}`)
 			div.ctrlBtnDelete
-				i(class="far fa-times-circle" data-id=`${performance.id}` data-rev=`${collaborator['dropboxRevision']}`)
+				i(class="far fa-times-circle" data-id=`${performance.id}` data-iamge=`${imgName}`)

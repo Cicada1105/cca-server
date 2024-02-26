@@ -6,13 +6,13 @@
 const PastPerformancesModel = require("../models/pastPerformancesModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData, convertToImage } = require("../../../utils");
+const { getBodyData } = require("../../../utils");
 
 async function addPerformance(req, res) {
 	// Get performance data from body
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary info for adding performance
-		let { name, description, location, instruments, date, img: { fileName, fileExtension, data } } = body;
+		let { name, description, location, instruments, date, img: { newFileName, data } } = body;
 
 		// Add new performance
 		await PastPerformancesModel.add({
@@ -22,9 +22,8 @@ async function addPerformance(req, res) {
 			instruments,
 			date,
 			img: {
-				fileExtension,
-				src: data,
-				alt: `${fileName} image`
+				newFileName,
+				data
 			}
 		}).then((msg) => {
 			res.status = 201;	
@@ -49,20 +48,17 @@ async function addPerformance(req, res) {
 async function updatePerformance(req, res) {
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary info for editing performance
-		let { id, name, description, location, instruments, date, img:{ fileName, fileType, data }} = body;
-
-		// Convert image data to image
-		let newFileName = fileName && convertToImage({ fileType, data });
-		let newFileAlt = fileName && `${fileName} image`;
+		let { id, name, description, location, instruments, date, img:{ oldFileName, newFileName, data }} = body;
 
 		// Update performance
 		await PastPerformancesModel.update({ 
 			id, name, description, 
 			location, date, 
 			instruments, 
-			img:{ 
-				fileName: newFileName,
-				alt: newFileAlt
+			img:{
+				oldFileName,
+				newFileName,
+				data
 			}
 		}).then((msg) => {
 			res.status = 200;

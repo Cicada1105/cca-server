@@ -11,15 +11,6 @@ function writeToFile(file,data) {
 	});
 }
 
-function convertToImage({ fileType, data }) {
-	let imgSouceAsBuffer = Buffer.from(data, 'base64');
-	let newFileName = `${uuid()}.${fileType}`;
-	let fileNamePath = `${process.cwd()}/assets/imgs`;
-
-	fs.writeFileSync( `${fileNamePath}/${newFileName}`, imgSouceAsBuffer );
-
-	return newFileName;
-}
 function removeFileExtension( file ) {
 	// Split file name by '.' to locate extension
 	let fileNameComponents = file.split('.');
@@ -30,18 +21,7 @@ function removeFileExtension( file ) {
 
 	return { fileName, fileExtension };
 }
-function removeImage(imgFileName) {
-	let assetImgsDir = `${process.cwd()}/assets/imgs`;
-
-	let imgFiles = fs.readdirSync( assetImgsDir, { withFileTypes: true });
-
-	imgFiles.forEach( file => {
-		if (file.name === imgFileName)
-			fs.unlinkSync( assetImgsDir + `/${imgFileName}`);
-	});
-}
 
 module.exports = { 
-	writeToFile, removeFileExtension, 
-	convertToImage, removeImage 
+	writeToFile, removeFileExtension 
 }

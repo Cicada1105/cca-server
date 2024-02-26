@@ -3,8 +3,6 @@
 // Require anecdote model
 import * as Anecdotes from '../../../models/performances/past/anecdotesModel.js';
 
-// Import utility functions
-import { removeFileExtension } from '../../utils.js';
 // Require callback functions shared by all controllers
 import { successCallback, failedCallback } from '../../utils.js';
 /*
@@ -17,7 +15,6 @@ function addAnecdote(event) {
 	let formEls = form.elements;
 
 	let file = formEls["imgFile"].files[0];
-	let { fileName, fileExtension } = removeFileExtension(file.name);
 	// Convert file to array buffer to be sent and stored in request
 	let myReader = new FileReader();
 	myReader.readAsArrayBuffer(file);
@@ -31,8 +28,7 @@ function addAnecdote(event) {
 			title: formEls["title"].value,
 			anecdote: formEls["anecdote"].value,
 			img: {
-				fileName,
-				fileExtension,
+				newFileName: file.name,
 				data: bufferValues
 			}
 		}
@@ -66,15 +62,18 @@ function updateAnecdote(event) {
 	// Check if new image was selected
 	if (files.length === 1) {
 		let file = files[0];
-		let { fileName, fileExtension } = removeFileExtension(file.name);
 		// Convert file to array buffer to be sent and stored in request
 		let myReader = new FileReader();
-		myReader.readAsBinaryString(file);
+		myReader.readAsArrayBuffer(file);
 		myReader.onloadend = function() {
+			let buffer = myReader.result;
+			let uInt8ArrayBuffer = new Uint8Array(buffer);
+			let bufferValues = Object.values(uInt8ArrayBuffer);
+
 			updatedAnecdote.img = {
-				fileName,
-				fileType: file.type.split('/')[1],
-				data: btoa(myReader.result)
+				oldFileName: event.target.dataset['image'],
+				newFileName: file.name,
+				data: bufferValues
 			}
 
 			Anecdotes.update(updatedAnecdote).then(successCallback).catch(failedCallback);

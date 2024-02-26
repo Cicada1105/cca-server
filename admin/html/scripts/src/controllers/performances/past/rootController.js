@@ -4,7 +4,7 @@
 import * as PastPerformances from "../../../models/performances/past/rootModel.js";
 
 // Import utility functions
-import { formatDate, removeFileExtension } from '../../utils.js';
+import { formatDate } from '../../utils.js';
 // Require callback functions shared by all controllers
 import { successCallback, failedCallback } from '../../utils.js';
 /*
@@ -17,7 +17,6 @@ function addPastPerformance(event) {
 	let formEls = form.elements;
 
 	let file = formEls["imgFile"].files[0];
-	let { fileName, fileExtension } = removeFileExtension(file.name);
 	// Store values of instruments in array
 	let instrumentsArray = [];
 	let instrumentsUL = form.querySelector("#instruments");
@@ -39,8 +38,7 @@ function addPastPerformance(event) {
 			instruments:instrumentsArray,
 			date:formattedDate,
 			img: {
-				fileName,
-				fileExtension,
+				newFileName: file.name,
 				data: bufferValues
 			}
 		}
@@ -83,16 +81,18 @@ function updatePastPerformance(event) {
 	// Check if new image was chosen
 	if (files.length === 1) { // Create file reader to retrieve file
 		let file = files[0];
-		let { fileName, fileExtension } = removeFileExtension(file.name);
 		// Convert file to array buffer to be sent and stored in request
 		let myReader = new FileReader();
-		myReader.readAsBinaryString(file);
+		myReader.readAsArrayBuffer(file);
 		myReader.onloadend = function() {
+			let buffer = myReader.result;
+			let uInt8ArrayBuffer = new Uint8Array(buffer);
+			let bufferValues = Object.values(uInt8ArrayBuffer);
 			// Add image data to updatedPerformance
 			updatedPerformance.img = {
-				fileName,
-				fileType: file.type.split('/')[1],
-				data: btoa(myReader.result)
+				oldFileName: event.target.dataset['image'],
+				newFileName: file.name,
+				data: bufferValues
 			}
 
 			PastPerformances.update(updatedPerformance).then(successCallback).catch(failedCallback);

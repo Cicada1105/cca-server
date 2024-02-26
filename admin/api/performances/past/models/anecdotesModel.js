@@ -5,42 +5,36 @@
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 
 // Import utility function for removing an image
-const { uploadDropboxImage, createSharedLink, removeImage } = require('../../../utils');
+const { 
+	uploadDropboxImage, updateDropboxImage, removeFileExtension 
+} = require('../../../utils');
 
 /*
 	Futture add documentation
 */
-function add(anecdote) {
+function add(newAnecdote) {
 	return new Promise(async (resolve,reject) => {
-		let imgData = anecdote['img'].src;
-		let imgFileType = anecdote['img'].fileExtension;
+		let { name, title, anecdote, img } = newAnecdote;
+		let { newFileName, data } = img;
 
+		// Define the base attributes for the new anecdote
+		let formattedAnecdote = { name, title, anecdote }
 		// Create Uint8Array with the array passed in
-		let buffer = new Uint8Array(imgData);
+		let buffer = new Uint8Array(data);
+		// Retrieve the new image file extension to ensure newly created Dropbox image has proper extension
+		let { fileExtension } = removeFileExtension( newFileName );
 		// Upload the image to Dropbox
-		let { name, rev } = await uploadDropboxImage( buffer, imgFileType );
-		// Create a shared link to be used to access the image
-		let { url } = await createSharedLink( name ) ;
+		let dropboxImageURL = await uploadDropboxImage( buffer, fileExtension );
 
-		// Convert the URL to a Node URL object to update parameters
-		let newURL = new URL( url );
-		newURL.searchParams.set( 'dl', 1 );
-
-		let dropboxImageURL = newURL.href;
-
-		// Overwrite existing Anecdote image values
-		anecdote['img'] = {
-			...anecdote['img'],
-			src: dropboxImageURL,
-			dropboxRevision: rev
+		// Add image src as the new Dropbox URL
+		formattedAnecdote['img'] = {
+			src: dropboxImageURL
 		}
-		// File extension is not needed to be stored in the database
-		delete anecdote['img']['fileExtension'];
 		
 		getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
 			try {
-				await collection.insertOne(anecdote);
-				resolve(`Successfully added anecdote by ${anecdote.name}`);
+				await collection.insertOne(formattedAnecdote);
+				resolve(`Successfully added anecdote by ${formattedAnecdote.name}`);
 			} catch(e) {
 				reject("Internal Server Error. Try again later");
 			} finally {
@@ -57,17 +51,19 @@ function update(editedAnecdote) {
 	return new Promise((resolve,reject) => {
 		getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
 			let { id, name, title, anecdote, img } = editedAnecdote;
-
+			// Define the base attributes for the anecdote to be updated
 			let updatedAnecdote = { name, title, anecdote };
+			// If a new image has been sent, update anecdote accordingly
+			if (img.data) {
+				let { oldFileName, newFileName, data } = img;
+				// Create Uint8Array with the array passed in
+				let buffer = new Uint8Array(data);
+				// Upload the image to Dropbox
+				let dropboxImageURL = await updateDropboxImage( oldFileName, newFileName, buffer );
 
-			if (img.fileName) {
-				updatedAnecdote = { 
-					...updatedAnecdote, 
-					img: { 
-						src: img.fileName, 
-						alt: img.alt
-					} 
-				}
+				updatedAnecdote['img'] = {
+					src: dropboxImageURL
+				};
 			}
 
 			let result = await collection.findOneAndUpdate({
@@ -78,10 +74,7 @@ function update(editedAnecdote) {
 
 			// Close connection now that database operations are done
 			closeConnection();
-
-			if (img.fileName)
-				removeImage(result['value']['img'].src);
-
+			
 			if (result.ok) {
 				let { value: { name }} = result;
 				resolve(`Successfully updated anecdote by ${name}`);
@@ -104,9 +97,6 @@ function remove(anecdoteID) {
 
 			// Close connection now that database operations are done
 			closeConnection();
-
-			// Remove server image associated with database stored anecdote
-			removeImage(result['value']['img'].src);
 
 			if (result.ok) {
 				let { value: { name } } = result;

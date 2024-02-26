@@ -23,16 +23,6 @@ function formatDate(date) {
 
 	return formattedStr;
 }
-function removeFileExtension( file ) {
-	// Split file name by '.' to locate extension
-	let fileNameComponents = file.split('.');
-	// Remove only the extension (Account for names possibly with additionl periods)
-	let fileExtension = fileNameComponents.splice(-1)[0];
-	// Join remaining name of file by understcore
-	let fileName = fileNameComponents.join("_");
-
-	return { fileName, fileExtension };
-}
 function successCallback(result) {
 	let { msg, status } = result;
 	alert(`${status}: ${msg}`);
@@ -48,6 +38,5 @@ function failedCallback(error) {
 }
 
 export { 
-	formatDate, removeFileExtension,
-	successCallback, failedCallback 
+	formatDate, successCallback, failedCallback 
 }

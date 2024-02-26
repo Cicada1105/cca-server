@@ -6,20 +6,19 @@
 const CollaboratorsModel = require("../models/collaboratorsModel.js");
 
 // Import utility function for handling the retrieval of body data
-const { getBodyData, convertToImage } = require("../../../utils");
+const { getBodyData } = require("../../../utils");
 
 async function addCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { name, title, description, img: { fileName, fileExtension, data }} = body;
+		let { name, title, description, img: { newFileName, data }} = body;
 
 		await CollaboratorsModel.add({
 			name,
 			title,
 			description,
 			img: {
-				fileExtension,
-				src: data,
-				alt: `${fileName} image`
+				newFileName,
+				data
 			}
 		}).then((msg) => {
 			res.status = 201;

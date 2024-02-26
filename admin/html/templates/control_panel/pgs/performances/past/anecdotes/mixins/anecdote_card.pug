@@ -1,13 +1,17 @@
 //- This file is a template for the anecdotes info
 mixin anecdoteCard(anecdote)
 	section.card.anecdoteCard
-		img(src=`${anecdote.img.src}` alt=`${anecdote.img.alt}`)
+		img(src=`${anecdote.img.src}` alt=`${imgName} image`)
 		h2.name #{anecdote.name}
 		<span style="font-size:0.9rem">Title:</span> <h4 class="title" style="display:inline-block">#{anecdote.title}</h4><br />
 		p.anecdote #{anecdote.anecdote}
 		aside.controlsCont
+			-
+				let imgURL = new URL(anecdote['img']['src']);
+				let paths = imgURL['pathname'].split('/');
+				let imgName = paths[paths.length - 1];
 			span.msg
 			div.ctrlBtnEdit
-				i(class="far fa-edit" data-id=`${anecdote['_id']}` data-rev=`${collaborator['dropboxRevision']}`)
+				i(class="far fa-edit" data-id=`${anecdote['_id']}` data-image=`${imgName}`)
 			div.ctrlBtnDelete
-				i(class="far fa-times-circle" data-id=`${anecdote['_id']}` data-rev=`${collaborator['dropboxRevision']}`)
+				i(class="far fa-times-circle" data-id=`${anecdote['_id']}` data-image=`${imgName}`)

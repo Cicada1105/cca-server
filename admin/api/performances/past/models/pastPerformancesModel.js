@@ -3,7 +3,9 @@
 */
 const utils = require('util');
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
-const { uploadDropboxImage, createSharedLink, removeImage } = require('../../../utils');
+const { 
+	uploadDropboxImage, updateDropboxImage, removeFileExtension 
+} = require('../../../utils');
 
 // Local
 const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
@@ -15,26 +17,19 @@ const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
 */
 function add(newPerformance) {
 	return new Promise(async (resolve,reject) => {
-		let imgData = newPerformance['img'].src;
-		let imgFileType = newPerformance['img'].fileExtension;
+		let { name, description, location, date, instruments, img } = newPerformance;
+		let { newFileName, data } = img;
+
 		// Create Uint8Array with the array passed in
-		let buffer = new Uint8Array(imgData);
+		let buffer = new Uint8Array(data);
+		// Retrieve the new image file extension to ensure newly created Dropbox image has proper extension
+		let { fileExtension } = removeFileExtension( newFileName );
 		// Upload the image to Dropbox
-		let { name, rev } = await uploadDropboxImage( buffer, imgFileType );
-		// Create a shared link to be used to access the image
-		let { url } = await createSharedLink( name ) ;
+		let dropboxImageURL = await uploadDropboxImage( buffer, fileExtension );
 
-		// Convert the URL to a Node URL object to update parameters
-		let newURL = new URL( url );
-		newURL.searchParams.set( 'dl', 1 );
-
-		let dropboxImageURL = newURL.href;
-
-		// Overwrite existing Anecdote image values
+		// Add image src as the new Dropbox URL
 		newPerformance['img'] = {
-			...newPerformance['img'],
-			src: dropboxImageURL,
-			dropboxRevision: rev
+			src: dropboxImageURL
 		}
 
 		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
@@ -50,9 +45,7 @@ function add(newPerformance) {
 						date: newPerformance['date'], 
 						instruments: newPerformance['instruments'], 
 						img: {
-							src: newPerformance['img']['src'],
-							alt: newPerformance['img']['alt'],
-							dropboxPath: newPerformance['img']['dropboxPath']
+							src: newPerformance['img']['src']
 						}
 					}
 				}
@@ -85,12 +78,17 @@ function update(editedPerformance) {
 				'past.performances.$[el].instruments': instruments
 			};
 
-			if (img.fileName) {
+			if (img.data) {
+				let { oldFileName, newFileName, data } = img;
+				// Create Uint8Array with the array passed in
+				let buffer = new Uint8Array(data);
+				// Upload the image to Dropbox
+				let dropboxImageURL = await updateDropboxImage( oldFileName, newFileName, buffer );
+
 				updatedPerformance = { 
 					...updatedPerformance, 
-					'past.performances.$[el].img': { 
-						src: img.fileName,
-						alt: img.alt 
+					'past.performances.$[el].img': {
+						src: dropboxImageURL
 					}
 				}
 			}
@@ -102,15 +100,6 @@ function update(editedPerformance) {
 			}, {
 				arrayFilters: [{ 'el.id': new ObjectId(id) }]
 			});
-
-			if (img.fileName) {
-				// Retrieve original performance updated to get the old file name in order to delete it from the server
-				let oldPerformance = result['value']['past']['performances'].find( performance => {
-					return performance.id == id;
-				});
-
-				removeImage(oldPerformance['img'].src);	
-			}
 
 			// Close connection now that database operations are done
 			closeConnection();
@@ -142,13 +131,6 @@ function remove(performanceID) {
 
 			// Close connection now that database operations are done
 			closeConnection();
-
-			// Retrieve original performance updated to get the old file name in order to delete it from the server
-			let oldPerformance = result['value']['past']['performances'].find( performance => {
-				return performance.id == performanceID;
-			});
-
-			removeImage(oldPerformance['img'].src);
 
 			if (result.ok) {
 				resolve("Successfully removed past performance!");
