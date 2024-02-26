@@ -1,7 +1,7 @@
 //- This file is a template for the past performance info
 mixin pastPerformanceCard(performance)
 	section.card.pastCard
-		img(src=`${performance.img.src}` alt=`${imgName} image`)
+		img(src=`${performance.img.src}` alt=`${performance.name} image`)
 		h2.title #{performance.name}
 		article.subHeaderCont
 			h4.location #{performance.location}

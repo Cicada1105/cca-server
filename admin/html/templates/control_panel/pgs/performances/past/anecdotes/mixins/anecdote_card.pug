@@ -1,7 +1,7 @@
 //- This file is a template for the anecdotes info
 mixin anecdoteCard(anecdote)
 	section.card.anecdoteCard
-		img(src=`${anecdote.img.src}` alt=`${imgName} image`)
+		img(src=`${anecdote.img.src}` alt=`${anecdote.name} image`)
 		h2.name #{anecdote.name}
 		<span style="font-size:0.9rem">Title:</span> <h4 class="title" style="display:inline-block">#{anecdote.title}</h4><br />
 		p.anecdote #{anecdote.anecdote}
