@@ -90,14 +90,14 @@ function update(editedAnecdote) {
 	Future delete documentation
 */
 function remove({ id, oldFileName }) {
-	return new Promise((resolve,reject) => {
-		getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
-			let dropboxResponse = await deleteDropboxImage( `/Uploads/${oldFileName}` );
+	return new Promise(async (resolve,reject) => {
+		let dropboxResponse = await deleteDropboxImage( `/Uploads/${oldFileName}` );
 
-			if( 'error' in dropboxResponse ) {
-				reject("Internal Server Error. Try again later");
-			}
-			else {
+		if( 'error' in dropboxResponse ) {
+			reject("Internal Server Error. Try again later");
+		}
+		else {
+			getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
 				let result = await collection.findOneAndDelete({
 					_id: new ObjectId(id)
 				});
@@ -107,13 +107,14 @@ function remove({ id, oldFileName }) {
 
 				if (result.ok) {
 					let { value: { name } } = result;
+					
 					resolve(`Successfully removed anecdote by ${name}`);
 				}
 				else {
 					reject("Internal Server Error. Try again later");
-				}	
-			}
-		})
+				}
+			})
+		}
 	})
 }
 
