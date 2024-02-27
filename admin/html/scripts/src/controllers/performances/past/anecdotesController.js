@@ -88,9 +88,15 @@ function updateAnecdote(event) {
 */
 function removeAnecdote(event) {
 	// Get and store id of current anecdote
-	let anecdoteID = event.target.dataset["id"];
+	let id = event.target.dataset['id'];
+	let oldFileName = event.target.dataset['image'];	
 
-	Anecdotes.remove(anecdoteID).then(successCallback).catch(failedCallback);
+	let anecdoteToRemove = {
+		id,
+		oldFileName
+	};
+
+	Anecdotes.remove(anecdoteToRemove).then(successCallback).catch(failedCallback);
 }
 
 export { addAnecdote, updateAnecdote, removeAnecdote }

@@ -54,11 +54,14 @@ function update({ id, name, title, anecdote, img: { oldFileName, newFileName, da
 /*
 	Future remove documentation
 */
-function remove(anecdoteID) {
+function remove({ id, oldFileName }) {
 	return makeRequest(
 		ANECDOTES_PATH,
 		"DELETE",
-		{ id: anecdoteID }
+		{ 
+			id,
+			oldFileName
+		}
 	)
 }
 

@@ -65,9 +65,12 @@ async function updateAnecdote(req,res) {
 }
 async function removeAnecdote(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { id } = body;
+		let { id, oldFileName } = body;
 
-		await AnecdotesModel.remove(id).then((msg) => {
+		await AnecdotesModel.remove({
+			id,
+			oldFileName
+		}).then((msg) => {
 			res.status = 200;
 			res.end(JSON.stringify({ msg }));
 		}).catch((err) => {

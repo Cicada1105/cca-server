@@ -6,7 +6,8 @@ const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongod
 
 // Import utility function for removing an image
 const { 
-	uploadDropboxImage, updateDropboxImage, removeFileExtension 
+	uploadDropboxImage, updateDropboxImage, 
+	deleteDropboxImage, removeFileExtension 
 } = require('../../../utils');
 
 /*
@@ -88,22 +89,29 @@ function update(editedAnecdote) {
 /*
 	Future delete documentation
 */
-function remove(anecdoteID) {
+function remove({ id, oldFileName }) {
 	return new Promise((resolve,reject) => {
 		getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
-			let result = await collection.findOneAndDelete({
-				_id: new ObjectId(anecdoteID)
-			});
+			let dropboxResponse = await deleteDropboxImage( `/Uploads/${oldFileName}` );
 
-			// Close connection now that database operations are done
-			closeConnection();
-
-			if (result.ok) {
-				let { value: { name } } = result;
-				resolve(`Successfully removed anecdote by ${name}`);
+			if( 'error' in dropboxResponse ) {
+				reject("Internal Server Error. Try again later");
 			}
 			else {
-				reject("Internal Server Error. Try again later");
+				let result = await collection.findOneAndDelete({
+					_id: new ObjectId(id)
+				});
+
+				// Close connection now that database operations are done
+				closeConnection();
+
+				if (result.ok) {
+					let { value: { name } } = result;
+					resolve(`Successfully removed anecdote by ${name}`);
+				}
+				else {
+					reject("Internal Server Error. Try again later");
+				}	
 			}
 		})
 	})

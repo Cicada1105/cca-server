@@ -6,7 +6,8 @@
 const { writeToFile, removeFileExtension, removeImage } = require('./file-handling.js');
 //	Dropbox
 const {
-	uploadDropboxImage, updateDropboxImage, makeDropboxRequest
+	uploadDropboxImage, updateDropboxImage, 
+	deleteDropboxImage, makeDropboxRequest
 } = require('./dropbox.js');
 //	Miscelaneous
 const { getBodyData } = require('./misc.js');
@@ -14,6 +15,7 @@ const { getBodyData } = require('./misc.js');
 
 module.exports = {
 	writeToFile, removeFileExtension, removeImage,
-	uploadDropboxImage, updateDropboxImage, 
-	makeDropboxRequest, getBodyData
+	uploadDropboxImage, updateDropboxImage,
+	deleteDropboxImage, makeDropboxRequest, 
+	getBodyData
 }
