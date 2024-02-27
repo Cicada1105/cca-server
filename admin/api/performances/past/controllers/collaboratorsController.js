@@ -65,9 +65,12 @@ async function updateCollaborator(req,res) {
 }
 async function removeCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {
-		let { id } = body;
+		let { id, oldFileName } = body;
 
-		await CollaboratorsModel.remove(id).then((msg) => {
+		await CollaboratorsModel.remove({
+			id,
+			oldFileName
+		}).then((msg) => {
 			res.status = 200;
 			res.end(JSON.stringify({ msg }));
 		}).catch((err) => {

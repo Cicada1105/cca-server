@@ -6,7 +6,8 @@ const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongod
 
 // Dropbox and image handling utility functions
 const { 
-	uploadDropboxImage, updateDropboxImage, removeFileExtension
+	uploadDropboxImage, updateDropboxImage, 
+	deleteDropboxImage, removeFileExtension
 } = require('../../../utils');
 
 /*
@@ -88,26 +89,33 @@ function update(editedCollaborator) {
 /*
 	Future delete documentation
 */
-function remove(collaboratorID) {
-	return new Promise((resolve,reject) => {
-		getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
-			let result = await collection.findOneAndDelete({
-				_id: new ObjectId(collaboratorID)
-			});
+function remove({ id, oldFileName }) {
+	return new Promise(async (resolve,reject) => {
+		let dropboxResponse = await deleteDropboxImage( `/Uploads/${oldFileName}` );
 
-			// Close connection now that database operations are done
-			closeConnection();
+		if ( 'error' in dropboxResponse ) {
+			reject("Internal Server Error. Try again later");
+		}
+		else {
+			getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
+				let result = await collection.findOneAndDelete({
+					_id: new ObjectId(id)
+				});
 
-			if (result.ok) {
-				// Retrieve affected document to notify user of changes
-				let { value: { name } } = result;
+				// Close connection now that database operations are done
+				closeConnection();
 
-				resolve(`Successfully removed ${name} from collaborators!`);
-			}
-			else {
-				reject("Internal Server Error. Try again later");
-			}
-		});
+				if (result.ok) {
+					// Retrieve affected document to notify user of changes
+					let { value: { name } } = result;
+
+					resolve(`Successfully removed ${name} from collaborators!`);
+				}
+				else {
+					reject("Internal Server Error. Try again later");
+				}
+			});	
+		}
 	})
 }
 

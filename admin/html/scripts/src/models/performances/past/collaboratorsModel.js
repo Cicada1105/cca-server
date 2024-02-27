@@ -54,11 +54,14 @@ function update({ id, name, title, description, img: { oldFileName, newFileName,
 /*
 	Future remove documentation
 */
-function remove(collaboratorID) {
+function remove({ id, oldFileName }) {
 	return makeRequest(
 		COLLABORATORS_PATH,
 		"DELETE",
-		{ id: collaboratorID }
+		{ 
+			id,
+			oldFileName
+		}
 	)
 }
 

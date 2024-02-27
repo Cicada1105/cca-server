@@ -88,9 +88,15 @@ function updateCollaborator(event) {
 */
 function removeCollaborator(event) {
 	// Get and store ID of current collaborator
-	let collaboratorID = event.target.dataset["id"];
+	let id = event.target.dataset['id'];
+	let oldFileName = event.target.dataset['image'];
 
-	Collaborators.remove(collaboratorID).then(successCallback).catch(failedCallback);
+	let collaboratorToRemove = {
+		id,
+		oldFileName
+	};
+
+	Collaborators.remove(collaboratorToRemove).then(successCallback).catch(failedCallback);
 }
 
 export { addCollaborator, updateCollaborator, removeCollaborator }
