@@ -74,9 +74,12 @@ async function updatePerformance(req, res) {
 async function removePerformance(req, res) {
 	await getBodyData(req).then(async (body) => {
 		// Pull out only necessary attributes from body to remove past performance
-		let { id } = body;
+		let { id, oldFileName } = body;
 
-		await PastPerformancesModel.remove(id).then((msg) => {
+		await PastPerformancesModel.remove({ 
+			id,
+			oldFileName
+		}).then((msg) => {
 			res.status = 200;
 			res.end(JSON.stringify({ msg }));			
 		}).catch((err) => {

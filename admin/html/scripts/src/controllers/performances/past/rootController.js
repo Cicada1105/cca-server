@@ -107,9 +107,15 @@ function updatePastPerformance(event) {
 */
 function removePastPerformance(event) {
 	// Get and store id of current past performance
-	let performanceID = event.target.dataset.id;
+	let id = event.target.dataset['id'];
+	let oldFileName = event.target.dataset['image'];
 
-	PastPerformances.remove(performanceID).then(successCallback).catch(failedCallback);
+	let pastPerformanceToRemove = {
+		id,
+		oldFileName
+	};
+
+	PastPerformances.remove(pastPerformanceToRemove).then(successCallback).catch(failedCallback);
 }
 
 export { addPastPerformance, updatePastPerformance, removePastPerformance }

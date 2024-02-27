@@ -56,11 +56,14 @@ function update({ id, name, description, location, instruments, date, img:{ oldF
 /*
 	Future remove documentation
 */
-function remove(performanceID) {
+function remove({ id, oldFileName }) {
 	return makeRequest(
 		PAST_PERFORMANCES_PATH,
 		"DELETE",
-		{ id: performanceID }
+		{ 
+			id,
+			oldFileName
+		}
 	)
 }
 

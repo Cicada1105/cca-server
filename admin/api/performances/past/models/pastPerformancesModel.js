@@ -4,13 +4,14 @@
 const utils = require('util');
 const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongodb.js');
 const { 
-	uploadDropboxImage, updateDropboxImage, removeFileExtension 
+	uploadDropboxImage, updateDropboxImage,
+	deleteDropboxImage, removeFileExtension 
 } = require('../../../utils');
 
 // Local
-//const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
+const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
 // Remote
-const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
+// const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
 
 /*
 	Future add documentation
@@ -116,29 +117,36 @@ function update(editedPerformance) {
 /*
 	Future remove documentation
 */
-function remove(performanceID) {
-	return new Promise((resolve,reject) => {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
-			let result = await collection.findOneAndUpdate({
-				_id: new ObjectId(PERFORMANCES_ID)
-			}, {
-				$pull: {
-					'past.performances': {
-						id: new ObjectId(performanceID)
+function remove({ id, oldFileName }) {
+	return new Promise(async (resolve,reject) => {
+		let dropboxResponse = await deleteDropboxImage( `/Uploads/${oldFileName}` );
+
+		if ( 'error' in dropboxResponse ) {
+			reject("Internal Server Error. Try again later");
+		}
+		else {
+			getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+				let result = await collection.findOneAndUpdate({
+					_id: new ObjectId(PERFORMANCES_ID)
+				}, {
+					$pull: {
+						'past.performances': {
+							id: new ObjectId(id)
+						}
 					}
+				});
+
+				// Close connection now that database operations are done
+				closeConnection();
+
+				if (result.ok) {
+					resolve("Successfully removed past performance!");
 				}
-			});
-
-			// Close connection now that database operations are done
-			closeConnection();
-
-			if (result.ok) {
-				resolve("Successfully removed past performance!");
-			}
-			else {
-				reject("Internal Server Error. Try again later");
-			}
-		});
+				else {
+					reject("Internal Server Error. Try again later");
+				}
+			});	
+		}
 	})
 }
 
