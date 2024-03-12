@@ -25,48 +25,61 @@ function add(newAnecdote) {
 		// Retrieve the new image file extension to ensure newly created Dropbox image has proper extension
 		let { fileExtension } = removeFileExtension( newFileName );
 		// Upload the image to Dropbox
-		let dropboxImageURL = await uploadDropboxImage( buffer, fileExtension );
+		let dropboxResponse = await uploadDropboxImage( buffer, fileExtension );
 
-		// Add image src as the new Dropbox URL
-		formattedAnecdote['img'] = {
-			src: dropboxImageURL
+		if ( typeof dropboxResponse === 'object' && 'error' in dropboxResponse ) {
+			reject("Internal Server Error. Try again later");
 		}
-		
-		getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
-			try {
-				await collection.insertOne(formattedAnecdote);
-				resolve(`Successfully added anecdote by ${formattedAnecdote.name}`);
-			} catch(e) {
-				reject("Internal Server Error. Try again later");
-			} finally {
-				// Close connection now that database operations are done
-				closeConnection();
+		else {
+			let dropboxImageURL = dropboxResponse;
+			
+			// Add image src as the new Dropbox URL
+			formattedAnecdote['img'] = {
+				src: dropboxImageURL
 			}
-		});
+			
+			getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
+				try {
+					await collection.insertOne(formattedAnecdote);
+					resolve(`Successfully added anecdote by ${formattedAnecdote.name}`);
+				} catch(e) {
+					reject("Internal Server Error. Try again later");
+				} finally {
+					// Close connection now that database operations are done
+					closeConnection();
+				}
+			});
+		}
 	})
 }
 /*
 	Future update documentation
 */
 function update(editedAnecdote) {
-	return new Promise((resolve,reject) => {
-		getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
-			let { id, name, title, anecdote, img } = editedAnecdote;
-			// Define the base attributes for the anecdote to be updated
-			let updatedAnecdote = { name, title, anecdote };
-			// If a new image has been sent, update anecdote accordingly
-			if (img.data) {
-				let { oldFileName, newFileName, data } = img;
-				// Create Uint8Array with the array passed in
-				let buffer = new Uint8Array(data);
-				// Upload the image to Dropbox
-				let dropboxImageURL = await updateDropboxImage( oldFileName, newFileName, buffer );
+	return new Promise(async (resolve,reject) => {
+		let { id, name, title, anecdote, img } = editedAnecdote;
+		// Define the base attributes for the anecdote to be updated
+		let updatedAnecdote = { name, title, anecdote };
+		// If a new image has been sent, update anecdote accordingly
+		if (img.data) {
+			let { oldFileName, newFileName, data } = img;
+			// Create Uint8Array with the array passed in
+			let buffer = new Uint8Array(data);
+			// Upload the image to Dropbox
+			let dropboxResponse = await updateDropboxImage( oldFileName, newFileName, buffer );
+
+			if ( typeof dropboxResponse === 'object' && 'error' in dropboxResponse ) {
+				reject("Internal Server Error. Try again later");
+			}
+			else {
+				let dropboxImageURL = dropboxResponse;
 
 				updatedAnecdote['img'] = {
 					src: dropboxImageURL
 				};
 			}
-
+		}
+		getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(id)
 			}, {

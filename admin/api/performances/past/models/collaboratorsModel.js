@@ -26,48 +26,60 @@ function add(collaborator) {
 		// Retrieve the new image file extension to ensure newly created Dropbox image has proper extension
 		let { fileExtension } = removeFileExtension( newFileName );
 		// Upload the image to Dropbox
-		let dropboxImageURL = await uploadDropboxImage( buffer, fileExtension );
+		let dropboxResponse = await uploadDropboxImage( buffer, fileExtension );
 
-		// Add image src as the new Dropbox URL
-		newCollaborator['img'] = {
-			src: dropboxImageURL
+		if ( typeof dropboxResponse === 'object' && 'error' in dropboxResponse ) {
+			reject("Internal Server Error. Try again later");
 		}
-
-		getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
-			try {
-				await collection.insertOne(newCollaborator);
-
-				resolve(`Successfully added new collaborator: ${collaborator.name}`);				
-			} catch(e) {
-				reject("Internal Server Error. Try again later");
-			} finally {
-				// Close connection now that database operations are done
-				closeConnection();
+		else {
+			let dropboxImageURL = dropboxResponse;
+			// Add image src as the new Dropbox URL
+			newCollaborator['img'] = {
+				src: dropboxImageURL
 			}
-		});
+
+			getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
+				try {
+					await collection.insertOne(newCollaborator);
+
+					resolve(`Successfully added new collaborator: ${collaborator.name}`);				
+				} catch(e) {
+					reject("Internal Server Error. Try again later");
+				} finally {
+					// Close connection now that database operations are done
+					closeConnection();
+				}
+			});
+		}
 	})
 }
 /*
 	Future update documentation
 */
 function update(editedCollaborator) {
-	return new Promise((resolve,reject) => {
-		getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
-			let { id, name, title, description, img } = editedCollaborator;
-			// Define the base attributes for the collaborator to be updated
-			let updatedCollaborator = { name, title, description };
-			// If a new image has been sent, update collaborator accordingly
-			if (img.data) {
-				let { oldFileName, newFileName, data } = img;
-				// Create Uint8Array with the array passed in
-				let buffer = new Uint8Array(data);
-				// Upload the image to Dropbox
-				let dropboxImageURL = await updateDropboxImage( oldFileName, newFileName, buffer );
+	return new Promise(async (resolve,reject) => {
+		let { id, name, title, description, img } = editedCollaborator;
+		// Define the base attributes for the collaborator to be updated
+		let updatedCollaborator = { name, title, description };
+		// If a new image has been sent, update collaborator accordingly
+		if (img.data) {
+			let { oldFileName, newFileName, data } = img;
+			// Create Uint8Array with the array passed in
+			let buffer = new Uint8Array(data);
+			// Upload the image to Dropbox
+			let dropboxResponse = await updateDropboxImage( oldFileName, newFileName, buffer );
 
+			if ( typeof dropboxResponse === 'object' && 'error' in dropboxResponse ) {
+				reject("Internal Server Error. Try again later");
+			}
+			else {
+				let dropboxImageURL = dropboxResponse
 				updatedCollaborator['img'] = {
 					src: dropboxImageURL
-				};
+				};	
 			}
+		}
+		getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(id)
 			}, {

@@ -24,21 +24,31 @@ async function uploadDropboxImage( imageDataStream, fileExtension ) {
 		body: imageDataStream
 	};
 
-	let { name } = await makeDropboxRequest(args);
-	// Create a shared link to be used to access the image
-	let { url } = await createSharedLink( name ) ;
+	let dropboxResponse = await makeDropboxRequest(args);
+	if ( 'error' in dropboxResponse ) {
+		return dropboxResponse;
+	}
+	else {
+		let { name } = dropboxResponse;
+		// Create a shared link to be used to access the image
+		let { url } = await createSharedLink( name ) ;
 
-	// Convert the URL to a Node URL object to update parameters
-	let newURL = new URL( url );
-	newURL.searchParams.set( 'dl', 1 );
+		// Convert the URL to a Node URL object to update parameters
+		let newURL = new URL( url );
+		newURL.searchParams.set( 'dl', 1 );
 
-	let dropboxImageURL = newURL.href;
+		let dropboxImageURL = newURL.href;
 
-	return dropboxImageURL;
+		return dropboxImageURL;	
+	}
 }
 async function updateDropboxImage( oldFileName, newFileName, imageDataStream ) {
 	// Remove old Dropbox image
-	await deleteDropboxImage( `/Uploads/${oldFileName}` );
+	let deleteDropboxImgResponse = await deleteDropboxImage( `/Uploads/${oldFileName}` );
+	if ( 'error' in deleteDropboxImgResponse ) {
+		return deleteDropboxImgResponse;
+	}
+	
 	// Retrieve the new image file extension to ensure newly created Dropbox image has proper extension
 	let { fileExtension } = removeFileExtension( newFileName );
 	// Upload image to Dropbox

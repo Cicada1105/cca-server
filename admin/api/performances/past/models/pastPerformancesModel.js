@@ -9,9 +9,9 @@ const {
 } = require('../../../utils');
 
 // Local
-const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
+// const PERFORMANCES_ID = '643f2c7902f9afc80224e7c3';
 // Remote
-// const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
+const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
 
 /*
 	Future add documentation
@@ -26,42 +26,48 @@ function add(newPerformance) {
 		// Retrieve the new image file extension to ensure newly created Dropbox image has proper extension
 		let { fileExtension } = removeFileExtension( newFileName );
 		// Upload the image to Dropbox
-		let dropboxImageURL = await uploadDropboxImage( buffer, fileExtension );
+		let dropboxResponse = await uploadDropboxImage( buffer, fileExtension );
 
-		// Add image src as the new Dropbox URL
-		newPerformance['img'] = {
-			src: dropboxImageURL
+		if ( typeof dropboxResponse === 'object' && 'error' in dropboxResponse ) {
+			reject("Internal Server Error. Try again later");
 		}
+		else {
+			let dropboxImageURL = dropboxResponse;
+			// Add image src as the new Dropbox URL
+			newPerformance['img'] = {
+				src: dropboxImageURL
+			}
 
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
-			let result = await collection.findOneAndUpdate({
-				_id: new ObjectId(PERFORMANCES_ID)
-			}, {
-				$push: {
-					"past.performances": {
-						id: new ObjectId(),
-						name: newPerformance['name'],
-						description: newPerformance['description'], 
-						location: newPerformance['location'], 
-						date: newPerformance['date'], 
-						instruments: newPerformance['instruments'], 
-						img: {
-							src: newPerformance['img']['src']
+			getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+				let result = await collection.findOneAndUpdate({
+					_id: new ObjectId(PERFORMANCES_ID)
+				}, {
+					$push: {
+						"past.performances": {
+							id: new ObjectId(),
+							name: newPerformance['name'],
+							description: newPerformance['description'], 
+							location: newPerformance['location'], 
+							date: newPerformance['date'], 
+							instruments: newPerformance['instruments'], 
+							img: {
+								src: newPerformance['img']['src']
+							}
 						}
 					}
+				});
+
+				// Close connection now that database operations are done
+				closeConnection();
+
+				if (result.ok) {
+					resolve(`Successfully added new past performance: ${newPerformance['name']}`);
 				}
-			});
-
-			// Close connection now that database operations are done
-			closeConnection();
-
-			if (result.ok) {
-				resolve(`Successfully added new past performance: ${newPerformance['name']}`);
-			}
-			else {
-				reject("Internal Server Error. Try again later");
-			}
-		});
+				else {
+					reject("Internal Server Error. Try again later");
+				}
+			});	
+		}
 	})
 }
 /*
@@ -121,7 +127,7 @@ function remove({ id, oldFileName }) {
 	return new Promise(async (resolve,reject) => {
 		let dropboxResponse = await deleteDropboxImage( `/Uploads/${oldFileName}` );
 
-		if ( 'error' in dropboxResponse ) {
+		if ( typeof dropboxResponse === 'object' && 'error' in dropboxResponse ) {
 			reject("Internal Server Error. Try again later");
 		}
 		else {
