@@ -7,6 +7,8 @@ const querystring = require("querystring");
 const LoginModel = require("../models/");
 // Require create token for user logging in
 const { createToken } = require("../middleware/");
+// Use function for setting cookies
+const { setCookie } = require("../../utils");
 // Server link
 const SERVER = process.env.SERVER_URL;
 
@@ -28,10 +30,13 @@ function login(req,res) {
 			// Successfully logged in
 			// Create json web token
 			createToken(user).then(token => {
-				// Add token to url
-				let tokenURL = `${SERVER}/cca-admin-control-panel/?token=${token}`;
+				// Add token to cookie to expire in one day
+				const dayInSeconds = 60 * 60 * 24;
+				setCookie('token', token, dayInSeconds, res);
+
+				res.setHeader('Set-Cookie',`token=${token}`);
 				// Redirect to home page
-				res.writeHead(301,{"Location":tokenURL});
+				res.writeHead(301,{"Location":`${SERVER}/cca-admin-control-panel`});
 				res.end();
 			}).catch(err => {
 				// Error occurred, redirect to login

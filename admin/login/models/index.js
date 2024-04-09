@@ -3,7 +3,7 @@
 	Handles checking login info and possible creating user
 */
 // Require method to retrieve file data
-const { getFileData } = require("../../utils.js");
+const { getFileData } = require("../../utils");
 // Require bcrypt for checking hashes
 const bcrypt = require("bcrypt");
 

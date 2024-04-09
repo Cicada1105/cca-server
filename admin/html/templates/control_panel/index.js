@@ -5,8 +5,7 @@
 // Import pug 
 const pug = require('pug');
 
-// Import methods for retrieving token from url and file data
-const { getTokenFromURL } = require("../../../utils.js");
+// Import methods for retrieving database collections
 const { getDatabaseCollection } = require('../../../../utils/mongodb.js');
 
 // Import performance router
@@ -41,16 +40,12 @@ function Router(req,res) {
 			// Close connection now that operations are done
 			closeConnection();
 
-			// Retrieve token from url
-			const token = getTokenFromURL(req);
-
 			res.writeHead(200, {
 				"Content-Type":"text/html"
 			});
 			res.end(
 				fn({
-					"editing": data,
-					"token": token
+					"editing": data
 				})
 			);
 		});
@@ -64,16 +59,12 @@ function Router(req,res) {
 
 			closeConnection();
 
-			// Retrieve token from url
-			const token = getTokenFromURL(req);
-
 			res.writeHead(200, {
 				"Content-Type":"text/html"
 			});
 			res.end(
 				fn({
-					"reedmaking": data,
-					"token": token
+					"reedmaking": data
 				})
 			);
 		})
@@ -81,17 +72,12 @@ function Router(req,res) {
 	else if (ctrl_panel_url ===  "") { // Home page
 		// Define path to home pug template
 		fn = pug.compileFile(`${__dirname}/page_template.pug`);
-		
-		// Retrieve token from url
-		const token = getTokenFromURL(req);
 
 		res.writeHead(200, {
 			"Content-Type":"text/html"
 		});
 		res.end(
-			fn({
-				"token": token
-			})
+			fn()
 		);
 	}
 	else {

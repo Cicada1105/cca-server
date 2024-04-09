@@ -17,6 +17,8 @@ function add(collaborator) {
 	return new Promise(async (resolve,reject) => {
 		let { name, title, description, img } = collaborator;
 		let { newFileName, data } = img;
+		// Request for this action is stored in the 'this' defintion
+		let request = this;
 
 		// Define base attributes for the new collaborator to be added
 		let newCollaborator = { name, title, description };
@@ -25,8 +27,8 @@ function add(collaborator) {
 		let buffer = new Uint8Array(data);
 		// Retrieve the new image file extension to ensure newly created Dropbox image has proper extension
 		let { fileExtension } = removeFileExtension( newFileName );
-		// Upload the image to Dropbox
-		let dropboxResponse = await uploadDropboxImage( buffer, fileExtension );
+		// Upload the image to Dropbox, passing in request as 'this' parameter
+		let dropboxResponse = await uploadDropboxImage.call( request, buffer, fileExtension );
 
 		if ( typeof dropboxResponse === 'object' && 'error' in dropboxResponse ) {
 			reject("Internal Server Error. Try again later");
@@ -61,13 +63,16 @@ function update(editedCollaborator) {
 		let { id, name, title, description, img } = editedCollaborator;
 		// Define the base attributes for the collaborator to be updated
 		let updatedCollaborator = { name, title, description };
+		// Request for this action is stored in the 'this' defintion
+		let request = this;
+
 		// If a new image has been sent, update collaborator accordingly
 		if (img.data) {
 			let { oldFileName, newFileName, data } = img;
 			// Create Uint8Array with the array passed in
 			let buffer = new Uint8Array(data);
 			// Upload the image to Dropbox
-			let dropboxResponse = await updateDropboxImage( oldFileName, newFileName, buffer );
+			let dropboxResponse = await updateDropboxImage.call( request, oldFileName, newFileName, buffer );
 
 			if ( typeof dropboxResponse === 'object' && 'error' in dropboxResponse ) {
 				reject("Internal Server Error. Try again later");
@@ -103,7 +108,9 @@ function update(editedCollaborator) {
 */
 function remove({ id, oldFileName }) {
 	return new Promise(async (resolve,reject) => {
-		let dropboxResponse = await deleteDropboxImage( `/Uploads/${oldFileName}` );
+		// Request for this action is stored in the 'this' defintion
+		let request = this;
+		let dropboxResponse = await deleteDropboxImage.call( request, `/Uploads/${oldFileName}` );
 
 		if ( 'error' in dropboxResponse ) {
 			reject("Internal Server Error. Try again later");

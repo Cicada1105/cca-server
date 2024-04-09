@@ -5,8 +5,12 @@ const https = require('https');
 const { v4: uuid } = require('uuid');
 const { getBodyData } = require('./misc.js');
 const { removeFileExtension } = require('./file-handling.js');
+const { getCookie } = require('../../utils');
 
-async function uploadDropboxImage( imageDataStream, fileExtension ) {
+async function  uploadDropboxImage( imageDataStream, fileExtension ) {
+	const request = this;
+	const db_token = getCookie('db_token',request);
+
 	let dropBoxAPIArgs = {
 			autorename: false,
 			mute: false,
@@ -19,6 +23,7 @@ async function uploadDropboxImage( imageDataStream, fileExtension ) {
 		method: 'POST',
 		headers: {
 			'Dropbox-API-Arg' : JSON.stringify(dropBoxAPIArgs),
+			'Authorization': `Bearer ${db_token}`,
 			'Content-Type': 'application/octet-stream'
 		},
 		body: imageDataStream
@@ -31,7 +36,7 @@ async function uploadDropboxImage( imageDataStream, fileExtension ) {
 	else {
 		let { name } = dropboxResponse;
 		// Create a shared link to be used to access the image
-		let { url } = await createSharedLink( name ) ;
+		let { url } = await createSharedLink.call( db_token, name ) ;
 
 		// Convert the URL to a Node URL object to update parameters
 		let newURL = new URL( url );
@@ -43,8 +48,11 @@ async function uploadDropboxImage( imageDataStream, fileExtension ) {
 	}
 }
 async function updateDropboxImage( oldFileName, newFileName, imageDataStream ) {
+	// Request is passed in as 'this' definition
+	const request = this;
+
 	// Remove old Dropbox image
-	let deleteDropboxImgResponse = await deleteDropboxImage( `/Uploads/${oldFileName}` );
+	let deleteDropboxImgResponse = await deleteDropboxImage.call( request, `/Uploads/${oldFileName}` );
 	if ( 'error' in deleteDropboxImgResponse ) {
 		return deleteDropboxImgResponse;
 	}
@@ -52,9 +60,13 @@ async function updateDropboxImage( oldFileName, newFileName, imageDataStream ) {
 	// Retrieve the new image file extension to ensure newly created Dropbox image has proper extension
 	let { fileExtension } = removeFileExtension( newFileName );
 	// Upload image to Dropbox
-	return uploadDropboxImage( imageDataStream, fileExtension );
+	return uploadDropboxImage.call( request, imageDataStream, fileExtension );
 }
 async function deleteDropboxImage( imgPath ) {
+	// Request is passed in as 'this' definition
+	const request = this;
+	const db_token = getCookie('db_token', request);
+
 	let dropBoxAPIArgs = {
 		'path': imgPath
 	}
@@ -64,6 +76,7 @@ async function deleteDropboxImage( imgPath ) {
 		path: 'files/delete_v2',
 		method: 'POST',
 		headers: {
+			'Authorization': `Bearer ${db_token}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(dropBoxAPIArgs)
@@ -72,23 +85,28 @@ async function deleteDropboxImage( imgPath ) {
 	return await makeDropboxRequest(args);
 }
 async function createSharedLink(file) {
-	return await makeDropboxRequest({
+	// Request is passed in as 'this' definition
+	const db_token = this;
+
+	let data = await makeDropboxRequest({
 		hostname: 'api.dropboxapi.com',
 		path: 'sharing/create_shared_link_with_settings',
 		method: 'POST',
 		headers: {
+			'Authorization': `Bearer ${db_token}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
 			path: `/Uploads/${file}`	
 		})
 	});
+	
+	return data;
 }
 function makeDropboxRequest({ hostname, path, method, headers, body }) {
 	return new Promise(( resolve, reject ) => {
 		let _method = method || 'GET';
 		let _headers = {
-			'Authorization': `Bearer ${process.env.DROPBOX_ACCESS_TOKEN}`,
 			...headers
 		}
 		if ( !path || !hostname ) {

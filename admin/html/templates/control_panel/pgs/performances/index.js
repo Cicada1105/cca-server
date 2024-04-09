@@ -5,8 +5,7 @@
 // Import pug 
 const pug = require('pug');
 
-// Import method for retrieving token from url and file data
-const { getTokenFromURL } = require("../../../../../utils.js");
+// Import method for retrieving database collections
 const { getDatabaseCollection, ObjectId } = require('../../../../../../utils/mongodb.js');
 
 /*
@@ -27,7 +26,7 @@ function Router(req,res) {
 	let fn;
 	let data;
 	
-	let token = null;
+	// let token = null;
 	if (performances_url.startsWith("past")) {
 		let past_url = performances_url.substr(4); // Returns whatever comes after "past"
 		
@@ -41,9 +40,6 @@ function Router(req,res) {
 
 					fn = pug.compileFile(`${__dirname}/past/root/index.pug`);
 
-					// Retrieve token from url
-					token = getTokenFromURL(req);
-
 					// Format performnce images to include server url
 					let imgSrc;
 					data[0]['past'].performances.forEach( performance => {
@@ -55,8 +51,7 @@ function Router(req,res) {
 						"Content-Type":"text/html"
 					});
 					res.end(fn({
-						"past": data[0]["past"],
-						"token": token
+						"past": data[0]["past"]
 					}));
 				});
 			break;
@@ -69,9 +64,6 @@ function Router(req,res) {
 					
 					fn = pug.compileFile(`${__dirname}/past/collaborators/index.pug`);
 
-					// Retrieve token from url
-					token = getTokenFromURL(req);
-
 					// Format performnce images to include server url
 					let imgSrc;
 					data.forEach( collaborator => {
@@ -83,8 +75,7 @@ function Router(req,res) {
 						"Content-Type":"text/html"
 					});
 					res.end(fn({
-						"collaborators": data,
-						"token": token
+						"collaborators": data
 					}))
 				});
 			break;
@@ -97,9 +88,6 @@ function Router(req,res) {
 
 					fn = pug.compileFile(`${__dirname}/past/anecdotes/index.pug`);
 
-					// Retrieve token from url
-					token = getTokenFromURL(req);
-
 					// Format performnce images to include server url
 					let imgSrc;
 					data.forEach( anecdote => {
@@ -111,8 +99,7 @@ function Router(req,res) {
 						"Content-Type":"text/html"
 					});
 					res.end(fn({
-						"anecdotes": data,
-						"token": token
+						"anecdotes": data
 					}))
 				});
 			break;
@@ -132,15 +119,11 @@ function Router(req,res) {
 
 			fn = pug.compileFile(`${__dirname}/music_stand/index.pug`);
 
-			// Retrieve token from url
-			token = getTokenFromURL(req);
-
 			res.writeHead(200, {
 				"Content-Type": "text/html"
 			});
 			res.end(fn({
-				"present": data[0]["present"],
-				"token": token
+				"present": data[0]["present"]
 			}));
 		});
 	}
@@ -153,15 +136,11 @@ function Router(req,res) {
 
 			fn = pug.compileFile(`${__dirname}/future/index.pug`);
 
-			// Retrieve token from url
-			token = getTokenFromURL(req);
-
 			res.writeHead(200, {
 				"Content-Type": "text/html"
 			});
 			res.end(fn({
-				"future": data[0]["future"],
-				"token": token
+				"future": data[0]["future"]
 			}))
 		});
 	}

@@ -20,13 +20,15 @@ function add(newPerformance) {
 	return new Promise(async (resolve,reject) => {
 		let { name, description, location, date, instruments, img } = newPerformance;
 		let { newFileName, data } = img;
+		// Request for this action is stored in the 'this' defintion
+		let request = this;
 
 		// Create Uint8Array with the array passed in
 		let buffer = new Uint8Array(data);
 		// Retrieve the new image file extension to ensure newly created Dropbox image has proper extension
 		let { fileExtension } = removeFileExtension( newFileName );
 		// Upload the image to Dropbox
-		let dropboxResponse = await uploadDropboxImage( buffer, fileExtension );
+		let dropboxResponse = await uploadDropboxImage.call( request, buffer, fileExtension );
 
 		if ( typeof dropboxResponse === 'object' && 'error' in dropboxResponse ) {
 			reject("Internal Server Error. Try again later");
@@ -74,32 +76,34 @@ function add(newPerformance) {
 	Future update documentation
 */
 function update(editedPerformance) {
-	return new Promise((resolve,reject) => {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
-			let { id, name, description, location, date, instruments, img } = editedPerformance;
-			let updatedPerformance = {
-				'past.performances.$[el].name':  name,
-				'past.performances.$[el].description': description,
-				'past.performances.$[el].location': location,
-				'past.performances.$[el].date': date,
-				'past.performances.$[el].instruments': instruments
-			};
+	return new Promise(async (resolve,reject) => {
+		let { id, name, description, location, date, instruments, img } = editedPerformance;
+		// Request for this action is stored in the 'this' defintion
+		let request = this;
 
-			if (img.data) {
-				let { oldFileName, newFileName, data } = img;
-				// Create Uint8Array with the array passed in
-				let buffer = new Uint8Array(data);
-				// Upload the image to Dropbox
-				let dropboxImageURL = await updateDropboxImage( oldFileName, newFileName, buffer );
+		let updatedPerformance = {
+			'past.performances.$[el].name':  name,
+			'past.performances.$[el].description': description,
+			'past.performances.$[el].location': location,
+			'past.performances.$[el].date': date,
+			'past.performances.$[el].instruments': instruments
+		};
 
-				updatedPerformance = { 
-					...updatedPerformance, 
-					'past.performances.$[el].img': {
-						src: dropboxImageURL
-					}
+		if (img.data) {
+			let { oldFileName, newFileName, data } = img;
+			// Create Uint8Array with the array passed in
+			let buffer = new Uint8Array(data);
+			// Upload the image to Dropbox
+			let dropboxImageURL = await updateDropboxImage.call( request, oldFileName, newFileName, buffer );
+
+			updatedPerformance = { 
+				...updatedPerformance, 
+				'past.performances.$[el].img': {
+					src: dropboxImageURL
 				}
 			}
-
+		}
+		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
@@ -125,7 +129,9 @@ function update(editedPerformance) {
 */
 function remove({ id, oldFileName }) {
 	return new Promise(async (resolve,reject) => {
-		let dropboxResponse = await deleteDropboxImage( `/Uploads/${oldFileName}` );
+		// Request for this action is stored in the 'this' defintion
+		let request = this;
+		let dropboxResponse = await deleteDropboxImage.call( request, `/Uploads/${oldFileName}` );
 
 		if ( typeof dropboxResponse === 'object' && 'error' in dropboxResponse ) {
 			reject("Internal Server Error. Try again later");

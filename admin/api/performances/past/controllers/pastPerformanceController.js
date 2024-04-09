@@ -14,8 +14,8 @@ async function addPerformance(req, res) {
 		// Pull out only necessary info for adding performance
 		let { name, description, location, instruments, date, img: { newFileName, data } } = body;
 
-		// Add new performance
-		await PastPerformancesModel.add({
+		// Pass in request as the definition of the 'this' parameter
+		await PastPerformancesModel.add.call(req, {
 			name,
 			description,
 			location,
@@ -50,8 +50,8 @@ async function updatePerformance(req, res) {
 		// Pull out only necessary info for editing performance
 		let { id, name, description, location, instruments, date, img:{ oldFileName, newFileName, data }} = body;
 
-		// Update performance
-		await PastPerformancesModel.update({ 
+		// Pass in request as the definition of the 'this' parameter
+		await PastPerformancesModel.update.call(req, { 
 			id, name, description, 
 			location, date, 
 			instruments, 
@@ -76,7 +76,8 @@ async function removePerformance(req, res) {
 		// Pull out only necessary attributes from body to remove past performance
 		let { id, oldFileName } = body;
 
-		await PastPerformancesModel.remove({ 
+		// Pass in request as the definition of the 'this' parameter
+		await PastPerformancesModel.remove.call(req, { 
 			id,
 			oldFileName
 		}).then((msg) => {

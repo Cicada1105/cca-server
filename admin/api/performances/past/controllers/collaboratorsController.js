@@ -12,7 +12,8 @@ async function addCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {
 		let { name, title, description, img: { newFileName, data }} = body;
 
-		await CollaboratorsModel.add({
+		// Pass in request as the definition of the 'this' parameter
+		await CollaboratorsModel.add.call(req, {
 			name,
 			title,
 			description,
@@ -38,7 +39,9 @@ async function addCollaborator(req,res) {
 async function updateCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {
 		let { id, name, title, description, img: { oldFileName, newFileName, data }} = body;
-		await CollaboratorsModel.update({
+		
+		// Pass in request as the definition of the 'this' parameter
+		await CollaboratorsModel.update.call(req, {
 			id, 
 			name, 
 			title, 
@@ -67,7 +70,8 @@ async function removeCollaborator(req,res) {
 	await getBodyData(req).then(async (body) => {
 		let { id, oldFileName } = body;
 
-		await CollaboratorsModel.remove({
+		// Pass in request as the definition of the 'this' parameter
+		await CollaboratorsModel.remove.call(req,{
 			id,
 			oldFileName
 		}).then((msg) => {

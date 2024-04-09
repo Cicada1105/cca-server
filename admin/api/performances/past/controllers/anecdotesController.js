@@ -12,7 +12,8 @@ async function addAnecdote(req,res) {
 	await getBodyData(req).then(async (body) => {
 		let { name, title, anecdote, img: { newFileName, data }} = body;
 		
-		await AnecdotesModel.add({
+		// Pass in request as the definition of the 'this' parameter
+		await AnecdotesModel.add.call(req, {
 			name,
 			title,
 			anecdote,
@@ -38,7 +39,9 @@ async function addAnecdote(req,res) {
 async function updateAnecdote(req,res) {
 	await getBodyData(req).then(async (body) => {
 		let { id, name, title, anecdote, img: { oldFileName, newFileName, data }} = body;
-		await AnecdotesModel.update({ 
+		
+		// Pass in request as the definition of the 'this' parameter
+		await AnecdotesModel.update.call(req, { 
 			id, 
 			name, 
 			title, 
@@ -67,7 +70,8 @@ async function removeAnecdote(req,res) {
 	await getBodyData(req).then(async (body) => {
 		let { id, oldFileName } = body;
 
-		await AnecdotesModel.remove({
+		// Pass in request as the definition of the 'this' parameter
+		await AnecdotesModel.remove.call(req, {
 			id,
 			oldFileName
 		}).then((msg) => {

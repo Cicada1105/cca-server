@@ -37,92 +37,51 @@ const initListeners = () => {
 
 	// Check if in control panel
 	if (starting_path === "cca-admin-control-panel") {
-		let token;
 		// Remove first part of path to figure out rest of path
 		starting_path = paths.slice(2)[0];
-		/*
-			Check if on welcome page then
-				- Retrieve token from url
-				- Store in sessionStorage
-			else
-				- Retrieve token from storage
 
-			- Remove from url
-		*/
-		if (starting_path === "") {
-			/*Get token from url, save to session, then remove from url*/
-			token = getToken();
-			window.sessionStorage.setItem("token",token);
+		// Call specific listeners depending on path name
+		switch(starting_path) {
+
+			case "performance":
+				// Get rest of path after 'performance' to determine subdirectory
+				starting_path = paths.slice(3)[0];
+				switch(starting_path) {
+
+					case "past":
+						// Get rest of path after 'past' to determine subdirectory
+						starting_path = paths.slice(4)[0]
+						switch(starting_path) {
+
+							case "collaborators":
+								PageListeners.initCollaboratorListeners();
+							break;
+							case "anecdotes":
+								PageListeners.initAnecdoteListeners();
+							break;
+							case "":
+								PageListeners.initPastPerformanceListeners();
+							break;
+
+						}
+					break;
+					case "present":
+						PageListeners.initMusicStandListeners();
+					break;
+					case "future":
+						PageListeners.initFuturePerformancesListeners();
+					break;	
+
+				}
+			break;
+			case "editing":
+				PageListeners.initEditingListeners();
+			break
+			case "reedmaking":
+				PageListeners.initReedmakingListeners();
+			break;
 		}
-		else {
-			// Get token from storage
-			token = window.sessionStorage.getItem("token");
-			// Call specific listeners depending on path name
-			switch(starting_path) {
-
-				case "performance":
-					// Get rest of path after 'performance' to determine subdirectory
-					starting_path = paths.slice(3)[0];
-					switch(starting_path) {
-
-						case "past":
-							// Get rest of path after 'past' to determine subdirectory
-							starting_path = paths.slice(4)[0]
-							switch(starting_path) {
-
-								case "collaborators":
-									PageListeners.initCollaboratorListeners();
-								break;
-								case "anecdotes":
-									PageListeners.initAnecdoteListeners();
-								break;
-								case "":
-									PageListeners.initPastPerformanceListeners();
-								break;
-
-							}
-						break;
-						case "present":
-							PageListeners.initMusicStandListeners();
-						break;
-						case "future":
-							PageListeners.initFuturePerformancesListeners();
-						break;	
-
-					}
-				break;
-				case "editing":
-					PageListeners.initEditingListeners();
-				break
-				case "reedmaking":
-					PageListeners.initReedmakingListeners();
-				break;
-				
-			}
-		}
-		// Remove token from url by pushing location, without token, to state
-		window.history.pushState("","",`${window.location.origin}${pathname}`);
-
-		// Add click event listener to navigation header to include token to header
-		nav_bar_cont.firstElementChild.addEventListener("click",() => {
-			window.location.href=`https://cca-server-41u0.onrender.com/cca-admin-control-panel/?token=${token}`;
-		},{once:true})
-		// Add token to navigation links
-		for (let link of nav_links)
-			// Add token to current url to be read by server
-			link.href += `?token=${token}`;
 	}
-}
-
-function getToken() {
-	// Store search parameters of current location url
-	let search = document.location.search; // Returns "/?token=..."
-	// Create new search parameters objecct 
-	let searchParamsObj = new URLSearchParams(search);
-	// Get token from search params object
-	let token = searchParamsObj.get("token");
-	// Return token
-	return token;
 }
 
 export { initListeners }

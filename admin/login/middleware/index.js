@@ -7,8 +7,8 @@ const fs = require("fs");
 // Require jsonwebtoken to handle protected routes
 const jwt = require("jsonwebtoken");
 
-// Import method for retrieving token from url
-const { getTokenFromURL } = require("../../utils.js");
+// Import method for retrieving token
+const { getCookie } = require("../../utils");
 
 function createToken(payload) {
 	return new Promise(async (resolve, reject) => {
@@ -23,8 +23,8 @@ function createToken(payload) {
 
 function verifyToken(req) {
 	return new Promise((resolve,reject) => {
-		// Get token from url
-		const token = getTokenFromURL(req);
+		// Get cookie token
+		const token = getCookie('token', req);
 		// Retrieve certificate
 		const cert = fs.readFileSync(process.env.PUBLIC_KEY_PATH);
 
