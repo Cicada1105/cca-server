@@ -26,11 +26,8 @@ function formatDate(date) {
 function successCallback(result) {
 	let { msg, status } = result;
 	alert(`${status}: ${msg}`);
-	// Replace current location with current location to mimic refresh, including token
-	// Get token
-	let token = window.sessionStorage.getItem("token");
-	// Replace location
-	document.location.replace(`${document.location.origin}${document.location.pathname}?token=${token}`);
+	// Replace current location with current location to mimic refresh
+	document.location.replace(`${document.location.origin}${document.location.pathname}`);
 }
 function failedCallback(error) {
 	console.log("Error:");
