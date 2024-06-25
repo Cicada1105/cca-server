@@ -14,16 +14,29 @@ mixin reedmakingPricingCard(reedData)
 			caption
 				h4 Rates
 				i(class="far fa-plus-square")
-			thead
-				tr
-					td Quantity
-					td Price
-					td
-			tbody
-				each rate in reedData.pricing
+
+			- let currPricing = reedData.pricing;
+			if currPricing.flatRate
+				thead
 					tr
-						td #{rate.quantity}
-						td #{rate.cost}
+						td Flat Rate
+						td
+				tbody
+					tr
+						td #{currPricing.flatRate}
 						td.controls
-							i(class="far fa-edit" data-id=`${rate["id"]}`)
-							i(class="far fa-times-circle" data-id=`${rate["id"]}`)
+							i(class="far fa-edit")
+			else
+				thead
+					tr
+						td Name
+						td Price
+						td
+				tbody
+					each rate in currPricing.rates
+						tr
+							td #{rate.name}
+							td #{rate.cost}
+							td.controls
+								i(class="far fa-edit" data-id=`${rate["id"]}`)
+								i(class="far fa-times-circle" data-id=`${rate["id"]}`)
