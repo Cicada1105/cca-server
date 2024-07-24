@@ -37,7 +37,7 @@ const server = http.createServer((req,res) => {
     	res.setHeader("Access-Control-Allow-Origin", validServerDomains.find((val) => val === req['headers']['origin']) || defaultServerDomain);
     	res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Content-Length");
     	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-console.log(res.getHeaders());
+
 			ADMIN.Router(req,res);
 		}
 		else {
