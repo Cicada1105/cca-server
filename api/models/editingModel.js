@@ -10,6 +10,9 @@ function getAllPricings() {
 		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
 			const pricings = await collection.find({}).toArray();
 
+			// Close database connection
+			closeConnection();
+			
 			resolve(pricings);
 		});
 	});

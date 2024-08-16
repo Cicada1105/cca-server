@@ -9,6 +9,10 @@ function getAllPricings() {
 	return new Promise((resolve,reject) => {
 		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
 			const pricings = await collection.find({}).toArray();
+
+			// Close database connection
+			closeConnection();
+			
 			// Remove unnecessary id from data to be returned to front end
 			let updatedPricings = [];
 			pricings.forEach(pricing => {
