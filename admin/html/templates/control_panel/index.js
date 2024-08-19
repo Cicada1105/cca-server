@@ -34,11 +34,8 @@ function Router(req,res) {
 		// Define path to editing pug template
 		fn = pug.compileFile(`${CTRL_PANEL_BASE}/editing/index.pug`);
 
-		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('editing').then(async ({ collection }) => {
 			data = await collection.find({}).toArray();
-
-			// Close connection now that operations are done
-			closeConnection();
 
 			res.writeHead(200, {
 				"Content-Type":"text/html"
@@ -54,10 +51,8 @@ function Router(req,res) {
 		// Define path to reedmaking pug template
 		fn = pug.compileFile(`${CTRL_PANEL_BASE}/reedmaking/index.pug`);
 
-		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('reedmaking').then(async ({ collection }) => {
 			data = await collection.find({}).toArray();
-
-			closeConnection();
 
 			res.writeHead(200, {
 				"Content-Type":"text/html"

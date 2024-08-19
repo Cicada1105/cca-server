@@ -9,7 +9,7 @@ const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongod
 */
 function add(pricingData) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('reedmaking').then(async ({ collection }) => {
 			let { reedID, pricing } = pricingData;
 
 			let result = await collection.findOneAndUpdate({
@@ -23,9 +23,6 @@ function add(pricingData) {
 					}
 				}
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				resolve(`Successfully added new rate to \"${result['value'].name}\"`);
@@ -41,7 +38,7 @@ function add(pricingData) {
 */
 function update(updatedPricing) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('reedmaking').then(async ({ collection }) => {
 			let { reedID, pricing } = updatedPricing;
 
 			let result = await collection.findOneAndUpdate({
@@ -55,9 +52,6 @@ function update(updatedPricing) {
 			}, {
 				arrayFilters: [{ 'el.id': new ObjectId(pricing['id']) }]
 			});
-
-			// Close connection now that database operations are complete
-			closeConnection();
 
 			if (result.ok) {
 				resolve(`Successfully updated \"${result['value'].name}\'s\" pricing`)
@@ -73,7 +67,7 @@ function update(updatedPricing) {
 */
 function remove(pricingData) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('reedmaking').then(async ({ collection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(pricingData['reedID'])
 			}, {
@@ -83,9 +77,6 @@ function remove(pricingData) {
 					}
 				}
 			})
-
-			// Close connection now that database operations are complete
-			closeConnection();
 
 			if (result.ok) {
 				resolve(`Successfully removed rate from ${result['value'].name}\'s pricing`);	

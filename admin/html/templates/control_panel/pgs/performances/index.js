@@ -32,11 +32,8 @@ function Router(req,res) {
 		
 		switch(past_url) {
 			case "":
-				getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+				getDatabaseCollection('performances').then(async ({ collection }) => {
 					data = await collection.find({}).toArray();
-
-					// Close connection now that database operations are done
-					closeConnection();
 
 					fn = pug.compileFile(`${__dirname}/past/root/index.pug`);
 
@@ -56,11 +53,8 @@ function Router(req,res) {
 				});
 			break;
 			case "/collaborators":
-				getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
+				getDatabaseCollection('collaborators').then(async ({ collection }) => {
 					data = await collection.find({}).toArray();
-
-					// Close connection now that database operations are done
-					closeConnection();
 					
 					fn = pug.compileFile(`${__dirname}/past/collaborators/index.pug`);
 
@@ -80,11 +74,8 @@ function Router(req,res) {
 				});
 			break;
 			case "/anecdotes":
-				getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
+				getDatabaseCollection('anecdotes').then(async ({ collection }) => {
 					data = await collection.find({}).toArray();
-
-					// Close connection now that database operatiosn are done
-					closeConnection();
 
 					fn = pug.compileFile(`${__dirname}/past/anecdotes/index.pug`);
 
@@ -111,11 +102,8 @@ function Router(req,res) {
 		}
 	}
 	else if (performances_url === "present") {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('performances').then(async ({ collection }) => {
 			data = await collection.find({}).toArray();
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			fn = pug.compileFile(`${__dirname}/music_stand/index.pug`);
 
@@ -128,11 +116,8 @@ function Router(req,res) {
 		});
 	}
 	else if (performances_url === "future") {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('performances').then(async ({ collection }) => {
 			data = await collection.find({}).toArray();
-			
-			// Close connection now that database operations are done
-			closeConnection();
 
 			fn = pug.compileFile(`${__dirname}/future/index.pug`);
 

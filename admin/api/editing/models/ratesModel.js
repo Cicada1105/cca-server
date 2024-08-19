@@ -9,7 +9,7 @@ const { getDatabaseCollection, ObjectId } = require('../../../../utils/mongodb.j
 */
 function add(rateData) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('editing').then(async ({ collection }) => {
 			let { litID, editingType, ...rest } = rateData;
 			let updatedObj = {};
 			updatedObj[`editing.${editingType}.rates`] = {
@@ -22,9 +22,6 @@ function add(rateData) {
 			}, {
 				$push: updatedObj
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				let { value: { type } } = result;
@@ -42,7 +39,7 @@ function add(rateData) {
 */
 function update(rateData) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('editing').then(async ({ collection }) => {
 			let { litID, editingType, rateID, ...rate } = rateData;
 
 			let updatedObj = {};
@@ -62,9 +59,6 @@ function update(rateData) {
 				arrayFilters: [{ 'rate.id': new ObjectId(rateID) }]
 			});
 
-			// Close connection now that database operations are done
-			closeConnection();
-
 			if (result.ok) {
 				let { value: { type } } = result;
 
@@ -81,7 +75,7 @@ function update(rateData) {
 */
 function remove(uniqueRateData) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('editing').then(async ({ collection }) => {
 			let { litID, editingType, rateID } = uniqueRateData;
 
 			let updatedObj = {};
@@ -94,9 +88,6 @@ function remove(uniqueRateData) {
 			}, {
 				$pull: updatedObj
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				let { value: { type } } = result;

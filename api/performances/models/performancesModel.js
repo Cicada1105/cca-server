@@ -7,7 +7,7 @@ const { getDatabaseCollection } = require('../../../utils/mongodb.js');
 function filterBy(performanceFilter) {
 	// Return promise that resolves to fill data
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('performances').then(async ({ collection }) => {
 			// Resulting array will be in the form of [ { performanceType : []} ] where "performanceType" may not exist
 			const resultArray = await collection.aggregate([
 				{ 
@@ -16,8 +16,6 @@ function filterBy(performanceFilter) {
 					}
 				}
 			]).toArray();
-			// Now that the collection has been queried, close the database connection
-			closeConnection();
 
 			const performanceTypes = resultArray[0]; // Result array [ ...performanceTypes ]
 			// Check if the resulting object contains respective performance type

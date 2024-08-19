@@ -9,7 +9,7 @@ const { getDatabaseCollection, ObjectId } = require('../../../../utils/mongodb.j
 */
 function add(litData) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('editing').then(async ({ collection }) => {
 			// Add unique IDs to genres
 			let genresWithIDs = litData.genres.map(genre => { 
 				return { 
@@ -52,9 +52,6 @@ function add(litData) {
 				resolve(`Successfully added ${litData.type}'s genres and rates to editing page`);
 			} catch (e) {
 				reject("Internal Server Error. Try again later");
-			} finally {
-				// Close connection now that database operations are done
-				closeConnection();	
 			}
 		});
 	})
@@ -70,13 +67,10 @@ function update(litType) {
 */
 function remove(litTypeID) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('editing').then(async ({ collection }) => {
 			let result = await collection.findOneAndDelete({
 				_id: new ObjectId(litTypeID)
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				let { value: { type } } = result;

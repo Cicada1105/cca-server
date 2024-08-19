@@ -40,7 +40,7 @@ function add(newPerformance) {
 				src: dropboxImageURL
 			}
 
-			getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			getDatabaseCollection('performances').then(async ({ collection }) => {
 				let result = await collection.findOneAndUpdate({
 					_id: new ObjectId(PERFORMANCES_ID)
 				}, {
@@ -58,9 +58,6 @@ function add(newPerformance) {
 						}
 					}
 				});
-
-				// Close connection now that database operations are done
-				closeConnection();
 
 				if (result.ok) {
 					resolve(`Successfully added new past performance: ${newPerformance['name']}`);
@@ -103,7 +100,7 @@ function update(editedPerformance) {
 				}
 			}
 		}
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('performances').then(async ({ collection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
@@ -111,9 +108,6 @@ function update(editedPerformance) {
 			}, {
 				arrayFilters: [{ 'el.id': new ObjectId(id) }]
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				resolve(`Successfully updated ${editedPerformance['name']}`);
@@ -137,7 +131,7 @@ function remove({ id, oldFileName }) {
 			reject("Internal Server Error. Try again later");
 		}
 		else {
-			getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+			getDatabaseCollection('performances').then(async ({ collection }) => {
 				let result = await collection.findOneAndUpdate({
 					_id: new ObjectId(PERFORMANCES_ID)
 				}, {
@@ -147,9 +141,6 @@ function remove({ id, oldFileName }) {
 						}
 					}
 				});
-
-				// Close connection now that database operations are done
-				closeConnection();
 
 				if (result.ok) {
 					resolve("Successfully removed past performance!");

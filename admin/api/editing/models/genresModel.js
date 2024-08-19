@@ -9,7 +9,7 @@ const { getDatabaseCollection, ObjectId } = require('../../../../utils/mongodb.j
 */
 function add(genreData) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('editing').then(async ({ collection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(genreData['litID'])
 			},{
@@ -21,9 +21,6 @@ function add(genreData) {
 					}
 				}
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				let { value: { type } } = result;
@@ -40,7 +37,7 @@ function add(genreData) {
 */
 function update(genreData) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('editing').then(async ({ collection }) => {
 			let { litID, genreID, display, value } = genreData;
 
 			let result = await collection.findOneAndUpdate({
@@ -53,9 +50,6 @@ function update(genreData) {
 			},{
 				arrayFilters: [{ 'el.id': new ObjectId(genreID) }]
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				let { value: { type } } = result;
@@ -73,7 +67,7 @@ function update(genreData) {
 */
 function remove(uniqueGenreData) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('editing').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('editing').then(async ({ collection }) => {
 			let { litID, genreID } = uniqueGenreData;
 
 			let result = await collection.findOneAndUpdate({
@@ -85,9 +79,6 @@ function remove(uniqueGenreData) {
 					}
 				}
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				let { value } = result;

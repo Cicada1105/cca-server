@@ -18,11 +18,8 @@ const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongod
 */
 function update({ id, name }) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('reedmaking').then(async ({ collection }) => {
 			const result = await collection.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: { name } });
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				// Retrieve old name of reed to show update

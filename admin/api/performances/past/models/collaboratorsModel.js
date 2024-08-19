@@ -40,16 +40,13 @@ function add(collaborator) {
 				src: dropboxImageURL
 			}
 
-			getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
+			getDatabaseCollection('collaborators').then(async ({ collection }) => {
 				try {
 					await collection.insertOne(newCollaborator);
 
 					resolve(`Successfully added new collaborator: ${collaborator.name}`);				
 				} catch(e) {
 					reject("Internal Server Error. Try again later");
-				} finally {
-					// Close connection now that database operations are done
-					closeConnection();
 				}
 			});
 		}
@@ -84,15 +81,12 @@ function update(editedCollaborator) {
 				};	
 			}
 		}
-		getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('collaborators').then(async ({ collection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(id)
 			}, {
 				$set: updatedCollaborator	
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				resolve(`Successfully updated ${name}'s info`);
@@ -116,13 +110,10 @@ function remove({ id, oldFileName }) {
 			reject("Internal Server Error. Try again later");
 		}
 		else {
-			getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
+			getDatabaseCollection('collaborators').then(async ({ collection }) => {
 				let result = await collection.findOneAndDelete({
 					_id: new ObjectId(id)
 				});
-
-				// Close connection now that database operations are done
-				closeConnection();
 
 				if (result.ok) {
 					// Retrieve affected document to notify user of changes

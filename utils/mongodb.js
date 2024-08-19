@@ -11,8 +11,7 @@ const mongoConnectionOptions = {
 		version: ServerApiVersion.v1,
 		strict: true,
 		deprecationErrors: true
-	},
-	maxConnecting: 3
+	}
 }
 
 const mongoClient = new MongoClient(mongoURI, mongoConnectionOptions);
@@ -24,10 +23,7 @@ async function getDatabaseCollection(collectionName) {
 		let db = await mongoClient.db('cca_database');
 
 		return {
-			collection: db.collection(collectionName),
-			closeConnection: () => {
-				mongoClient.close()
-			}
+			collection: db.collection(collectionName)
 		}
 	} catch(e) {
 		console.log(e);

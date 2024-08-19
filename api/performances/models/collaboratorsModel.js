@@ -7,11 +7,8 @@ const { getDatabaseCollection } = require('../../../utils/mongodb.js');
 function getAllCollaborators() {
 	// Return promise that resolves with collaborators data
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('collaborators').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('collaborators').then(async ({ collection }) => {
 			let collaborators = await collection.find({}).toArray();
-
-			// Now that the collection has been queried, close the database connection
-			closeConnection();
 			
 			let updatedCollaborators = [];
 			collaborators.forEach(collaborator => {

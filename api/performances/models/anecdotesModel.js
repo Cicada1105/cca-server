@@ -7,11 +7,8 @@ const { getDatabaseCollection } = require('../../../utils/mongodb.js');
 function getAllAnecdotes() {
 	// Return promise that resolves with anecdote data
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('anecdotes').then(async ({ collection }) => {
 			let anecdotes = await collection.find({}).toArray();
-
-			// Now that the collection has been queried, close the database connection
-			closeConnection();
 
 			// Remove unnecessary id from data to be returned to front end
 			let updatedAnecdotes = [];

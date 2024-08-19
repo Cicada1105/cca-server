@@ -14,7 +14,7 @@ const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
 */
 function add(newPerformance) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('performances').then(async ({ collection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
@@ -34,9 +34,6 @@ function add(newPerformance) {
 				}
 			});
 
-			// Close connection now that database operations are done
-			closeConnection();
-
 			if (result.ok) {
 				resolve(`Successfully added new future performance: ${newPerformance['name']}`);
 			}
@@ -51,7 +48,7 @@ function add(newPerformance) {
 */
 function update(updatedPerformance) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('performances').then(async ({ collection }) => {
 			let { id, name, location, instruments, date, time, description } = updatedPerformance;
 
 			let result = await collection.findOneAndUpdate({
@@ -69,9 +66,6 @@ function update(updatedPerformance) {
 				arrayFilters: [{ 'el.id': new ObjectId(id) }]
 			});
 
-			// Close connection now that database operations are done
-			closeConnection();
-
 			if (result.ok) {
 				resolve(`Successfully updated the ${name} performance`);
 			}
@@ -86,7 +80,7 @@ function update(updatedPerformance) {
 */
 function remove(performanceID) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('performances').then(async ({ collection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
@@ -96,9 +90,6 @@ function remove(performanceID) {
 					}
 				}
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				resolve("Successfully removed future performance!");

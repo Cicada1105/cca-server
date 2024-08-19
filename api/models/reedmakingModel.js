@@ -7,11 +7,8 @@ const { getDatabaseCollection } = require('../../utils/mongodb.js');
 function getAllPricings() {
 	// Return promise that resolves to fill data
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('reedmaking').then(async ({ collection }) => {
 			const pricings = await collection.find({}).toArray();
-
-			// Close database connection
-			closeConnection();
 			
 			// Remove unnecessary id from data to be returned to front end
 			let updatedPricings = [];

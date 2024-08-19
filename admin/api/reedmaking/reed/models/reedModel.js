@@ -11,7 +11,7 @@ function add({ name, description, pricing }) {
 	return new Promise((resolve,reject) => {
 		// Retrieve reedmaking data
 		//const reedmakingData = getFileData(reedmakingPricesPath);
-		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('reedmaking').then(async ({ collection }) => {
 			// Format new reed based on received arguments
 			let newReed = {
 				name,
@@ -31,9 +31,6 @@ function add({ name, description, pricing }) {
 				resolve(`Successfully added \"${newReed["name"]}\" to reedmaking page`);
 			} catch(e) {
 				reject("Internal Server Error. Try again later");
-			} finally {
-				// Close the connection now that operations are done
-				closeConnection();
 			}
 		});
 	})
@@ -51,11 +48,8 @@ function add({ name, description, pricing }) {
 */
 function remove(reedID) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('reedmaking').then(async ({ collection }) => {
 			const result = await collection.findOneAndDelete({ _id: new ObjectId(reedID) });
-
-			// Close the connection now that operations are done
-			closeConnection();
 
 			if (result.ok) {
 				// Retrieve the removed reed to alert user that reed was removec

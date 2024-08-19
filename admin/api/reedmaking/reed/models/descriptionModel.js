@@ -17,15 +17,12 @@ const { getDatabaseCollection, ObjectId } = require('../../../../../utils/mongod
 */
 function update({ id, description }) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('reedmaking').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('reedmaking').then(async ({ collection }) => {
 			const result = await collection.findOneAndUpdate({ 
 				_id: new ObjectId(id) 
 			}, { 
 				$set: { description }
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				let { value } = result;

@@ -40,15 +40,12 @@ function add(newAnecdote) {
 				src: dropboxImageURL
 			}
 			
-			getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
+			getDatabaseCollection('anecdotes').then(async ({ collection }) => {
 				try {
 					await collection.insertOne(formattedAnecdote);
 					resolve(`Successfully added anecdote by ${formattedAnecdote.name}`);
 				} catch(e) {
 					reject("Internal Server Error. Try again later");
-				} finally {
-					// Close connection now that database operations are done
-					closeConnection();
 				}
 			});
 		}
@@ -84,15 +81,12 @@ function update(editedAnecdote) {
 				};
 			}
 		}
-		getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('anecdotes').then(async ({ collection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(id)
 			}, {
 				$set: updatedAnecdote
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 			
 			if (result.ok) {
 				let { value: { name }} = result;
@@ -117,13 +111,10 @@ function remove({ id, oldFileName }) {
 			reject("Internal Server Error. Try again later");
 		}
 		else {
-			getDatabaseCollection('anecdotes').then(async ({ collection, closeConnection }) => {
+			getDatabaseCollection('anecdotes').then(async ({ collection }) => {
 				let result = await collection.findOneAndDelete({
 					_id: new ObjectId(id)
 				});
-
-				// Close connection now that database operations are done
-				closeConnection();
 
 				if (result.ok) {
 					let { value: { name } } = result;

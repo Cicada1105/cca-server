@@ -13,7 +13,7 @@ const PERFORMANCES_ID = '64359642dd85c7fd598530ca';
 */
 function add(newSong) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('performances').then(async ({ collection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
@@ -26,9 +26,6 @@ function add(newSong) {
 					}
 				}
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				resolve(`Successfully added new song: ${newSong['name']}`);
@@ -44,7 +41,7 @@ function add(newSong) {
 */
 function update(editedSong) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('performances').then(async ({ collection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
@@ -56,9 +53,6 @@ function update(editedSong) {
 			}, {
 				arrayFilters: [{ 'el.id': new ObjectId(editedSong['id']) }]
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				resolve(`Successfully updated ${editedSong['name']} by ${editedSong['by']}`);
@@ -74,7 +68,7 @@ function update(editedSong) {
 */
 function remove(songID) {
 	return new Promise((resolve,reject) => {
-		getDatabaseCollection('performances').then(async ({ collection, closeConnection }) => {
+		getDatabaseCollection('performances').then(async ({ collection }) => {
 			let result = await collection.findOneAndUpdate({
 				_id: new ObjectId(PERFORMANCES_ID)
 			}, {
@@ -84,9 +78,6 @@ function remove(songID) {
 					}
 				}
 			});
-
-			// Close connection now that database operations are done
-			closeConnection();
 
 			if (result.ok) {
 				resolve("Successfully removed present performance!");
