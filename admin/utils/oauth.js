@@ -47,11 +47,9 @@ function generateToken(req,res) {
 
   let tokenReq = https.request( options, (tokenRes) => {
     getBodyData(tokenRes).then( data => {
-      let { access_token } = data;
+      let { access_token, expires_in } = data;
       
-      // Dropbox cookie can expire in a week
-      const weekInSeconds = 60 * 60 * 24 * 7;
-      setCookie('db_token', access_token, weekInSeconds, res);
+      setCookie('db_token', access_token, expires_in, res);
       
       res.setHeader('Location', `${SERVER_URL}/cca-admin-control-panel`)
 

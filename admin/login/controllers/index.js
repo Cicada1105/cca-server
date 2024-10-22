@@ -34,7 +34,6 @@ function login(req,res) {
 				const dayInSeconds = 60 * 60 * 24;
 				setCookie('token', token, dayInSeconds, res);
 
-				res.setHeader('Set-Cookie',`token=${token}`);
 				// Redirect to home page
 				res.writeHead(301,{"Location":`${SERVER}/cca-admin-control-panel`});
 				res.end();
