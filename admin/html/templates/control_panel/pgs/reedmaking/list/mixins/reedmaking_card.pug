@@ -1,0 +1,36 @@
+include ./rates_table.pug
+
+//- This file is a template for the reedmaking info
+mixin reedmakingPricingCard(reedData)
+	section.card.reedmakingCard(data-reedtype=`${reedData.name}`)
+		div.reedmakingControls
+			a(href=`/cca-admin-control-panel/reedmaking/edit?id=${reedData["_id"]}`)
+				i(class="far fa-edit editReed")
+			//- form.delete-reed-form
+			button.delete-reed
+				i(class="far fa-trash-alt deleteReed" data-reed_id=reedData["_id"])
+		div.reedDataFlexWrapper
+			div.reedDataCont
+				p.nameHeader Name
+				p.name #{reedData.name}
+			div.reedDataCont
+				p.descriptionHeader Description
+				p.description #{reedData.description}
+
+		div.tableHeader
+			h4 Rates
+		+ratesTable(reedData.pricing)
+
+		div.tableHeader
+			h4 Categories
+			form(action='/cca-admin-control-panel/reedmaking/category/add',method='GET')
+				input(type='hidden',name='reed_id',value=reedData['_id'])
+				button(type='submit')
+					i(class="far fa-plus-square")
+
+		if ( reedData.categories && reedData.categories.length > 0 )
+			include ./category_table.pug
+			each category in reedData['categories']
+				+categoryTable(category,reedData['_id'])
+		else
+			h5.noCatHeader No Categories

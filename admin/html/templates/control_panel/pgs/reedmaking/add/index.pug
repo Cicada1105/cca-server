@@ -1,0 +1,38 @@
+//-
+  This file inherits from the base template
+extends ../../../page_template.pug
+
+//- Define styles to include, appending to included global style
+block append styles
+  include ./style.css
+
+block append scripts
+    include ./utils/addReedRate.js
+    
+//- Define location
+block location
+  h3!= "&ndash; &nbsp;&nbsp;&nbsp;Reedmaking&nbsp;&nbsp;&nbsp; &ndash;"
+
+//- Define mixins
+block mixins
+  include ./mixins/rates_input_table.pug
+
+//- Define page content
+block page_content
+  a(href='/cca-admin-control-panel/reedmaking' id='previousLink') Back
+  section.card.reedmakingCard
+    header.inputCardHeader
+      h4 Add Reed
+    form#addForm
+      div.inputRow
+        label(for="reedNameInput") Name: &nbsp;&nbsp;
+        input(type="text" id="reedNameInput" name="name" placeholder="Reed Name..." required)
+      div.inputRow
+        label(for="reedDescriptionInput") Description: &nbsp;&nbsp;
+        textarea(id="reedDescriptionInput" name="description" rows="4" cols="50" spellchheck="true" wrap="soft" placeholder="Enter Description..." required)
+
+      +ratesInputTable()
+      
+    footer.confirmDeclineBtns
+      input(type="reset" value="Cancel" class="cancel" form='addForm')
+      input(type="submit" value="Add" class="confirm" form='addForm')

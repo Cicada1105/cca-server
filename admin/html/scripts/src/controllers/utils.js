@@ -27,7 +27,7 @@ function successCallback(result) {
 	let { msg, status } = result;
 	alert(`${status}: ${msg}`);
 	// Replace current location with current location to mimic refresh
-	document.location.replace(`${document.location.origin}${document.location.pathname}`);
+	document.location.replace(`${document.location.origin}${document.location.pathname}${document.location.search}`);
 }
 function failedCallback(error) {
 	console.log("Error:");

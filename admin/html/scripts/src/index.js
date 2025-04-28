@@ -78,7 +78,30 @@ const initListeners = () => {
 				PageListeners.initEditingListeners();
 			break
 			case "reedmaking":
-				PageListeners.initReedmakingListeners();
+				starting_path = paths.slice(3)[0];
+				switch(starting_path) {
+					case '':
+						PageListeners.initListReedListeners();
+					break;
+					case 'add':
+						PageListeners.initAddReedListeners();
+					break;
+					case 'edit':
+						PageListeners.initEditReedListeners();
+					break;
+					case 'category':
+						// Get the rest of the path after 'category' to determine subdirectory
+						starting_path = paths.slice(4)[0];
+						switch(starting_path) {
+							case 'add':
+								PageListeners.initAddReedCategoryListeners();
+							break;
+							case 'edit':
+								PageListeners.initEditReedCategoryListeners();
+							break;
+						}
+					break
+				}
 			break;
 		}
 	}

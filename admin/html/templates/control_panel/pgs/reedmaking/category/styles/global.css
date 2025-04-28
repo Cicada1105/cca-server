@@ -1,0 +1,66 @@
+#previousLink {
+  display: block;
+  margin:1rem auto;
+  width: fit-content;
+}
+section.categoryCard {
+  width: 480px;
+}
+header.inputCardHeader {
+  border-bottom: 1px solid #cccccc;
+  margin-top: 10px;
+
+  h4 {
+    margin: 0;
+  }
+}
+form.addForm {
+  text-align:center;
+  padding:20px 10px;
+}
+div.inputRow {
+  margin-bottom:1.5rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  row-gap: 0.5rem;
+}
+table {
+  border-collapse: collapse;
+  margin:auto;
+  width: 50%;
+
+  thead {
+    background-color:#e4e4e4;
+  }
+  td > input {
+    width: 6rem;
+  }
+  i.addIcon {
+    font-size: 1.2rem;
+  }
+  td {
+    text-align: center;
+    padding:14px 10px;
+  }
+}
+/* footer contains confirm/decline buttons */
+footer.confirmDeclineBtns {
+  border-top: 1px solid #cccccc;
+  text-align: center;
+  padding-top:10px;
+
+  & > input {
+    border:1px solid black;
+    margin:0px 16px;
+
+    &.cancel {
+      padding:6px 14px;
+    }
+    &.confirm {
+      background-color: #0053ff;
+      padding:6px 24px;
+      color:white;
+    }
+  }
+}

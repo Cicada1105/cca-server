@@ -1,0 +1,19 @@
+mixin ratesTable(pricing)
+  table.rates
+    if pricing.flatRate
+      thead
+        tr
+          td Flat Rate
+      tbody
+        tr
+          td $#{pricing.flatRate}
+    else
+      thead
+        tr
+          td Name
+          td Price
+      tbody
+        each rate in pricing.rates
+          tr
+            td= rate.name
+            td $#{rate.cost}

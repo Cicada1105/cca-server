@@ -16,13 +16,14 @@ const REEDMAKING_PATH = "/cca-admin-api/reedmaking/reed/";
 /*
 	Future Add documentation
 */
-function add({ name, description, pricing }) {
+function add({ name, description, image, pricing }) {
 	return makeRequest(
 		REEDMAKING_PATH,
 		"POST",
 		{
 			name,
 			description,
+			image,
 			pricing
 		}
 	)
@@ -30,9 +31,18 @@ function add({ name, description, pricing }) {
 /*
 	Future update documentation
 */
-/*function update(reed) {
-
-}*/
+function update({ id, name, description, pricing }) {
+	return makeRequest(
+		REEDMAKING_PATH,
+		'PUT',
+		{
+			id,
+			name,
+			description,
+			pricing
+		}
+	);
+}
 /*
 	Future Remove documentation
 */
@@ -44,4 +54,4 @@ function remove({ id }) {
 	)
 }
 
-export { add, remove }
+export { add, update, remove }

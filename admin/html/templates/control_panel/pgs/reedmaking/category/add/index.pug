@@ -1,0 +1,37 @@
+//-
+  This file inherits from the base template
+extends ../../../../page_template.pug
+
+//- Define styles to include, appending to included global style
+block append styles
+  include ../styles/global.css
+  include ./style.css
+
+block append scripts
+  include ./utils/addReedCategory.js
+
+//- Define location
+block location
+  h3!= "&ndash; &nbsp;&nbsp;&nbsp;Reedmaking&nbsp;&nbsp;&nbsp; &ndash;"
+
+//- Define mixins
+block mixins
+  include ./mixins/category_input_table.pug
+
+//- Define page content
+block page_content
+  a(href='/cca-admin-control-panel/reedmaking/' id='previousLink') Back
+  section.card.categoryCard
+    header.inputCardHeader
+      h4 Add Category
+    form(action='/cca-admin-api/reedmaking/reed/category' method='POST' class='addForm' id='addForm')
+      input(type='hidden',name='reed_id',value=reed_id)
+
+      div.inputRow
+        label(for='categoryName') Name
+        input(id='categoryName',type='text',name='name',placeholder='Name')
+      +categoryInputTable
+
+    footer.confirmDeclineBtns
+      input(type="reset" value="Cancel" class="cancel" form='addForm')
+      input(type="submit" value="Add" class="confirm" form='addForm')

@@ -1,0 +1,27 @@
+//-
+  This file inherits from the base template
+extends ../../../page_template.pug
+
+//- Define styles to include, appending to included global style
+block append styles
+  include ./style.css
+
+//- block append scripts
+  include ../scripts/deleteReedCategory.js
+  
+//- Define mixins needed for music_stand
+block mixins
+  include ./mixins/reedmaking_card.pug
+
+//- Define location
+block location
+  h3!= "&ndash; &nbsp;&nbsp;&nbsp;Reedmaking&nbsp;&nbsp;&nbsp; &ndash;"
+
+//- Define page content
+block page_content
+  div(id = "addReedCont")
+    h4= "Reed Type"
+    a(href='/cca-admin-control-panel/reedmaking/add')
+      i(class="far fa-plus-square")
+  each pricing in reedmaking
+    +reedmakingPricingCard(pricing)

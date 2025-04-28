@@ -1,0 +1,11 @@
+mixin categoryInputTable()
+  table
+    thead
+      tr
+        td(colspan='2') Options
+    tbody
+      tr
+        td
+          input(type="text" id="optionInput" placeholder="Option")
+        td
+          i(class="far fa-plus-square" onclick='addReedCategory()').addIcon

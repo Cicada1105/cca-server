@@ -1,0 +1,107 @@
+/*********************/
+/*   Global Styles   */
+/*********************/
+.tableHeader {
+  width: 50%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h4 {
+    border-bottom:1px solid black;
+    width: fit-content;
+    margin: 0;
+    padding: 0px 10px 5px;
+  }
+  button {
+    font-size: 1.25rem;
+    background: none;
+    border: none;
+  }
+}
+table {
+  border-collapse: collapse;
+  margin: 10px auto;
+  min-width: 50%;
+}
+thead {
+  background-color:#e4e4e4;
+}
+tr > td {
+  text-align: center;
+  width: min-content;
+  padding:14px 10px;
+}
+/*************************/
+/*       Add Reed        */
+/*   Heading Container   */
+/*************************/
+div#addReedCont {
+  margin:1.5rem auto 0.5rem auto;
+  width:480px;
+
+  h4 {
+    display: inline;
+    font-size:1.65rem; /*h1 = font-size 2rem, h2 = font-size 1.5rem*/
+  }
+  a {
+    float:right;
+    font-size:1.65rem;
+  }
+}
+/*********************/
+/*   Display Cards   */
+/*********************/
+section.reedmakingCard {
+  width: 480px;
+}
+div.reedmakingControls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 0.75rem;
+
+  a, button {
+    background: none;
+    color: black;
+    padding: 0px;
+    border: none;
+    font-size: 1.25rem;
+  }
+}
+.reedDataFlexWrapper {
+  display: flex;
+  column-gap: 20px;
+  margin:10px;
+
+  & > * {
+    flex: 1 1 0;
+  }
+}
+div.reedDataCont {
+  margin-bottom: 10px;
+}
+p[class $= "Header"] {
+  border-bottom:1px solid black;
+  margin: auto;
+  padding:5px 13px;
+  width:fit-content;
+  font-size:1.17rem;
+}
+p.name, p.description {
+  padding: 10px 0px;
+  margin: auto;
+  width: fit-content;
+}
+table.category {
+  h5 {
+    margin: 0rem 0rem 0.5rem;
+  }
+  .reedmakingControls {
+    justify-content: center;
+  }
+}
+h5.noCatHeader {
+  text-align: center;
+}

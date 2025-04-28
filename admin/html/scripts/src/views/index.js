@@ -164,7 +164,7 @@ const initEditingListeners = () => {
 		}
 	}
 }
-
+/*
 const initReedmakingListeners = () => {
 	// Get access to add button
 	let addReedCont = document.getElementById("addReedCont");
@@ -186,13 +186,42 @@ const initReedmakingListeners = () => {
 		}
 	});
 }
+*/
+const initListReedListeners = () => {
+	const deleteReedButtons = document.querySelectorAll('button.delete-reed');
+	const deleteCategoryButtons = document.querySelectorAll('button.delete-category');
+
+	deleteReedButtons.forEach(btn => btn.addEventListener('click', ReedmakingController.removeReed), { once: true });
+	deleteCategoryButtons.forEach(btn => btn.addEventListener('click', ReedmakingController.removeCategory, { once: true }));
+}
+const initAddReedListeners = () => {
+  const form = document.forms['addForm'];
+
+	// Initialize submit listener
+	form.addEventListener('submit',ReedmakingController.addReed, { once: true });
+}
+const initEditReedListeners = () => {
+  const form = document.forms['editForm'];
+
+	// Initialize submit listener
+	form.addEventListener('submit',ReedmakingController.updateReed, { once: true });
+}
+const initAddReedCategoryListeners = () => {
+  const form = document.forms['addForm'];
+
+	// Initialize submit listener
+	form.addEventListener('submit',ReedmakingController.addCategory, { once: true });
+}
+const initEditReedCategoryListeners = () => {
+  const form = document.forms['addForm'];
+
+	// Initialize submit listener
+	form.addEventListener('submit',ReedmakingController.updateCategory, { once: true });
+}
 
 export { 
-	initPastPerformanceListeners,
-	initCollaboratorListeners,
-	initAnecdoteListeners,
-	initMusicStandListeners,
-	initFuturePerformancesListeners,
-	initEditingListeners,
-	initReedmakingListeners
+	initPastPerformanceListeners, initCollaboratorListeners, initAnecdoteListeners,
+	initMusicStandListeners, initFuturePerformancesListeners, initEditingListeners,
+	initListReedListeners, initAddReedListeners, initEditReedListeners,
+	initAddReedCategoryListeners, initEditReedCategoryListeners
 }
