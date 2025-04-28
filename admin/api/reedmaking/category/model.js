@@ -44,7 +44,6 @@ function add({ reed_id, name, options }) {
 function update({ reed_id, category_id, name, options }) {
   return new Promise((resolve,reject) => {
     // Retrieve reedmaking data
-    //const reedmakingData = getFileData(reedmakingPricesPath);
     getDatabaseCollection('reedmaking').then(async ({ collection }) => {
       // Format new reed based on received arguments
       let updatedReedCategory = {
@@ -65,8 +64,8 @@ function update({ reed_id, category_id, name, options }) {
           arrayFilters: [{ 'category._id' : new ObjectId( category_id ) }]
         });
 
-        let { value: { name } } = result;
-        resolve(`Successfully updated \"${name}\" reed's category.`);
+        let { value } = result;
+        resolve(`Successfully updated \"${value.name}\" reed's category.`);
       } catch(e) {
         console.log(e);
         reject("Internal Server Error. Try again later");

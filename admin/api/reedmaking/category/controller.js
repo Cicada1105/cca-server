@@ -51,7 +51,6 @@ async function updateCategory(req, res) {
       name,
       options
     }).then((msg) => {
-      console.log("Success");
       res.status = 200;
       res.end(JSON.stringify({ msg }))
     }).catch((err) => {
