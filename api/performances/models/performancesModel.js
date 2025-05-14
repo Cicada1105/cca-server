@@ -12,7 +12,10 @@ function filterBy(performanceFilter) {
 			const resultArray = await collection.aggregate([
 				{ 
 					$project: { 
-						_id: 0
+						_id: 0,
+						"past.performances.id": 0,
+						"present.performances.id": 0,
+						"future.performances.id": 0
 					}
 				}
 			]).toArray();
@@ -49,16 +52,15 @@ function filterBy(performanceFilter) {
 
 				performancesArray.forEach(performance => {
 					// Extract out current id from rest of info
-					let { id, ...rest } = performance;
 					
-					if ( 'img' in rest ) {
-						let imageSrc = rest['img'].src;
+					if ( 'img' in performance ) {
+						let imageSrc = performance['img'].src;
 						// Update image URLs to include the server url
-						rest['img'].src = (imageSrc.startsWith('data:image') || imageSrc.startsWith('http')) ? imageSrc : `${process.env.SERVER_URL}/imgs/${imageSrc}`;
+						performance['img'].src = (imageSrc.startsWith('data:image') || imageSrc.startsWith('http')) ? imageSrc : `${process.env.SERVER_URL}/imgs/${imageSrc}`;
 					}
 
 					// Store rest of performance info without id
-					'performances' in updatedPerformances ? updatedPerformances['performances'].push(rest) : updatedPerformances.push(rest);
+					'performances' in updatedPerformances ? updatedPerformances['performances'].push(performance) : updatedPerformances.push(performance);
 				});
 
 				resolve(updatedPerformances);
