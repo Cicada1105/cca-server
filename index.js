@@ -5,9 +5,16 @@ const http = require('http');
 const ADMIN = require('./admin');
 const API = require('./api');
 const EMAIL = require('./email');
+const WORKER = require('./worker');
 
 const SERVER_URL = process.env.SERVER_URL;
 const PORT = process.env.PORT || 2020;
+
+// Render spins down after 15 minutes = 900000
+// 840000 = 14 minutes
+const SPIN_DOWN_TIME = 870000;
+
+WORKER.run(SPIN_DOWN_TIME);
 
 const server = http.createServer((req,res) => {
 	// First 3 setHeader's are for development ONLY
@@ -39,6 +46,15 @@ const server = http.createServer((req,res) => {
     	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
 
 			ADMIN.Router(req,res);
+		}
+		else if (req.url.startsWith("/ping")) {
+    	res.setHeader("Access-Control-Allow-Origin", validServerDomains.find((val) => val === req['headers']['origin']) || defaultServerDomain);
+    	res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Content-Length");
+    	res.setHeader("Access-Control-Allow-Methods", "GET");
+
+    	res.end(JSON.stringify({
+    		msg: 'Server pinged.'
+    	}));
 		}
 		else {
 			res.writeHead(404,{
