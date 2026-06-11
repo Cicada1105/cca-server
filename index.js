@@ -11,7 +11,7 @@ const SERVER_URL = process.env.SERVER_URL;
 const PORT = process.env.PORT || 2020;
 
 // Render spins down after 15 minutes = 900000
-// 840000 = 14 minutes
+// 870000 = 14 minutes 30 seconds
 const SPIN_DOWN_TIME = 870000;
 
 WORKER.run(SPIN_DOWN_TIME);
