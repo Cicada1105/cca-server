@@ -1,4 +1,4 @@
-const http = require('http');
+const https = require('https');
 const { parentPort } = require('worker_threads');
 
 const SERVER_URL = process.env.SERVER_URL;
@@ -15,7 +15,7 @@ parentPort.on('message',(data) => {
   }
 
   setInterval(() => {
-    let req = http.request( SERVER_URL, options, (res) => {
+    let req = https.request( SERVER_URL, options, (res) => {
       let response = "";
       res.on("data", (chunk) => response += chunk);
 
