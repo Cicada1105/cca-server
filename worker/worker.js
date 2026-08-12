@@ -2,7 +2,7 @@ const https = require('https');
 const { parentPort } = require('worker_threads');
 
 const SERVER_URL = process.env.SERVER_URL;
-const PORT = 2020;
+const PORT = process.env.PORT || 2020;
 parentPort.on('message',(data) => {
   let { interval } = data;
   let options = {
