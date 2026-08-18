@@ -26,6 +26,6 @@ block page_content
 				input(type="text" name="username" placeholder="Username..." required)
 				span(id="userErrMsg") * #{userErrMsg}
 			div.inputCont
-				input(type="password" name="password" placeholder="Password..." required)
+				input(type="password" name="password" placeholder="Password..." autocomplete="current-password" required)
 				span(id="passErrMsg") * #{passErrMsg}
 			input(type="submit" value="Login")
