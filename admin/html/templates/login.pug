@@ -23,7 +23,7 @@ block page_content
 	section.card
 		form#login(action=`${process.env.SERVER_URL}/cca-admin-login` method="POST" enctype="application/json")
 			div.inputCont
-				input(type="text" name="username" placeholder="Username..." required)
+				input(type="text" name="username" placeholder="Username..." autocomplete="username" required)
 				span(id="userErrMsg") * #{userErrMsg}
 			div.inputCont
 				input(type="password" name="password" placeholder="Password..." autocomplete="current-password" required)
