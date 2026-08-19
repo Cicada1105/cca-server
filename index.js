@@ -66,7 +66,7 @@ const server = http.createServer((req,res) => {
 
 if ( process.env.ENVIRONMENT === 'dev' ) {
 	const PORT = process.env.PORT;
-	server.listen( process., () => {
+	server.listen( PORT, () => {
 		console.log(`Listening on port ${PORT}`);
 	});
 }
