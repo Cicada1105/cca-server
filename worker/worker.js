@@ -3,7 +3,7 @@ const { parentPort } = require('worker_threads');
 
 // Server link
 const SERVER_DOMAIN = process.env.SERVER_URL;
-const PORT = process.env.PORT || 2020;
+const SERVER_PORT = process.env.PORT || 2020;
 const SERVER_URL = `${SERVER_DOMAIN}:${SERVER_PORT}`;
 
 parentPort.on('message',(data) => {

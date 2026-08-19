@@ -10,7 +10,7 @@ const state = '82828b7c-85c3-468f-acac-73e8c8005953';
 const DROPBOX_AUTH_ENDPOINT = 'https://www.dropbox.com';
 // Server link
 const SERVER_DOMAIN = process.env.SERVER_URL;
-const PORT = process.env.PORT || 2020;
+const SERVER_PORT = process.env.PORT || 2020;
 const SERVER_URL = `${SERVER_DOMAIN}:${SERVER_PORT}`;
 
 function startAuthorization(req,res) {
