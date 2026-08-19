@@ -7,7 +7,7 @@ const API = require('./api');
 const EMAIL = require('./email');
 const WORKER = require('./worker');
 
-const PORT = process.env.PORT;
+const ENVIRONMENT = process.env.ENVIRONMENT;
 
 // Render spins down after 15 minutes = 900000
 // 870000 = 14 minutes 30 seconds
@@ -64,12 +64,13 @@ const server = http.createServer((req,res) => {
 	}
 });
 
-if ( PORT ) {
-	server.listen( PORT, () => {
+if ( process.env.ENVIRONMENT === 'dev' ) {
+	const PORT = process.env.PORT;
+	server.listen( process., () => {
 		console.log(`Listening on port ${PORT}`);
 	});
 }
-else {
+else if ( process.env.ENVIRONMENT === 'prod' ){
 	server.listen(function(){
 		const ADDRESS = this.address();
 		const PORT = ADDRESS['port'];

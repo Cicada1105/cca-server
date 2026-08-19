@@ -4,7 +4,8 @@ const { parentPort } = require('worker_threads');
 // Server link
 const SERVER_DOMAIN = process.env.SERVER_URL;
 const SERVER_PORT = process.env.PORT;
-const SERVER_URL = SERVER_PORT ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
+const SERVER_ENVIRONMENT = process.env.ENVIRONMENT;
+const SERVER_URL = SERVER_ENVIRONMENT === 'dev' ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
 
 parentPort.on('message',(data) => {
   let { interval } = data;
