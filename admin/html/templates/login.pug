@@ -21,7 +21,7 @@ block location
 //- Define page content
 block page_content
 	section.card
-		- let SERVER_URL = process.env.ENVIRONMENT === 'dev' ? `${process.env.SERVER_URL}:${process.env.PORT}` : process.env.SERVER_URL;
+		- let SERVER_URL = `${process.env.SERVER_URL}:${process.env.PORT}`;
 		form#login(action=`${SERVER_URL}/cca-admin-login` method="POST" enctype="application/json")
 			div.inputCont
 				input(type="text" name="username" placeholder="Username..." autocomplete="username" required)

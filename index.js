@@ -7,7 +7,7 @@ const API = require('./api');
 const EMAIL = require('./email');
 const WORKER = require('./worker');
 
-const ENVIRONMENT = process.env.ENVIRONMENT;
+const PORT = process.env.PORT || 2020;
 
 // Render spins down after 15 minutes = 900000
 // 870000 = 14 minutes 30 seconds
@@ -64,19 +64,9 @@ const server = http.createServer((req,res) => {
 	}
 });
 
-if ( process.env.ENVIRONMENT === 'dev' ) {
-	const PORT = process.env.PORT;
-	server.listen( PORT, () => {
-		console.log(`Listening on port ${PORT}`);
-	});
-}
-else if ( process.env.ENVIRONMENT === 'prod' ){
-	server.listen(function(){
-		const ADDRESS = this.address();
-		const PORT = ADDRESS['port'];
-		console.log(`Listening on port ${PORT}`);
-	});
-}
+server.listen( PORT, () => {
+	console.log(`Listening on port ${PORT}`);
+});
 /*
 	Routes:
 		General access

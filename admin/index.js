@@ -20,9 +20,8 @@ const {
 
 // Server link
 const SERVER_DOMAIN = process.env.SERVER_URL;
-const SERVER_PORT = process.env.PORT;
-const SERVER_ENVIRONMENT = process.env.ENVIRONMENT;
-const SERVER_URL = SERVER_ENVIRONMENT === 'dev' ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
+const PORT = process.env.PORT || 2020;
+const SERVER_URL = `${SERVER_DOMAIN}:${SERVER_PORT}`;
 
 /*
 	Redirect
