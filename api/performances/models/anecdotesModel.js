@@ -4,6 +4,11 @@
 
 const { getDatabaseCollection } = require('../../../utils/mongodb.js');
 
+// Server link
+const SERVER_DOMAIN = process.env.SERVER_URL;
+const SERVER_PORT = process.env.PORT;
+const SERVER_URL = SERVER_PORT ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
+
 function getAllAnecdotes() {
 	// Return promise that resolves with anecdote data
 	return new Promise((resolve,reject) => {
@@ -17,7 +22,7 @@ function getAllAnecdotes() {
 			anecdotes.forEach(anecdote => {
 				// Add server url to image if it is a url string
 				let imgSrc = anecdote['img'].src;
-				anecdote['img'].src = imgSrc.startsWith("data:image") || imgSrc.startsWith('http') ? imgSrc : `${process.env.SERVER_URL}/imgs/${rest['img'].src}`;
+				anecdote['img'].src = imgSrc.startsWith("data:image") || imgSrc.startsWith('http') ? imgSrc : `${SERVER_URL}/imgs/${rest['img'].src}`;
 				// Store rest of anecdote info without id
 				updatedAnecdotes.push(anecdote);
 			});

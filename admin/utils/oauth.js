@@ -8,7 +8,10 @@ const { setCookie } = require('./misc.js');
 
 const state = '82828b7c-85c3-468f-acac-73e8c8005953';
 const DROPBOX_AUTH_ENDPOINT = 'https://www.dropbox.com';
-const SERVER_URL = process.env.SERVER_URL;
+// Server link
+const SERVER_DOMAIN = process.env.SERVER_URL;
+const SERVER_PORT = process.env.PORT;
+const SERVER_URL = SERVER_PORT ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
 
 function startAuthorization(req,res) {
   let params = new URLSearchParams({

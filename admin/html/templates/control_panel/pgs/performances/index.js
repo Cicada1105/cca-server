@@ -8,6 +8,10 @@ const pug = require('pug');
 // Import method for retrieving database collections
 const { getDatabaseCollection, ObjectId } = require('../../../../../../utils/mongodb.js');
 
+// Server link
+const SERVER_DOMAIN = process.env.SERVER_URL;
+const SERVER_PORT = process.env.PORT;
+const SERVER_URL = SERVER_PORT ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
 /*
 	Routes
 	/past
@@ -41,7 +45,7 @@ function Router(req,res) {
 					let imgSrc;
 					data[0]['past'].performances.forEach( performance => {
 						imgSrc = performance['img'].src;
-						performance['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${process.env.SERVER_URL}/imgs/${imgSrc}`;
+						performance['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${SERVER_URL}/imgs/${imgSrc}`;
 					});
 
 					res.writeHead(200, {
@@ -62,7 +66,7 @@ function Router(req,res) {
 					let imgSrc;
 					data.forEach( collaborator => {
 						imgSrc = collaborator['img'].src;
-						collaborator['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${process.env.SERVER_URL}/imgs/${imgSrc}`;	
+						collaborator['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${SERVER_URL}/imgs/${imgSrc}`;	
 					});
 
 					res.writeHead(200, {
@@ -83,7 +87,7 @@ function Router(req,res) {
 					let imgSrc;
 					data.forEach( anecdote => {
 						imgSrc = anecdote['img'].src;
-						anecdote['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${process.env.SERVER_URL}/imgs/${imgSrc}`;	
+						anecdote['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${SERVER_URL}/imgs/${imgSrc}`;	
 					});
 
 					res.writeHead(200, {

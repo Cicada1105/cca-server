@@ -4,6 +4,11 @@
 
 const { getDatabaseCollection } = require('../../../utils/mongodb.js');
 
+// Server link
+const SERVER_DOMAIN = process.env.SERVER_URL;
+const SERVER_PORT = process.env.PORT;
+const SERVER_URL = SERVER_PORT ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
+
 function filterBy(performanceFilter) {
 	// Return promise that resolves to fill data
 	return new Promise((resolve,reject) => {
@@ -56,7 +61,7 @@ function filterBy(performanceFilter) {
 					if ( 'img' in performance ) {
 						let imageSrc = performance['img'].src;
 						// Update image URLs to include the server url
-						performance['img'].src = (imageSrc.startsWith('data:image') || imageSrc.startsWith('http')) ? imageSrc : `${process.env.SERVER_URL}/imgs/${imageSrc}`;
+						performance['img'].src = (imageSrc.startsWith('data:image') || imageSrc.startsWith('http')) ? imageSrc : `${SERVER_URL}/imgs/${imageSrc}`;
 					}
 
 					// Store rest of performance info without id

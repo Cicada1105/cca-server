@@ -4,6 +4,11 @@
 
 const { getDatabaseCollection } = require('../../../utils/mongodb.js');
 
+// Server link
+const SERVER_DOMAIN = process.env.SERVER_URL;
+const SERVER_PORT = process.env.PORT;
+const SERVER_URL = SERVER_PORT ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
+
 function getAllCollaborators() {
 	// Return promise that resolves with collaborators data
 	return new Promise((resolve,reject) => {
@@ -18,7 +23,7 @@ function getAllCollaborators() {
 				// Add server url to image if it is a url string
 				let imgSrc = collaborator['img'].src;
 
-				collaborator['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${process.env.SERVER_URL}/imgs/${collaborator['img'].src}`;
+				collaborator['img'].src = imgSrc.startsWith('data:image') || imgSrc.startsWith('http') ? imgSrc : `${SERVER_URL}/imgs/${collaborator['img'].src}`;
 				// Store rest of collaborator info without id
 				updatedCollaborators.push(collaborator);
 			})

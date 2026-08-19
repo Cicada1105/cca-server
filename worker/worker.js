@@ -1,12 +1,14 @@
 const https = require('https');
 const { parentPort } = require('worker_threads');
 
-const SERVER_URL = process.env.SERVER_URL;
-const PORT = process.env.PORT || 2020;
+// Server link
+const SERVER_DOMAIN = process.env.SERVER_URL;
+const SERVER_PORT = process.env.PORT;
+const SERVER_URL = SERVER_PORT ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
+
 parentPort.on('message',(data) => {
   let { interval } = data;
   let options = {
-    port: PORT,
     path: '/ping',
     method: 'GET',
     headers: {

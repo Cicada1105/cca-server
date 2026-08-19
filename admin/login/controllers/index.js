@@ -10,7 +10,9 @@ const { createToken } = require("../middleware/");
 // Use function for setting cookies
 const { setCookie } = require("../../utils");
 // Server link
-const SERVER = process.env.SERVER_URL;
+const SERVER_DOMAIN = process.env.SERVER_URL;
+const SERVER_PORT = process.env.PORT;
+const SERVER_URL = SERVER_PORT ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
 
 function login(req,res) {
 	// Get user data 
@@ -35,11 +37,11 @@ function login(req,res) {
 				setCookie('token', token, dayInSeconds, res);
 
 				// Redirect to home page
-				res.writeHead(301,{"Location":`${SERVER}/cca-admin-control-panel`});
+				res.writeHead(301,{"Location":`${SERVER_URL}/cca-admin-control-panel`});
 				res.end();
 			}).catch(err => {
 				// Error occurred, redirect to login
-				res.writeHead(301,{"Location":`${SERVER}/cca-admin-login/`});
+				res.writeHead(301,{"Location":`${SERVER_URL}/cca-admin-login/`});
 				res.end();
 			})
 		}).catch(err => {
@@ -47,7 +49,7 @@ function login(req,res) {
 			let queryString = querystring.stringify(err);
 
 			// Build url with proper error parameter
-			let newURL = new URL(`${SERVER}${req.url}?${queryString}`);
+			let newURL = new URL(`${SERVER_URL}${req.url}?${queryString}`);
 
 			res.writeHead(301,{"Location":newURL});
 			res.end();

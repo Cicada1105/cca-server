@@ -19,7 +19,9 @@ const {
 } = require('./utils');
 
 // Server link
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_DOMAIN = process.env.SERVER_URL;
+const SERVER_PORT = process.env.PORT;
+const SERVER_URL = SERVER_PORT ? `${SERVER_DOMAIN}:${SERVER_PORT}` : SERVER_DOMAIN;
 
 /*
 	Redirect
@@ -76,14 +78,14 @@ function Router(req,res) {
 			);
 		}
 	else if (req.url.startsWith('/cca-admin-authorize')) {
-		let url = new URL(`${process.env.SERVER_URL}${req.url}`);
+		let url = new URL(`${SERVER_URL}${req.url}`);
 		let searchParams = url.searchParams;
 		let code = searchParams.get('code');
 		let state = searchParams.get('state');
 
 		if ( getCookie('db_token',req) ) {
 			// Dropbox token already exists, redirect back to control panel
-			res.setHeader('Location',`${process.env.SERVER_URL}/cca-admin-control-panel`);
+			res.setHeader('Location',`${SERVER_URL}/cca-admin-control-panel`);
 			res.writeHead( 301 );
 		}
 		else if ( code && compareState(state) ) {
